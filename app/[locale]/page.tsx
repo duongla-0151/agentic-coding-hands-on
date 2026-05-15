@@ -2,6 +2,7 @@ import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { SiteHeader } from "@/components/homepage/site-header";
 import { HeroSection } from "@/components/homepage/hero-section";
+import { AboutSection } from "@/components/homepage/about-section";
 import { AwardsSection } from "@/components/homepage/awards-section";
 import { KudosSection } from "@/components/homepage/kudos-section";
 import { SiteFooter } from "@/components/homepage/site-footer";
@@ -48,6 +49,7 @@ export default async function HomePage({
 
       <main>
         <HeroSection locale={locale} eventDatetime={EVENT_DATETIME} />
+        <AboutSection />
         <AwardsSection locale={locale} />
         <KudosSection locale={locale} />
       </main>

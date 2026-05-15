@@ -67,8 +67,18 @@ export function HeroSection({ locale, eventDatetime }: HeroSectionProps) {
           ROOT FURTHER
         </h1>
 
-        {/* Countdown */}
+        {/* Countdown with "Comming soon" label */}
         <div className="mb-8">
+          <p
+            className="text-white/60 mb-3 uppercase tracking-widest"
+            style={{
+              fontFamily: "var(--font-montserrat), Montserrat, sans-serif",
+              fontSize: "11px",
+              fontWeight: 700,
+            }}
+          >
+            Comming soon
+          </p>
           <CountdownTimer eventDatetime={eventDatetime} />
         </div>
 
@@ -82,7 +92,7 @@ export function HeroSection({ locale, eventDatetime }: HeroSectionProps) {
               fontWeight: 600,
             }}
           >
-            Thời gian: 18h30 &nbsp;|&nbsp; Địa điểm: Nhà hát nghệ thuật quân đội
+            Thời gian: 26/12/2025 &nbsp;|&nbsp; Địa điểm: Âu Cơ Art Center
           </p>
           <p
             className="text-white/60"
@@ -91,7 +101,7 @@ export function HeroSection({ locale, eventDatetime }: HeroSectionProps) {
               fontSize: "14px",
             }}
           >
-            Tường thuật trực tiếp tại Group Facebook Sun* Family
+            Tường thuật trực tiếp qua sóng Livestream
           </p>
         </div>
 

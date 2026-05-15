@@ -15,29 +15,25 @@ function stripLocale(pathname: string): string {
   return pathname.replace(LOCALE_PATTERN, "") || "/";
 }
 
-async function getUser(request: NextRequest, response: NextResponse) {
-  const supabase = createServerClient(
+async function createSupabaseForMiddleware(request: NextRequest, response: NextResponse) {
+  return createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
     {
       cookies: {
         getAll: () => request.cookies.getAll(),
         setAll: (cookiesToSet) => {
-          cookiesToSet.forEach(({ name, value }) =>
-            request.cookies.set(name, value)
-          );
-          cookiesToSet.forEach(({ name, value, options }) =>
-            response.cookies.set(name, value, options)
-          );
+          cookiesToSet.forEach(({ name, value }) => request.cookies.set(name, value));
+          cookiesToSet.forEach(({ name, value, options }) => response.cookies.set(name, value, options));
         },
       },
     }
   );
+}
 
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-
+async function getUser(request: NextRequest, response: NextResponse) {
+  const supabase = await createSupabaseForMiddleware(request, response);
+  const { data: { user } } = await supabase.auth.getUser();
   return user;
 }
 
@@ -57,6 +53,18 @@ export default async function proxy(request: NextRequest) {
   // Unauthenticated users trying to access home → redirect to login
   if (pathWithoutLocale === "/" && !user) {
     return NextResponse.redirect(new URL(`/${locale}/login`, request.url));
+  }
+
+  // Protect /admin/* routes — check role only if user is authenticated
+  if (pathWithoutLocale.startsWith("/admin")) {
+    if (!user) {
+      return NextResponse.redirect(new URL(`/${locale}/login`, request.url));
+    }
+    const supabase = await createSupabaseForMiddleware(request, response);
+    const { data: isAdmin } = await supabase.rpc("is_super_admin");
+    if (!isAdmin) {
+      return NextResponse.redirect(new URL(`/${locale}/403`, request.url));
+    }
   }
 
   return response;

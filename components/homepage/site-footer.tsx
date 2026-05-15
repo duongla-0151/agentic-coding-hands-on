@@ -1,7 +1,8 @@
 const FOOTER_LINKS = [
   { label: "About SAA 2025", href: "#about" },
-  { label: "Awards Information", href: "#awards" },
+  { label: "Award Information", href: "#awards" },
   { label: "Sun* Kudos", href: "#kudos" },
+  { label: "Tiêu chuẩn chung", href: "#" },
 ];
 
 export function SiteFooter() {
