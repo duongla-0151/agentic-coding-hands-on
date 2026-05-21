@@ -102,7 +102,7 @@ export function AwardCard({ title, description, slug, locale, badgeLabel }: Awar
           {description}
         </p>
         <a
-          href={`/${locale}/awards#${slug}`}
+          href={`/${locale}/he-thong-giai`}
           className="text-sm font-semibold transition-opacity hover:opacity-80 self-start flex items-center gap-1"
           style={{
             color: "#FFEA9E",

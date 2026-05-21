@@ -2,17 +2,13 @@ import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { getIsAdmin } from "@/lib/supabase/get-is-admin";
 import { SiteHeader } from "@/components/homepage/site-header";
-import { HeroSection } from "@/components/homepage/hero-section";
-import { AboutSection } from "@/components/homepage/about-section";
-import { AwardsSection } from "@/components/homepage/awards-section";
-import { KudosSection } from "@/components/homepage/kudos-section";
 import { SiteFooter } from "@/components/homepage/site-footer";
 import { WidgetButton } from "@/components/homepage/widget-button";
+import { KudosSection } from "@/components/homepage/kudos-section";
+import { AwardPageHero } from "@/components/award-information/award-page-hero";
+import { AwardDetailSection } from "@/components/award-information/award-detail-section";
 
-const EVENT_DATETIME =
-  process.env.NEXT_PUBLIC_EVENT_DATETIME ?? "2025-12-31T18:30:00+07:00";
-
-export default async function HomePage({
+export default async function AwardInformationPage({
   params,
 }: {
   params: Promise<{ locale: string }>;
@@ -27,8 +23,6 @@ export default async function HomePage({
     redirect(`/${locale}/login`);
   }
 
-  // getIsAdmin is independent of the user object contents — run after guard confirms user exists
-  // Cannot parallelize with getUser because we need user to be non-null before proceeding
   const isAdmin = await getIsAdmin(user.id);
 
   return (
@@ -36,9 +30,8 @@ export default async function HomePage({
       <SiteHeader locale={locale} isAdmin={isAdmin} />
 
       <main>
-        <HeroSection locale={locale} eventDatetime={EVENT_DATETIME} />
-        <AboutSection />
-        <AwardsSection locale={locale} />
+        <AwardPageHero />
+        <AwardDetailSection />
         <KudosSection locale={locale} />
       </main>
 
