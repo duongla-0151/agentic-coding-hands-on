@@ -1,17 +1,20 @@
-const FOOTER_LINKS = [
-  { label: "About SAA 2025", href: "#about" },
-  { label: "Award Information", href: "#awards" },
-  { label: "Sun* Kudos", href: "#kudos" },
-  { label: "Tiêu chuẩn chung", href: "#" },
-];
+interface SiteFooterProps {
+  locale: string;
+}
 
-export function SiteFooter() {
+export function SiteFooter({ locale }: SiteFooterProps) {
+  const FOOTER_LINKS = [
+    { label: "About SAA 2025", href: "#about" },
+    { label: "Awards Information", href: `/${locale}/awards` },
+    { label: "Sun* Kudos", href: "#kudos" },
+    { label: "Tiêu chuẩn chung", href: "#" },
+  ];
   return (
     <footer
       className="w-full flex items-center justify-between"
       style={{
         background: "#00101A",
-        padding: "40px 90px",
+        padding: "40px 144px",
         borderTop: "1px solid #2E3940",
       }}
     >

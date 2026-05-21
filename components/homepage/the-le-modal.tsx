@@ -84,8 +84,8 @@ export function TheLeModal({ onClose, onWriteKudos }: TheLeModalProps) {
                     <Image
                       src={tier.img}
                       alt={tier.label}
-                      width={90}
-                      height={22}
+                      width={110}
+                      height={20}
                       className="shrink-0"
                       style={{ objectFit: "contain", objectPosition: "left" }}
                     />
@@ -117,7 +117,7 @@ export function TheLeModal({ onClose, onWriteKudos }: TheLeModalProps) {
                     src={icon.img}
                     alt={icon.label}
                     width={80}
-                    height={80}
+                    height={104}
                     style={{ objectFit: "contain" }}
                   />
                   <span className="text-white/60 text-center uppercase" style={{ fontFamily: FONT, fontSize: "9px", fontWeight: 700, letterSpacing: "0.05em" }}>

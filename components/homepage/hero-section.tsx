@@ -74,7 +74,7 @@ export function HeroSection({ locale, eventDatetime }: HeroSectionProps) {
               fontWeight: 700,
             }}
           >
-            Comming soon
+            Coming soon
           </p>
           <CountdownTimer eventDatetime={eventDatetime} />
         </div>

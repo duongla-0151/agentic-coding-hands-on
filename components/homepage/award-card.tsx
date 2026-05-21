@@ -44,7 +44,7 @@ export function AwardCard({ title, description, slug, locale, badgeLabel }: Awar
               src={`/images/awards/${slug}.png`}
               alt={badgeLabel}
               width={110}
-              height={45}
+              height={68}
               style={{ objectFit: "contain" }}
             />
           </div>
@@ -78,7 +78,7 @@ export function AwardCard({ title, description, slug, locale, badgeLabel }: Awar
           {description}
         </p>
         <a
-          href={`/${locale}/he-thong-giai`}
+          href={`/${locale}/awards#${slug}`}
           className="text-sm font-semibold transition-opacity hover:opacity-80 self-start flex items-center gap-1"
           style={{
             color: "#FFEA9E",

@@ -136,7 +136,7 @@ export function AwardDetailCard({
             src={`/images/awards/${id}.png`}
             alt={badgeLabel}
             width={165}
-            height={60}
+            height={80}
             style={{ objectFit: "contain" }}
           />
         </div>

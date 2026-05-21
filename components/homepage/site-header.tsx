@@ -1,18 +1,17 @@
 import { LanguageSwitcher } from "./language-switcher";
 import { AccountMenu } from "./account-menu";
 
-const NAV_LINKS = [
-  { label: "About SAA 2025", href: "#about" },
-  { label: "Awards Information", href: "#awards" },
-  { label: "Sun* Kudos", href: "#kudos" },
-];
-
 interface SiteHeaderProps {
   locale: string;
   isAdmin: boolean;
 }
 
 export function SiteHeader({ locale, isAdmin }: SiteHeaderProps) {
+  const NAV_LINKS = [
+    { label: "About SAA 2025", href: "#about" },
+    { label: "Awards Information", href: `/${locale}/awards` },
+    { label: "Sun* Kudos", href: "#kudos" },
+  ];
   return (
     <header
       className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between"

@@ -42,7 +42,7 @@ export default async function HomePage({
         <KudosSection locale={locale} />
       </main>
 
-      <SiteFooter />
+      <SiteFooter locale={locale} />
       <WidgetButton />
     </div>
   );
