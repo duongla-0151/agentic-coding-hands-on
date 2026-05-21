@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 interface AwardCardProps {
   title: string;
   description: string;
@@ -20,57 +22,31 @@ export function AwardCard({ title, description, slug, locale, badgeLabel }: Awar
         className="flex items-center justify-center"
         style={{ padding: "36px 24px 24px", background: "rgba(0,0,0,0.2)" }}
       >
-        {/* Circular medal badge */}
-        <div
-          style={{
-            position: "relative",
-            width: 140,
-            height: 140,
-            borderRadius: "50%",
-            background: "radial-gradient(ellipse at 35% 30%, #fff4b0 0%, #e8a820 30%, #a05c00 65%, #4a2800 100%)",
-            boxShadow: "0 0 32px rgba(232,168,32,0.4), 0 0 8px rgba(232,168,32,0.2), inset 0 2px 4px rgba(255,240,160,0.3)",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-          }}
-        >
-          {/* Inner ring */}
+        <div style={{ position: "relative", width: 140, height: 140 }}>
+          <Image
+            src="/images/awards/card-bg-texture.png"
+            alt=""
+            fill
+            sizes="140px"
+            style={{ objectFit: "contain" }}
+          />
           <div
             style={{
               position: "absolute",
-              inset: 8,
-              borderRadius: "50%",
-              border: "1.5px solid rgba(255,235,140,0.5)",
-            }}
-          />
-          {/* Center dark oval with label */}
-          <div
-            style={{
-              position: "relative",
-              zIndex: 1,
-              width: 96,
-              height: 96,
-              borderRadius: "50%",
-              background: "radial-gradient(ellipse at 40% 35%, #1a0d00 0%, #0a0500 100%)",
-              border: "1px solid rgba(255,213,100,0.4)",
+              inset: 0,
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
-              padding: "8px",
+              padding: "0 18px",
             }}
           >
-            <span
-              className="text-center uppercase font-black leading-tight"
-              style={{
-                fontFamily: "var(--font-montserrat), Montserrat, sans-serif",
-                fontSize: badgeLabel.length > 10 ? "8px" : "10px",
-                fontWeight: 900,
-                color: "#FFEA9E",
-                letterSpacing: "0.05em",
-              }}
-            >
-              {badgeLabel}
-            </span>
+            <Image
+              src={`/images/awards/${slug}.png`}
+              alt={badgeLabel}
+              width={110}
+              height={45}
+              style={{ objectFit: "contain" }}
+            />
           </div>
         </div>
       </div>

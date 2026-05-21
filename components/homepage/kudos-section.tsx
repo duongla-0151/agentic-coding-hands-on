@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 interface KudosSectionProps {
   locale: string;
 }
@@ -12,25 +14,18 @@ export function KudosSection({ locale }: KudosSectionProps) {
       <div
         className="relative flex items-center justify-between rounded-2xl overflow-hidden"
         style={{
-          background: "linear-gradient(135deg, rgba(255,234,158,0.12) 0%, rgba(255,234,158,0.04) 100%)",
-          border: "1px solid rgba(255,234,158,0.2)",
           padding: "56px 64px",
           minHeight: "220px",
         }}
       >
-        {/* Decorative accent */}
-        <div
+        {/* Background image */}
+        <Image
+          src="/images/keyvisual/kudos-section-bg.png"
+          alt=""
+          fill
+          sizes="(max-width: 1440px) 100vw, 1152px"
           aria-hidden="true"
-          style={{
-            position: "absolute",
-            right: 0,
-            top: 0,
-            bottom: 0,
-            width: "40%",
-            background:
-              "radial-gradient(ellipse at 80% 50%, rgba(255,234,158,0.18) 0%, transparent 70%)",
-            pointerEvents: "none",
-          }}
+          style={{ objectFit: "cover", objectPosition: "center" }}
         />
 
         {/* Left: text content */}

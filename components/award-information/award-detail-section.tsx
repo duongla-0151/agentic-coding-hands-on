@@ -53,7 +53,7 @@ const AWARDS = [
     valueNote: "cho mỗi giải thưởng",
   },
   {
-    id: "signature-2025",
+    id: "signature-2025-creator",
     title: "Signature 2025 - Creator",
     badgeLabel: "SIGNATURE 2025 CREATOR",
     navLabel: "Signature 2025 - Creator",

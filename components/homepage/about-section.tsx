@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 const PARAGRAPHS = [
   `Đứng trước bối cảnh thay đổi như vũ bão của thời đại AI và yêu cầu ngày càng cao từ khách hàng, Sun* lựa chọn chiến lược đa dạng hóa năng lực để không chỉ nỗ lực trở thành tinh anh trong lĩnh vực của mình, mà còn hướng đến một cái đích cao hơn, nơi mọi Sunner đều là "problem-solver" — chuyên gia trong việc giải quyết mọi vấn đề, tìm lời giải cho mọi bài toán của dự án, khách hàng và xã hội.`,
   `Lấy cảm hứng từ sự đa dạng năng lực, khả năng phát triển linh hoạt cùng tinh thần dào sức đề bút từ trong kỷ nguyên AI, "Root Further" đã được chọn để trở thành chủ đề chính thức của Lễ trao giải Sun* Annual Awards 2025.`,
@@ -15,34 +17,24 @@ export function AboutSection() {
       id="about-detail"
       style={{ background: "#00101A", padding: "0 144px 80px" }}
     >
-      {/* Heading with decorative icon */}
-      <div className="flex items-start justify-between mb-10">
-        <h2
-          className="text-white uppercase leading-none"
-          style={{
-            fontFamily: "var(--font-montserrat), Montserrat, sans-serif",
-            fontWeight: 900,
-            fontSize: "clamp(48px, 6vw, 80px)",
-            lineHeight: 1,
-          }}
-        >
-          ROOT
-          <br />
-          FURTHER
+      {/* Heading */}
+      <div className="mb-10">
+        <h2 className="leading-none flex flex-col gap-2 items-start">
+          <Image
+            src="/images/awards/root-text.png"
+            alt="ROOT"
+            width={340}
+            height={121}
+            style={{ objectFit: "contain", objectPosition: "left" }}
+          />
+          <Image
+            src="/images/awards/further-text.png"
+            alt="FURTHER"
+            width={440}
+            height={102}
+            style={{ objectFit: "contain", objectPosition: "left" }}
+          />
         </h2>
-
-        {/* Decorative flame icon */}
-        <div
-          aria-hidden="true"
-          style={{
-            width: 60,
-            height: 60,
-            borderRadius: "50%",
-            background: "radial-gradient(ellipse at 40% 30%, rgba(255,180,60,0.9) 0%, rgba(200,80,20,0.7) 50%, rgba(20,80,60,0.6) 100%)",
-            flexShrink: 0,
-            marginTop: 8,
-          }}
-        />
       </div>
 
       {/* First set of paragraphs */}
