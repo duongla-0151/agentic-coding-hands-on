@@ -1,5 +1,13 @@
 @import "tailwindcss";
 
+@font-face {
+  font-family: 'Digital Numbers';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Digital Numbers'), url('/fonts/DigitalNumbers-Regular.woff') format('woff');
+}
+
 :root {
   --background: #ffffff;
   --foreground: #171717;
