@@ -91,7 +91,6 @@ function Colon() {
 }
 
 function DigitGroup({ value, label }: { value: string; label: string }) {
-  const [d1, d2] = value.split("");
   return (
     <div
       style={{
@@ -99,7 +98,6 @@ function DigitGroup({ value, label }: { value: string; label: string }) {
         flexDirection: "column",
         alignItems: "flex-start",
         gap: 21,
-        width: 175,
       }}
     >
       <div
@@ -110,8 +108,9 @@ function DigitGroup({ value, label }: { value: string; label: string }) {
           alignItems: "center",
         }}
       >
-        <DigitCard digit={d1} />
-        <DigitCard digit={d2} />
+        {value.split("").map((d, i) => (
+          <DigitCard key={i} digit={d} />
+        ))}
       </div>
       <span
         style={{

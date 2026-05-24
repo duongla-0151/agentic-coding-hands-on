@@ -1,115 +1,153 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback, useMemo } from "react";
 
 interface TimeLeft {
   days: number;
   hours: number;
   minutes: number;
+  seconds: number;
 }
 
 function calcTimeLeft(targetDate: Date): TimeLeft {
   const diff = targetDate.getTime() - Date.now();
-  if (diff <= 0) return { days: 0, hours: 0, minutes: 0 };
-  const totalMinutes = Math.floor(diff / 60000);
+  if (diff <= 0) return { days: 0, hours: 0, minutes: 0, seconds: 0 };
+  const totalSeconds = Math.floor(diff / 1000);
+  const totalMinutes = Math.floor(totalSeconds / 60);
   const totalHours = Math.floor(totalMinutes / 60);
   return {
     days: Math.floor(totalHours / 24),
     hours: totalHours % 24,
     minutes: totalMinutes % 60,
+    seconds: totalSeconds % 60,
   };
 }
 
 function pad(n: number): string {
-  return String(n).padStart(2, "0");
+  return String(Math.max(0, n)).padStart(2, "0");
+}
+
+// Smaller scale than prelaunch (56×90 vs 77×123) to fit within HeroSection
+function DigitCard({ digit }: { digit: string }) {
+  return (
+    <div style={{ position: "relative", width: 56, height: 90 }}>
+      <div
+        style={{
+          position: "absolute",
+          inset: 0,
+          borderRadius: 9,
+          background:
+            "linear-gradient(180deg, #FFF 0%, rgba(255, 255, 255, 0.10) 100%)",
+          border: "0.75px solid #FFEA9E",
+          backdropFilter: "blur(25px)",
+          opacity: 0.5,
+        }}
+      />
+      <div
+        key={digit}
+        className="countdown-digit"
+        style={{
+          position: "absolute",
+          inset: 0,
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          fontFamily: '"Digital Numbers", monospace',
+          fontSize: 52,
+          fontWeight: 400,
+          color: "#ffffff",
+          lineHeight: 1,
+          overflow: "hidden",
+        }}
+      >
+        {digit}
+      </div>
+    </div>
+  );
+}
+
+function Colon() {
+  return (
+    <span
+      style={{
+        fontFamily: '"Digital Numbers", monospace',
+        fontSize: 52,
+        fontWeight: 400,
+        color: "#ffffff",
+        lineHeight: 1,
+        paddingTop: 14,
+        userSelect: "none",
+      }}
+    >
+      :
+    </span>
+  );
+}
+
+function DigitGroup({ value, label }: { value: string; label: string }) {
+  return (
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "flex-start",
+        gap: 10,
+      }}
+    >
+      <div style={{ display: "flex", flexDirection: "row", gap: 8 }}>
+        {value.split("").map((d, i) => (
+          <DigitCard key={i} digit={d} />
+        ))}
+      </div>
+      <span
+        style={{
+          fontFamily: "var(--font-montserrat), Montserrat, sans-serif",
+          fontSize: 11,
+          fontWeight: 700,
+          color: "rgba(255,255,255,0.6)",
+          letterSpacing: "0.12em",
+          textTransform: "uppercase",
+        }}
+      >
+        {label}
+      </span>
+    </div>
+  );
 }
 
 interface CountdownTimerProps {
-  eventDatetime: string; // ISO-8601
+  eventDatetime: string;
 }
 
 export function CountdownTimer({ eventDatetime }: CountdownTimerProps) {
-  const targetDate = new Date(eventDatetime);
+  const targetDate = useMemo(() => new Date(eventDatetime), [eventDatetime]);
   const isValidDate = !isNaN(targetDate.getTime());
+
   const [timeLeft, setTimeLeft] = useState<TimeLeft>(() =>
-    isValidDate ? calcTimeLeft(targetDate) : { days: 0, hours: 0, minutes: 0 }
+    isValidDate
+      ? calcTimeLeft(targetDate)
+      : { days: 0, hours: 0, minutes: 0, seconds: 0 }
   );
+
+  const tick = useCallback(() => {
+    setTimeLeft(calcTimeLeft(targetDate));
+  }, [targetDate]);
 
   useEffect(() => {
     if (!isValidDate) return;
-    const id = setInterval(() => {
-      setTimeLeft(calcTimeLeft(targetDate));
-    }, 60000);
+    const id = setInterval(tick, 1000);
     return () => clearInterval(id);
-    // targetDate is derived from a stable prop — no need to add as dep
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [eventDatetime, isValidDate]);
-
-  const isOver = timeLeft.days === 0 && timeLeft.hours === 0 && timeLeft.minutes === 0;
-
-  const blocks = [
-    { label: "DAYS", value: pad(timeLeft.days) },
-    { label: "HOURS", value: pad(timeLeft.hours) },
-    { label: "MINUTES", value: pad(timeLeft.minutes) },
-  ];
+  }, [isValidDate, tick]);
 
   return (
-    <div className="flex items-end gap-4">
-      {blocks.map(({ label, value }, i) => (
-        <div key={label} className="flex items-end gap-4">
-          <div className="flex flex-col items-center">
-            <div
-              className="flex items-center justify-center rounded"
-              style={{
-                width: 80,
-                height: 72,
-                background: "rgba(255,255,255,0.06)",
-                border: "1px solid rgba(255,255,255,0.12)",
-              }}
-            >
-              <span
-                className="text-white font-black leading-none"
-                style={{
-                  fontFamily: "var(--font-montserrat), Montserrat, sans-serif",
-                  fontSize: "36px",
-                  fontWeight: 900,
-                }}
-              >
-                {value}
-              </span>
-            </div>
-            <span
-              className="mt-2 text-white/60 tracking-widest"
-              style={{
-                fontFamily: "var(--font-montserrat), Montserrat, sans-serif",
-                fontSize: "11px",
-                fontWeight: 700,
-              }}
-            >
-              {label}
-            </span>
-          </div>
-          {/* Separator colon between blocks (not after last) */}
-          {i < blocks.length - 1 && (
-            <span
-              className="text-white/40 font-bold mb-8"
-              style={{ fontSize: "28px", lineHeight: 1 }}
-              aria-hidden="true"
-            >
-              :
-            </span>
-          )}
-        </div>
-      ))}
-
-      {!isOver && (
-        <p
-          className="ml-2 text-white/70 text-sm mb-2"
-          style={{ fontFamily: "var(--font-montserrat), Montserrat, sans-serif" }}
-        >
-          Coming soon
-        </p>
-      )}
+    <div style={{ display: "flex", flexDirection: "row", gap: 12, alignItems: "flex-start" }}>
+      <DigitGroup value={pad(timeLeft.days)} label="DAYS" />
+      <Colon />
+      <DigitGroup value={pad(timeLeft.hours)} label="HOURS" />
+      <Colon />
+      <DigitGroup value={pad(timeLeft.minutes)} label="MINUTES" />
+      <Colon />
+      <DigitGroup value={pad(timeLeft.seconds)} label="SECONDS" />
     </div>
   );
 }

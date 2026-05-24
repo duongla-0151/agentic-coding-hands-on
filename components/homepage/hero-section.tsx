@@ -64,18 +64,8 @@ export function HeroSection({ locale, eventDatetime }: HeroSectionProps) {
           />
         </h1>
 
-        {/* Countdown with "Comming soon" label */}
+        {/* Countdown */}
         <div className="mb-8">
-          <p
-            className="text-white/60 mb-3 uppercase tracking-widest"
-            style={{
-              fontFamily: "var(--font-montserrat), Montserrat, sans-serif",
-              fontSize: "11px",
-              fontWeight: 700,
-            }}
-          >
-            Coming soon
-          </p>
           <CountdownTimer eventDatetime={eventDatetime} />
         </div>
 
