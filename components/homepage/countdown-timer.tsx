@@ -139,15 +139,38 @@ export function CountdownTimer({ eventDatetime }: CountdownTimerProps) {
     return () => clearInterval(id);
   }, [isValidDate, tick]);
 
+  const isActive =
+    timeLeft.days > 0 ||
+    timeLeft.hours > 0 ||
+    timeLeft.minutes > 0 ||
+    timeLeft.seconds > 0;
+
   return (
-    <div style={{ display: "flex", flexDirection: "row", gap: 12, alignItems: "flex-start" }}>
-      <DigitGroup value={pad(timeLeft.days)} label="DAYS" />
-      <Colon />
-      <DigitGroup value={pad(timeLeft.hours)} label="HOURS" />
-      <Colon />
-      <DigitGroup value={pad(timeLeft.minutes)} label="MINUTES" />
-      <Colon />
-      <DigitGroup value={pad(timeLeft.seconds)} label="SECONDS" />
+    <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+      {isActive && (
+        <p
+          style={{
+            fontFamily: "var(--font-montserrat), Montserrat, sans-serif",
+            fontSize: 11,
+            fontWeight: 700,
+            color: "rgba(255,255,255,0.6)",
+            letterSpacing: "0.12em",
+            textTransform: "uppercase",
+            margin: 0,
+          }}
+        >
+          Coming soon
+        </p>
+      )}
+      <div style={{ display: "flex", flexDirection: "row", gap: 12, alignItems: "flex-start" }}>
+        <DigitGroup value={pad(timeLeft.days)} label="DAYS" />
+        <Colon />
+        <DigitGroup value={pad(timeLeft.hours)} label="HOURS" />
+        <Colon />
+        <DigitGroup value={pad(timeLeft.minutes)} label="MINUTES" />
+        <Colon />
+        <DigitGroup value={pad(timeLeft.seconds)} label="SECONDS" />
+      </div>
     </div>
   );
 }
