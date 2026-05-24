@@ -37,12 +37,25 @@ async function getUser(request: NextRequest, response: NextResponse) {
   return user;
 }
 
-export default async function proxy(request: NextRequest) {
-  const response = intlMiddleware(request);
-  const { pathname } = request.nextUrl;
-  const pathWithoutLocale = stripLocale(pathname);
-  const locale = getLocale(pathname);
+const PRELAUNCH_PATTERN = /^\/(vi|en)\/prelaunch(?:\/|$)/;
 
+export default async function proxy(request: NextRequest) {
+  const { pathname } = request.nextUrl;
+  const locale = getLocale(pathname);
+  const pathWithoutLocale = stripLocale(pathname);
+
+  // Prelaunch gate — redirect all routes to /[locale]/prelaunch while countdown is active
+  if (!PRELAUNCH_PATTERN.test(pathname)) {
+    const eventDatetime = process.env.NEXT_PUBLIC_EVENT_DATETIME ?? "2025-12-31T18:30:00+07:00";
+    const eventDate = new Date(eventDatetime);
+    if (!isNaN(eventDate.getTime()) && Date.now() < eventDate.getTime()) {
+      const url = request.nextUrl.clone();
+      url.pathname = `/${locale}/prelaunch`;
+      return NextResponse.redirect(url);
+    }
+  }
+
+  const response = intlMiddleware(request);
   const user = await getUser(request, response);
 
   // Authenticated users trying to access login → redirect to home

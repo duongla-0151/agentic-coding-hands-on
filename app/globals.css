@@ -32,3 +32,25 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+@keyframes digit-in {
+  0% {
+    transform: translateY(-80%) scaleY(0.6);
+    opacity: 0;
+  }
+  55% {
+    transform: translateY(8%) scaleY(1.05);
+    opacity: 1;
+  }
+  75% {
+    transform: translateY(-4%) scaleY(0.97);
+  }
+  100% {
+    transform: translateY(0) scaleY(1);
+    opacity: 1;
+  }
+}
+
+.countdown-digit {
+  animation: digit-in 0.45s cubic-bezier(0.175, 0.885, 0.32, 1.275) both;
+}
