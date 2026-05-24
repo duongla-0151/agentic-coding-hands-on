@@ -5,7 +5,7 @@ const LEFT_OVERLAY =
   "linear-gradient(90deg, #00101A 0%, #00101A 30%, rgba(0,16,26,0.6) 60%, rgba(0,16,26,0) 100%)";
 
 const EVENT_DATETIME =
-  process.env.NEXT_PUBLIC_EVENT_DATETIME ?? "2025-12-31T18:30:00+07:00";
+  process.env.PRELAUNCH_END_DATETIME ?? "2026-05-24T22:05:00+07:00";
 
 export default async function PrelaunchPage({
   params,

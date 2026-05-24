@@ -39,6 +39,8 @@ const AWARDS = [
   },
 ];
 
+const MONTSERRAT = "var(--font-montserrat), Montserrat, sans-serif";
+
 interface AwardsSectionProps {
   locale: string;
 }
@@ -50,34 +52,47 @@ export function AwardsSection({ locale }: AwardsSectionProps) {
       className="w-full"
       style={{ background: "#00101A", padding: "80px 144px" }}
     >
-      {/* Section heading */}
-      <div className="mb-10">
+      {/* Section heading — C1: caption → divider → title, gap 16px each, 80px below */}
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          gap: 16,
+          marginBottom: 80,
+        }}
+      >
         <p
-          className="text-white/50 uppercase tracking-widest mb-2"
           style={{
-            fontFamily: "var(--font-montserrat), Montserrat, sans-serif",
-            fontSize: "12px",
+            fontFamily: MONTSERRAT,
+            fontSize: 24,
             fontWeight: 700,
+            color: "#ffffff",
+            lineHeight: "32px",
+            margin: 0,
           }}
         >
           Sun* annual awards 2025
         </p>
+        <div style={{ height: 1, background: "#2E3940" }} />
         <h2
-          className="text-white font-black"
           style={{
-            fontFamily: "var(--font-montserrat), Montserrat, sans-serif",
-            fontSize: "clamp(28px, 3vw, 40px)",
-            fontWeight: 900,
+            fontFamily: MONTSERRAT,
+            fontSize: 57,
+            fontWeight: 700,
+            color: "#FFEA9E",
+            lineHeight: "64px",
+            letterSpacing: "-0.25px",
+            margin: 0,
           }}
         >
           Hệ thống giải thưởng
         </h2>
       </div>
 
-      {/* Awards grid — 3 cols desktop, 2 cols tablet, 1 col mobile */}
+      {/* Awards grid — 3 cols, gap 80px, 2 rows */}
       <div
-        className="grid gap-6"
-        style={{ gridTemplateColumns: "repeat(3, 1fr)" }}
+        className="grid"
+        style={{ gridTemplateColumns: "repeat(3, 1fr)", gap: "80px" }}
       >
         {AWARDS.map((award) => (
           <AwardCard

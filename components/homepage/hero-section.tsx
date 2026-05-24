@@ -52,8 +52,8 @@ export function HeroSection({ locale, eventDatetime }: HeroSectionProps) {
           zIndex: 2,
         }}
       >
-        {/* Hero title */}
-        <h1 className="mb-6">
+        {/* Hero title — 40px gap to countdown */}
+        <h1 className="mb-10">
           <Image
             src="/images/keyvisual/homepage-hero.png"
             alt="ROOT FURTHER"
@@ -64,62 +64,74 @@ export function HeroSection({ locale, eventDatetime }: HeroSectionProps) {
           />
         </h1>
 
-        {/* Countdown */}
-        <div className="mb-8">
+        {/* Countdown + Event info — 16px inner gap, 40px gap before CTA */}
+        <div className="mb-10 flex flex-col" style={{ gap: 16 }}>
           <CountdownTimer eventDatetime={eventDatetime} />
+
+          {/* Event info */}
+          <div className="flex flex-col" style={{ gap: 8 }}>
+            <p
+              style={{
+                fontFamily: "var(--font-montserrat), Montserrat, sans-serif",
+                fontSize: 16,
+                fontWeight: 400,
+                color: "#ffffff",
+                margin: 0,
+              }}
+            >
+              {"Thời gian: "}
+              <span style={{ fontSize: 24, fontWeight: 700, color: "#FFEA9E" }}>
+                26/12/2025
+              </span>
+              {"  |  Địa điểm: "}
+              <span style={{ fontSize: 24, fontWeight: 700, color: "#FFEA9E" }}>
+                Âu Cơ Art Center
+              </span>
+            </p>
+            <p
+              style={{
+                fontFamily: "var(--font-montserrat), Montserrat, sans-serif",
+                fontSize: 16,
+                fontWeight: 400,
+                color: "rgba(255,255,255,0.6)",
+                letterSpacing: "0.5px",
+                margin: 0,
+              }}
+            >
+              Tường thuật trực tiếp qua sóng Livestream
+            </p>
+          </div>
         </div>
 
-        {/* Event info */}
-        <div className="mb-8 flex flex-col gap-1">
-          <p
-            className="text-white/80"
-            style={{
-              fontFamily: "var(--font-montserrat), Montserrat, sans-serif",
-              fontSize: "15px",
-              fontWeight: 600,
-            }}
-          >
-            Thời gian: 26/12/2025 &nbsp;|&nbsp; Địa điểm: Âu Cơ Art Center
-          </p>
-          <p
-            className="text-white/60"
-            style={{
-              fontFamily: "var(--font-montserrat), Montserrat, sans-serif",
-              fontSize: "14px",
-            }}
-          >
-            Tường thuật trực tiếp qua sóng Livestream
-          </p>
-        </div>
-
-        {/* CTA buttons */}
-        <div className="flex items-center gap-4">
+        {/* CTA buttons — 40px gap, 8px radius, 22px font */}
+        <div className="flex items-center" style={{ gap: 40 }}>
           <a
             href={`/${locale}/awards`}
             className="inline-flex items-center justify-center font-bold tracking-wider uppercase transition-colors"
             style={{
               fontFamily: "var(--font-montserrat), Montserrat, sans-serif",
-              fontSize: "13px",
+              fontSize: 22,
               fontWeight: 700,
               background: "#FFEA9E",
               color: "#00101A",
-              borderRadius: "999px",
-              padding: "14px 32px",
+              borderRadius: 8,
+              padding: "16px 24px",
             }}
           >
             ABOUT AWARDS
           </a>
           <a
             href={`/${locale}/kudos`}
-            className="inline-flex items-center justify-center font-bold tracking-wider uppercase transition-colors hover:bg-[#FFEA9E]/10"
+            className="inline-flex items-center justify-center font-bold tracking-wider uppercase transition-colors"
             style={{
               fontFamily: "var(--font-montserrat), Montserrat, sans-serif",
-              fontSize: "13px",
+              fontSize: 22,
               fontWeight: 700,
               color: "#FFEA9E",
-              border: "1.5px solid #FFEA9E",
-              borderRadius: "999px",
-              padding: "14px 32px",
+              border: "1px solid #998C5F",
+              background: "rgba(255,234,158,0.10)",
+              borderRadius: 8,
+              padding: "16px 24px",
             }}
           >
             ABOUT KUDOS
