@@ -46,7 +46,10 @@ export default async function proxy(request: NextRequest) {
 
   // Prelaunch gate — redirect all routes to /[locale]/prelaunch while countdown is active
   if (!PRELAUNCH_PATTERN.test(pathname)) {
-    const eventDatetime = process.env.NEXT_PUBLIC_EVENT_DATETIME ?? "2025-12-31T18:30:00+07:00";
+    const eventDatetime =
+      process.env.PRELAUNCH_END_DATETIME ??
+      process.env.NEXT_PUBLIC_EVENT_DATETIME ??
+      "2025-12-31T18:30:00+07:00";
     const eventDate = new Date(eventDatetime);
     if (!isNaN(eventDate.getTime()) && Date.now() < eventDate.getTime()) {
       const url = request.nextUrl.clone();
