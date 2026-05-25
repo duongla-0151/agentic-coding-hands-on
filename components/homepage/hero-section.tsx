@@ -1,11 +1,8 @@
 import Image from "next/image";
 import { CountdownTimer } from "./countdown-timer";
 
-const LEFT_OVERLAY =
-  "linear-gradient(90deg, #00101A 0%, #00101A 25.41%, rgba(0,16,26,0) 100%)";
-
-const BOTTOM_OVERLAY =
-  "linear-gradient(0deg, #00101A 22.48%, rgba(0,19,32,0) 51.74%)";
+const COVER_OVERLAY =
+  "linear-gradient(12deg, #00101A 23.7%, rgba(0,18,29,0.46) 38.34%, rgba(0,19,32,0) 48.92%)";
 
 interface HeroSectionProps {
   locale: string;
@@ -28,17 +25,12 @@ export function HeroSection({ locale, eventDatetime }: HeroSectionProps) {
         loading="eager"
         sizes="100vw"
         aria-hidden="true"
-        style={{ objectFit: "cover", objectPosition: "right center", zIndex: 0 }}
+        style={{ objectFit: "cover", objectPosition: "right bottom", zIndex: 0 }}
       />
-      {/* Left gradient overlay */}
+      {/* Diagonal gradient overlay matching Figma Cover layer */}
       <div
         aria-hidden="true"
-        style={{ background: LEFT_OVERLAY, position: "absolute", inset: 0, zIndex: 1 }}
-      />
-      {/* Bottom gradient overlay */}
-      <div
-        aria-hidden="true"
-        style={{ background: BOTTOM_OVERLAY, position: "absolute", inset: 0, zIndex: 1 }}
+        style={{ background: COVER_OVERLAY, position: "absolute", inset: 0, zIndex: 1 }}
       />
 
       {/* Content */}
