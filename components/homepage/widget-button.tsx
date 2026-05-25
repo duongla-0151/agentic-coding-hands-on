@@ -2,17 +2,19 @@
 
 import { useState } from "react";
 import { TheLeModal } from "./the-le-modal";
+import { WriteKudoModal } from "./write-kudo-modal";
 
 const FONT = "var(--font-montserrat), Montserrat, sans-serif";
 
 export function WidgetButton() {
   const [open, setOpen] = useState(false);
   const [theLeOpen, setTheLeOpen] = useState(false);
+  const [kudosOpen, setKudosOpen] = useState(false);
 
   function handleWriteKudos() {
     setOpen(false);
     setTheLeOpen(false);
-    // TODO: open Viết KUDOS form when implemented
+    setKudosOpen(true);
   }
 
   function handleTheLe() {
@@ -73,6 +75,7 @@ export function WidgetButton() {
           onWriteKudos={handleWriteKudos}
         />
       )}
+      {kudosOpen && <WriteKudoModal onClose={() => setKudosOpen(false)} />}
     </>
   );
 }
