@@ -19,7 +19,7 @@ const LABEL_STYLE: React.CSSProperties = {
 interface UserResult { id: string; name: string; email: string; }
 type TouchedFields = { recipient: boolean; badge: boolean; content: boolean; hashtag: boolean };
 
-export function WriteKudoModal({ onClose }: { onClose: () => void }) {
+export function WriteKudoModal({ onClose }: { onClose: (submitted?: boolean) => void }) {
   const [recipientId, setRecipientId] = useState("");
   const [recipientName, setRecipientName] = useState("");
   const [badge, setBadge] = useState("");
@@ -135,7 +135,7 @@ export function WriteKudoModal({ onClose }: { onClose: () => void }) {
         badge, content: sanitizeContent(content), hashtags, images: imageUrls,
       });
       if (insErr) throw insErr;
-      onClose();
+      onClose(true);
     } catch (e) {
       if (uploadedPaths.length > 0) {
         await supabase.storage.from("kudo-images").remove(uploadedPaths);
@@ -399,7 +399,7 @@ export function WriteKudoModal({ onClose }: { onClose: () => void }) {
         <div style={{ display: "flex", gap: 24 }}>
           <button
             type="button"
-            onClick={onClose}
+            onClick={() => onClose()}
             style={{
               fontFamily: FONT, fontSize: 14, fontWeight: 700, color: "#00101A",
               border: "1px solid #998C5F", background: "rgba(255,234,158,0.10)",

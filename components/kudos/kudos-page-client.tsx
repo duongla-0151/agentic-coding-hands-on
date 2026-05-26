@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import { WriteKudoModal } from "@/components/homepage/write-kudo-modal";
 import { KudosHero } from "./kudos-hero";
 import { FilterBar } from "./filter-bar";
@@ -18,9 +19,11 @@ interface KudosPageClientProps {
 }
 
 export function KudosPageClient({ locale: _locale, userId }: KudosPageClientProps) {
+  const router = useRouter();
   const [hashtag, setHashtag] = useState<string | null>(null);
   const [hashtags, setHashtags] = useState<string[]>([]);
   const [kudosModalOpen, setKudosModalOpen] = useState(false);
+  const [feedKey, setFeedKey] = useState(0);
 
   useEffect(() => {
     fetch("/api/kudos/hashtags")
@@ -60,7 +63,7 @@ export function KudosPageClient({ locale: _locale, userId }: KudosPageClientProp
       >
         {/* All Kudos Feed — ~70% */}
         <div style={{ flex: "0 0 67%", minWidth: 0 }}>
-          <AllKudosFeed hashtag={hashtag} currentUserId={userId} />
+          <AllKudosFeed key={feedKey} hashtag={hashtag} currentUserId={userId} />
         </div>
 
         {/* Sidebar — ~30%, sticky */}
@@ -79,7 +82,10 @@ export function KudosPageClient({ locale: _locale, userId }: KudosPageClientProp
 
       {/* Write Kudos modal */}
       {kudosModalOpen && (
-        <WriteKudoModal onClose={() => setKudosModalOpen(false)} />
+        <WriteKudoModal onClose={(submitted) => {
+          setKudosModalOpen(false);
+          if (submitted) { setFeedKey((k) => k + 1); router.refresh(); }
+        }} />
       )}
     </div>
   );
