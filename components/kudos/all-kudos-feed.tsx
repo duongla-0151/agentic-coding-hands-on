@@ -89,19 +89,34 @@ export function AllKudosFeed({ hashtag, currentUserId }: AllKudosFeedProps) {
   return (
     <div>
       {/* Section header */}
-      <h2
-        style={{
-          fontFamily: FONT,
-          fontSize: 28,
-          fontWeight: 900,
-          color: "#fff",
-          letterSpacing: "0.08em",
-          textTransform: "uppercase",
-          margin: "0 0 24px 0",
-        }}
-      >
-        ALL KUDOS
-      </h2>
+      <div style={{ marginBottom: 24 }}>
+        <p
+          style={{
+            fontFamily: FONT,
+            fontSize: 13,
+            fontWeight: 600,
+            color: "rgba(255,255,255,0.5)",
+            letterSpacing: "0.15em",
+            textTransform: "uppercase",
+            margin: "0 0 4px 0",
+          }}
+        >
+          Sun* Annual Awards 2025
+        </p>
+        <h2
+          style={{
+            fontFamily: FONT,
+            fontSize: 28,
+            fontWeight: 900,
+            color: "#fff",
+            letterSpacing: "0.08em",
+            textTransform: "uppercase",
+            margin: 0,
+          }}
+        >
+          ALL KUDOS
+        </h2>
+      </div>
 
       {/* Feed */}
       <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>

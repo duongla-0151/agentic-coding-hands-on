@@ -23,7 +23,7 @@ function hashFrac(s: string, salt: number): number {
 
 function cloudFontSize(count: number, max: number): number {
   if (max === 0) return 14;
-  return Math.round(12 + (count / max) * 8);
+  return Math.round(14 + (count / max) * 22);
 }
 
 function cloudColor(index: number): string {

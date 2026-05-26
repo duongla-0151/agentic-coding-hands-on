@@ -4,7 +4,6 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { WriteKudoModal } from "@/components/homepage/write-kudo-modal";
 import { KudosHero } from "./kudos-hero";
-import { FilterBar } from "./filter-bar";
 import { KudosHighlightSection } from "./kudos-highlight-section";
 import { KudosSpotlightSection } from "./kudos-spotlight-section";
 import { AllKudosFeed } from "./all-kudos-feed";
@@ -37,17 +36,13 @@ export function KudosPageClient({ locale: _locale, userId }: KudosPageClientProp
       {/* Hero */}
       <KudosHero onWriteClick={() => setKudosModalOpen(true)} />
 
-      {/* Filter bar */}
-      <div style={{ paddingTop: 32 }}>
-        <FilterBar
-          hashtags={hashtags}
-          selected={hashtag}
-          onSelect={setHashtag}
-        />
-      </div>
-
-      {/* Highlight Kudos */}
-      <KudosHighlightSection hashtag={hashtag} currentUserId={userId} />
+      {/* Highlight Kudos (filter bar is inside the section header) */}
+      <KudosHighlightSection
+        hashtag={hashtag}
+        hashtags={hashtags}
+        onHashtagChange={setHashtag}
+        currentUserId={userId}
+      />
 
       {/* Spotlight Board */}
       <KudosSpotlightSection />

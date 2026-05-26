@@ -4,15 +4,18 @@ import { useState, useEffect, useCallback } from "react";
 import type { KudosPost } from "@/lib/kudos/types";
 import { HighlightCarousel } from "./highlight-carousel";
 import { KudosToast } from "./kudos-toast";
+import { FilterBar } from "./filter-bar";
 
 const FONT = "var(--font-montserrat), Montserrat, sans-serif";
 
 interface KudosHighlightSectionProps {
   hashtag: string | null;
+  hashtags: string[];
+  onHashtagChange: (tag: string | null) => void;
   currentUserId: string;
 }
 
-export function KudosHighlightSection({ hashtag, currentUserId }: KudosHighlightSectionProps) {
+export function KudosHighlightSection({ hashtag, hashtags, onHashtagChange, currentUserId }: KudosHighlightSectionProps) {
   const [posts, setPosts] = useState<KudosPost[]>([]);
   const [loading, setLoading] = useState(false);
   const [toast, setToast] = useState({ message: "", visible: false });
@@ -52,35 +55,46 @@ export function KudosHighlightSection({ hashtag, currentUserId }: KudosHighlight
   }
 
   return (
-    <section style={{ padding: "0 144px", marginBottom: 48 }}>
-      {/* Section header */}
-      <div style={{ marginBottom: 32 }}>
-        <p
-          style={{
-            fontFamily: FONT,
-            fontSize: 13,
-            fontWeight: 600,
-            color: "rgba(255,255,255,0.5)",
-            letterSpacing: "0.15em",
-            textTransform: "uppercase",
-            margin: "0 0 4px 0",
-          }}
-        >
-          Sun* Annual Awards 2025
-        </p>
-        <h2
-          style={{
-            fontFamily: FONT,
-            fontSize: 28,
-            fontWeight: 900,
-            color: "#fff",
-            letterSpacing: "0.08em",
-            textTransform: "uppercase",
-            margin: 0,
-          }}
-        >
-          HIGHLIGHT KUDOS
-        </h2>
+    <section style={{ padding: "32px 144px 48px" }}>
+      {/* Section header — title left, filters right */}
+      <div
+        style={{
+          display: "flex",
+          alignItems: "flex-end",
+          justifyContent: "space-between",
+          marginBottom: 32,
+          gap: 16,
+        }}
+      >
+        <div>
+          <p
+            style={{
+              fontFamily: FONT,
+              fontSize: 13,
+              fontWeight: 600,
+              color: "rgba(255,255,255,0.5)",
+              letterSpacing: "0.15em",
+              textTransform: "uppercase",
+              margin: "0 0 4px 0",
+            }}
+          >
+            Sun* Annual Awards 2025
+          </p>
+          <h2
+            style={{
+              fontFamily: FONT,
+              fontSize: 28,
+              fontWeight: 900,
+              color: "#fff",
+              letterSpacing: "0.08em",
+              textTransform: "uppercase",
+              margin: 0,
+            }}
+          >
+            HIGHLIGHT KUDOS
+          </h2>
+        </div>
+        <FilterBar hashtags={hashtags} selected={hashtag} onSelect={onHashtagChange} />
       </div>
 
       {loading ? (

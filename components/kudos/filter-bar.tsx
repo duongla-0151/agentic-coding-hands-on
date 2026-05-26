@@ -24,8 +24,6 @@ export function FilterBar({ hashtags, selected, onSelect }: FilterBarProps) {
         display: "flex",
         alignItems: "center",
         gap: 12,
-        padding: "0 144px",
-        marginBottom: 32,
         position: "relative",
       }}
     >

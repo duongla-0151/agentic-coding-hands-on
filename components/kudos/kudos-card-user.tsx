@@ -59,9 +59,9 @@ export function KudosCardUser({
         )}
       </div>
 
-      {/* Name + stars + badge */}
+      {/* Name + stars, then badge on its own line */}
       <div style={{ minWidth: 0 }}>
-        <div style={{ display: "flex", alignItems: "center", gap: 4, flexWrap: "wrap" }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 4 }}>
           <span
             style={{
               fontFamily: FONT,
@@ -77,30 +77,32 @@ export function KudosCardUser({
             {name}
           </span>
           {stars > 0 && (
-            <span style={{ color: YELLOW, fontSize: size === "sm" ? 10 : 12, lineHeight: 1 }}>
+            <span style={{ color: YELLOW, fontSize: size === "sm" ? 10 : 12, lineHeight: 1, flexShrink: 0 }}>
               {"★".repeat(stars)}
             </span>
           )}
-          {badge && (
-            <span
-              style={{
-                fontFamily: FONT,
-                fontSize: 11,
-                fontWeight: 700,
-                color: "#00101A",
-                background: YELLOW,
-                borderRadius: 999,
-                padding: "2px 10px",
-                whiteSpace: "nowrap",
-                maxWidth: 160,
-                overflow: "hidden",
-                textOverflow: "ellipsis",
-              }}
-            >
-              {badge}
-            </span>
-          )}
         </div>
+        {badge && (
+          <span
+            style={{
+              display: "inline-block",
+              marginTop: 3,
+              fontFamily: FONT,
+              fontSize: 11,
+              fontWeight: 700,
+              color: "#00101A",
+              background: YELLOW,
+              borderRadius: 999,
+              padding: "2px 10px",
+              whiteSpace: "nowrap",
+              maxWidth: 180,
+              overflow: "hidden",
+              textOverflow: "ellipsis",
+            }}
+          >
+            {badge}
+          </span>
+        )}
       </div>
     </div>
   );

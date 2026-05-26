@@ -41,7 +41,7 @@ export function KudosStatsCard({ stats }: KudosStatsCardProps) {
       <div style={{ background: CARD_BG, border: CARD_BORDER, borderRadius: 16, padding: "20px 24px", display: "flex", flexDirection: "column", gap: 12 }}>
         <StatRow label="Số Kudos bạn nhận được:" value={stats?.received ?? 0} />
         <StatRow label="Số Kudos bạn đã gửi:" value={stats?.sent ?? 0} />
-        <StatRow label="Số tim bạn nhận được:" value={stats?.hearts ?? 0} icon="🔥" />
+        <StatRow label="Số tim bạn nhận được:" value={stats?.hearts ?? 0} icon="❤️" />
         <div style={{ height: 1, background: "rgba(255,255,255,0.1)", margin: "4px 0" }} />
         <StatRow label="Số Secret Box bạn đã mở:" value={stats?.secret_boxes_opened ?? 0} />
         <StatRow label="Số Secret Box chưa mở:" value={stats?.secret_boxes_available ?? 0} />
