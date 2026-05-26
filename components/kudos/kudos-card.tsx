@@ -5,8 +5,10 @@ import type { KudosPost } from "@/lib/kudos/types";
 import { KudosCardUser } from "./kudos-card-user";
 
 const FONT = "var(--font-montserrat), Montserrat, sans-serif";
-const CARD_BG = "rgba(255,255,255,0.04)";
-const CARD_BORDER = "1px solid rgba(255,255,255,0.1)";
+const HIGHLIGHT_BG = "rgba(255,255,255,0.04)";
+const HIGHLIGHT_BORDER = "1px solid rgba(255,255,255,0.1)";
+const FEED_BG = "rgba(255,248,225,1)";
+const FEED_BORDER = "1px solid rgba(153,140,95,0.3)";
 const YELLOW = "#FFEA9E";
 
 interface KudosCardProps {
@@ -34,13 +36,18 @@ export function KudosCard({ post, variant, currentUserId, onLike, onCopyLink }: 
   const maxLines = isHighlight ? 3 : 5;
   const isSender = post.sender?.id === currentUserId;
 
+  const cardBg = isHighlight ? HIGHLIGHT_BG : FEED_BG;
+  const cardBorder = isHighlight ? HIGHLIGHT_BORDER : FEED_BORDER;
+  const textColor = isHighlight ? "rgba(255,255,255,0.85)" : "rgba(0,16,26,0.85)";
+  const textSecondary = isHighlight ? "rgba(255,255,255,0.35)" : "rgba(0,16,26,0.45)";
+
   return (
     <div
       style={{
-        background: CARD_BG,
-        border: CARD_BORDER,
-        borderRadius: 16,
-        padding: "20px 24px",
+        background: cardBg,
+        border: cardBorder,
+        borderRadius: 24,
+        padding: isHighlight ? "20px 24px" : "40px 40px 16px 40px",
         display: "flex",
         flexDirection: "column",
         gap: 14,
@@ -53,14 +60,16 @@ export function KudosCard({ post, variant, currentUserId, onLike, onCopyLink }: 
           user={post.sender}
           anonymousName={post.anonymous_name}
           size="md"
+          light={!isHighlight}
         />
-        <span style={{ color: "rgba(255,255,255,0.4)", fontSize: 18, flexShrink: 0 }}>→</span>
+        <span style={{ color: isHighlight ? "rgba(255,255,255,0.4)" : "rgba(0,16,26,0.4)", fontSize: 18, flexShrink: 0 }}>→</span>
         <KudosCardUser
           user={post.recipient}
           anonymousName={null}
           kudosCount={post.recipient_kudos_count}
           badge={post.badge}
           size="md"
+          light={!isHighlight}
         />
       </div>
 
@@ -69,7 +78,7 @@ export function KudosCard({ post, variant, currentUserId, onLike, onCopyLink }: 
         style={{
           fontFamily: FONT,
           fontSize: 11,
-          color: "rgba(255,255,255,0.35)",
+          color: textSecondary,
         }}
       >
         {formatDate(post.created_at)}
@@ -80,7 +89,7 @@ export function KudosCard({ post, variant, currentUserId, onLike, onCopyLink }: 
         style={{
           fontFamily: FONT,
           fontSize: 14,
-          color: "rgba(255,255,255,0.85)",
+          color: textColor,
           lineHeight: 1.6,
           overflow: "hidden",
           display: "-webkit-box",
@@ -99,9 +108,9 @@ export function KudosCard({ post, variant, currentUserId, onLike, onCopyLink }: 
               style={{
                 fontFamily: FONT,
                 fontSize: 12,
-                color: YELLOW,
-                background: "rgba(255,234,158,0.1)",
-                border: "1px solid rgba(255,234,158,0.25)",
+                color: isHighlight ? YELLOW : "#8B6914",
+                background: isHighlight ? "rgba(255,234,158,0.1)" : "rgba(139,105,20,0.12)",
+                border: isHighlight ? "1px solid rgba(255,234,158,0.25)" : "1px solid rgba(139,105,20,0.3)",
                 borderRadius: 999,
                 padding: "3px 10px",
               }}
@@ -147,7 +156,7 @@ export function KudosCard({ post, variant, currentUserId, onLike, onCopyLink }: 
             gap: 5,
             fontFamily: FONT,
             fontSize: 13,
-            color: post.liked_by_me ? "#FF6B6B" : "rgba(255,255,255,0.5)",
+            color: post.liked_by_me ? "#FF6B6B" : (isHighlight ? "rgba(255,255,255,0.5)" : "rgba(0,16,26,0.5)"),
             background: "none",
             border: "none",
             cursor: isSender ? "not-allowed" : "pointer",
@@ -167,9 +176,9 @@ export function KudosCard({ post, variant, currentUserId, onLike, onCopyLink }: 
           style={{
             fontFamily: FONT,
             fontSize: 12,
-            color: "rgba(255,255,255,0.45)",
+            color: isHighlight ? "rgba(255,255,255,0.45)" : "rgba(0,16,26,0.45)",
             background: "none",
-            border: "1px solid rgba(255,255,255,0.15)",
+            border: isHighlight ? "1px solid rgba(255,255,255,0.15)" : "1px solid rgba(0,16,26,0.2)",
             borderRadius: 999,
             padding: "3px 12px",
             cursor: "pointer",

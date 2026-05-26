@@ -3,8 +3,8 @@
 import { useState } from "react";
 
 const FONT = "var(--font-montserrat), Montserrat, sans-serif";
-const CARD_BG = "rgba(255,255,255,0.04)";
-const CARD_BORDER = "1px solid rgba(255,255,255,0.1)";
+const CARD_BG = "#00070C";
+const CARD_BORDER = "1px solid #998C5F";
 const YELLOW = "#FFEA9E";
 
 export interface KudosStats {
@@ -21,7 +21,7 @@ function StatRow({ label, value, icon }: { label: string; value: number; icon?: 
       <span style={{ fontFamily: FONT, fontSize: 13, color: "rgba(255,255,255,0.65)", flex: 1 }}>
         {label}
       </span>
-      <span style={{ fontFamily: FONT, fontSize: 16, fontWeight: 700, color: "#fff", display: "flex", alignItems: "center", gap: 4 }}>
+      <span style={{ fontFamily: FONT, fontSize: 32, fontWeight: 700, color: YELLOW, display: "flex", alignItems: "center", gap: 4 }}>
         {icon && <span>{icon}</span>}
         {value}
       </span>
@@ -38,7 +38,7 @@ export function KudosStatsCard({ stats }: KudosStatsCardProps) {
 
   return (
     <>
-      <div style={{ background: CARD_BG, border: CARD_BORDER, borderRadius: 16, padding: "20px 24px", display: "flex", flexDirection: "column", gap: 12 }}>
+      <div style={{ background: CARD_BG, border: CARD_BORDER, borderRadius: 17, padding: "24px", display: "flex", flexDirection: "column", gap: 12 }}>
         <StatRow label="Số Kudos bạn nhận được:" value={stats?.received ?? 0} />
         <StatRow label="Số Kudos bạn đã gửi:" value={stats?.sent ?? 0} />
         <StatRow label="Số tim bạn nhận được:" value={stats?.hearts ?? 0} icon="❤️" />

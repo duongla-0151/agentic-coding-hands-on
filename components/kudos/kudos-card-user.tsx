@@ -13,6 +13,8 @@ interface KudosCardUserProps {
   kudosCount?: number;
   badge?: string;
   size?: "sm" | "md";
+  /** when true, render for light (cream) card background */
+  light?: boolean;
 }
 
 export function KudosCardUser({
@@ -21,11 +23,13 @@ export function KudosCardUser({
   kudosCount,
   badge,
   size = "md",
+  light = false,
 }: KudosCardUserProps) {
   const avatarSize = size === "sm" ? 32 : 40;
   const name = user?.name ?? anonymousName ?? "Ẩn danh";
   const initial = name.charAt(0).toUpperCase();
   const stars = kudosCount !== undefined ? starCount(kudosCount) : 0;
+  const nameColor = light ? "rgba(0,16,26,0.9)" : "#fff";
 
   return (
     <div style={{ display: "flex", alignItems: "center", gap: 10, minWidth: 0 }}>
@@ -37,12 +41,12 @@ export function KudosCardUser({
           borderRadius: "50%",
           overflow: "hidden",
           flexShrink: 0,
-          background: "rgba(255,234,158,0.2)",
+          background: light ? "rgba(139,105,20,0.15)" : "rgba(255,234,158,0.2)",
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
           fontSize: avatarSize * 0.4,
-          color: YELLOW,
+          color: light ? "#8B6914" : YELLOW,
           fontFamily: FONT,
           fontWeight: 700,
         }}
@@ -67,7 +71,7 @@ export function KudosCardUser({
               fontFamily: FONT,
               fontSize: size === "sm" ? 12 : 14,
               fontWeight: 700,
-              color: "#fff",
+              color: nameColor,
               overflow: "hidden",
               textOverflow: "ellipsis",
               whiteSpace: "nowrap",

@@ -24,6 +24,7 @@ export async function GET() {
   const recipients = [...countMap.entries()].map(([id, count]) => ({
     id,
     name: userMap.get(id)?.name ?? "Sunner",
+    avatar: userMap.get(id)?.avatar ?? null,
     kudos_count: count,
   }));
 

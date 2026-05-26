@@ -4,13 +4,14 @@ import { useState, useEffect } from "react";
 import { KudosStatsCard, type KudosStats } from "./kudos-stats-card";
 
 const FONT = "var(--font-montserrat), Montserrat, sans-serif";
-const CARD_BG = "rgba(255,255,255,0.04)";
-const CARD_BORDER = "1px solid rgba(255,255,255,0.1)";
+const CARD_BG = "#00070C";
+const CARD_BORDER = "1px solid #998C5F";
 const YELLOW = "#FFEA9E";
 
 interface SpotlightRecipient {
   id: string;
   name: string;
+  avatar: string | null;
   kudos_count: number;
 }
 
@@ -48,22 +49,22 @@ export function KudosSidebar({ userId: _userId }: KudosSidebarProps) {
         style={{
           background: CARD_BG,
           border: CARD_BORDER,
-          borderRadius: 16,
-          padding: "20px 24px",
+          borderRadius: 17,
+          padding: "24px 16px 24px 24px",
         }}
       >
         <h3
           style={{
             fontFamily: FONT,
-            fontSize: 13,
-            fontWeight: 900,
+            fontSize: 22,
+            fontWeight: 700,
             color: YELLOW,
-            letterSpacing: "0.1em",
-            textTransform: "uppercase",
+            textAlign: "center",
             margin: "0 0 16px 0",
+            lineHeight: "28px",
           }}
         >
-          10 SUNNER NHẬN QUÀ MỚI NHẤT
+          10 SUNNER NHẬN QUÀ<br />MỚI NHẤT
         </h3>
 
         {leaderboard.length === 0 ? (
@@ -94,19 +95,32 @@ export function KudosSidebar({ userId: _userId }: KudosSidebarProps) {
                 key={r.id}
                 style={{ display: "flex", alignItems: "center", gap: 10 }}
               >
-                <span
+                {/* Avatar */}
+                <div
                   style={{
-                    fontFamily: FONT,
-                    fontSize: 13,
-                    fontWeight: 700,
-                    color: i < 3 ? YELLOW : "rgba(255,255,255,0.35)",
-                    width: 20,
+                    width: 40,
+                    height: 40,
+                    borderRadius: "50%",
+                    overflow: "hidden",
                     flexShrink: 0,
-                    textAlign: "center",
+                    background: "rgba(255,234,158,0.15)",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    fontSize: 16,
+                    color: YELLOW,
+                    fontFamily: FONT,
+                    fontWeight: 700,
+                    border: i < 3 ? `1.5px solid ${YELLOW}` : "1.5px solid rgba(255,255,255,0.15)",
                   }}
                 >
-                  {i + 1}
-                </span>
+                  {r.avatar ? (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img src={r.avatar} alt={r.name} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+                  ) : (
+                    r.name.charAt(0).toUpperCase()
+                  )}
+                </div>
                 <div style={{ flex: 1, minWidth: 0 }}>
                   <p
                     style={{

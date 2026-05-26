@@ -1,10 +1,12 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef, useLayoutEffect } from "react";
 import type { KudosPost } from "@/lib/kudos/types";
 import { KudosCard } from "./kudos-card";
 
 const FONT = "var(--font-montserrat), Montserrat, sans-serif";
+const GAP = 16; // px between cards
+const VISIBLE = 3; // cards visible at once (center + 1 each side)
 
 interface HighlightCarouselProps {
   posts: KudosPost[];
@@ -20,6 +22,21 @@ export function HighlightCarousel({
   onCopyLink,
 }: HighlightCarouselProps) {
   const [activeIndex, setActiveIndex] = useState(0);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [cardWidth, setCardWidth] = useState(0);
+
+  // Measure container width to compute equal card widths
+  useLayoutEffect(() => {
+    function measure() {
+      if (containerRef.current) {
+        const w = containerRef.current.offsetWidth;
+        setCardWidth(Math.floor((w - GAP * (VISIBLE - 1)) / VISIBLE));
+      }
+    }
+    measure();
+    window.addEventListener("resize", measure);
+    return () => window.removeEventListener("resize", measure);
+  }, []);
 
   if (posts.length === 0) {
     return (
@@ -38,14 +55,14 @@ export function HighlightCarousel({
   }
 
   const total = posts.length;
+
   const prev = () => setActiveIndex((i) => Math.max(0, i - 1));
   const next = () => setActiveIndex((i) => Math.min(total - 1, i + 1));
 
-  // Show up to 5 cards: active center ± 2 sides
-  const visibleCount = Math.min(total, 5);
-  // Compute which posts are visible: up to 2 before active, up to 2 after
-  const start = Math.max(0, Math.min(activeIndex - 2, total - visibleCount));
-  const visible = posts.slice(start, start + visibleCount);
+  // Offset so activeIndex card is always centered in the 3-card window
+  // Center slot index = 1 (0-based), so translate = -(activeIndex - 1) * (cardWidth + GAP)
+  const centerSlot = Math.floor(VISIBLE / 2); // = 1
+  const translateX = cardWidth > 0 ? -(activeIndex - centerSlot) * (cardWidth + GAP) : 0;
 
   return (
     <div style={{ position: "relative", padding: "0 64px" }}>
@@ -77,40 +94,44 @@ export function HighlightCarousel({
         ‹
       </button>
 
-      {/* Cards */}
-      <div
-        style={{
-          display: "flex",
-          gap: 16,
-          alignItems: "stretch",
-          overflow: "hidden",
-        }}
-      >
-        {visible.map((post, i) => {
-          const absoluteIndex = start + i;
-          const isActive = absoluteIndex === activeIndex;
-          return (
-            <div
-              key={post.id}
-              onClick={() => setActiveIndex(absoluteIndex)}
-              style={{
-                flex: isActive ? "0 0 38%" : "0 0 18%",
-                opacity: isActive ? 1 : 0.6,
-                transition: "flex 0.3s ease, opacity 0.3s ease",
-                cursor: isActive ? "default" : "pointer",
-                minWidth: 0,
-              }}
-            >
-              <KudosCard
-                post={post}
-                variant="highlight"
-                currentUserId={currentUserId}
-                onLike={() => onLike(post.id)}
-                onCopyLink={() => onCopyLink(post.id)}
-              />
-            </div>
-          );
-        })}
+      {/* Viewport — clips the track */}
+      <div ref={containerRef} style={{ overflow: "hidden" }}>
+        {/* Track — slides left/right via translateX */}
+        <div
+          style={{
+            display: "flex",
+            gap: GAP,
+            alignItems: "stretch",
+            transform: `translateX(${translateX}px)`,
+            transition: "transform 0.35s cubic-bezier(0.4,0,0.2,1)",
+            willChange: "transform",
+          }}
+        >
+          {posts.map((post, i) => {
+            const isActive = i === activeIndex;
+            return (
+              <div
+                key={post.id}
+                onClick={() => setActiveIndex(i)}
+                style={{
+                  flex: `0 0 ${cardWidth}px`,
+                  width: cardWidth,
+                  opacity: isActive ? 1 : 0.5,
+                  transition: "opacity 0.35s ease",
+                  cursor: isActive ? "default" : "pointer",
+                }}
+              >
+                <KudosCard
+                  post={post}
+                  variant="highlight"
+                  currentUserId={currentUserId}
+                  onLike={() => onLike(post.id)}
+                  onCopyLink={() => onCopyLink(post.id)}
+                />
+              </div>
+            );
+          })}
+        </div>
       </div>
 
       {/* Next arrow */}
@@ -141,7 +162,7 @@ export function HighlightCarousel({
         ›
       </button>
 
-      {/* Pagination indicator */}
+      {/* Pagination */}
       <div
         style={{
           textAlign: "center",

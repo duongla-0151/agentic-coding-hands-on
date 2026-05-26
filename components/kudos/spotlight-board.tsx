@@ -44,25 +44,25 @@ export function SpotlightBoard({ total, recipients }: SpotlightBoardProps) {
         <p
           style={{
             fontFamily: FONT,
-            fontSize: 13,
-            fontWeight: 600,
-            color: "rgba(255,255,255,0.5)",
-            letterSpacing: "0.15em",
-            textTransform: "uppercase",
+            fontSize: 24,
+            fontWeight: 700,
+            color: "#fff",
             margin: "0 0 4px 0",
           }}
         >
           Sun* Annual Awards 2025
         </p>
+        <div style={{ height: 1, background: "rgba(46,57,64,1)", margin: "4px 0 8px" }} />
         <h2
           style={{
             fontFamily: FONT,
-            fontSize: 28,
-            fontWeight: 900,
-            color: "#fff",
-            letterSpacing: "0.08em",
+            fontSize: 57,
+            fontWeight: 700,
+            color: "#FFEA9E",
+            letterSpacing: "-0.25px",
             textTransform: "uppercase",
             margin: 0,
+            lineHeight: "64px",
           }}
         >
           SPOTLIGHT BOARD
@@ -72,37 +72,51 @@ export function SpotlightBoard({ total, recipients }: SpotlightBoardProps) {
       {/* Card */}
       <div
         style={{
-          background: CARD_BG,
-          border: CARD_BORDER,
-          borderRadius: 16,
+          border: "1px solid #998C5F",
+          borderRadius: 47,
+          height: 548,
           overflow: "hidden",
+          position: "relative",
         }}
       >
-        {/* Top bar */}
+        {/* Mirrored KV background image — CSS background on absolute div so height stays fixed */}
+        <div
+          aria-hidden="true"
+          style={{
+            position: "absolute",
+            inset: 0,
+            background: "url('/images/keyvisual/keyvisual-bg.png') center / cover no-repeat",
+            transform: "scaleX(-1)",
+            opacity: 0.55,
+            zIndex: 0,
+          }}
+        />
+        {/* Gradient overlay */}
+        <div
+          aria-hidden="true"
+          style={{
+            position: "absolute",
+            inset: 0,
+            background: "linear-gradient(0deg, rgba(0,0,0,0.70) 0%, rgba(0,0,0,0.70) 100%)",
+            zIndex: 1,
+          }}
+        />
+        {/* Top bar: search LEFT | count CENTER | pan-zoom RIGHT */}
         <div
           style={{
             display: "flex",
             alignItems: "center",
-            justifyContent: "space-between",
             padding: "16px 24px",
             borderBottom: CARD_BORDER,
             gap: 16,
+            position: "relative",
+            zIndex: 2,
           }}
         >
-          <span
-            style={{
-              fontFamily: FONT,
-              fontSize: 18,
-              fontWeight: 900,
-              color: YELLOW,
-              letterSpacing: "0.05em",
-            }}
-          >
-            {total} KUDOS
-          </span>
+          {/* Search — left */}
           <input
             type="text"
-            placeholder="Tìm tên..."
+            placeholder="Tìm kiếm Sunner..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             style={{
@@ -115,8 +129,50 @@ export function SpotlightBoard({ total, recipients }: SpotlightBoardProps) {
               padding: "6px 16px",
               outline: "none",
               width: 180,
+              flexShrink: 0,
             }}
           />
+
+          {/* Kudos count — center */}
+          <span
+            style={{
+              fontFamily: FONT,
+              fontSize: 36,
+              fontWeight: 700,
+              color: YELLOW,
+              letterSpacing: "0.05em",
+              position: "absolute",
+              left: "50%",
+              transform: "translateX(-50%)",
+              whiteSpace: "nowrap",
+            }}
+          >
+            {total} KUDOS
+          </span>
+
+          {/* Pan/Zoom placeholder — right */}
+          <button
+            type="button"
+            title="Pan & Zoom"
+            style={{
+              marginLeft: "auto",
+              width: 30,
+              height: 30,
+              background: "rgba(255,255,255,0.08)",
+              border: "1px solid rgba(255,255,255,0.2)",
+              borderRadius: 4,
+              color: "rgba(255,255,255,0.6)",
+              fontSize: 14,
+              cursor: "pointer",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              flexShrink: 0,
+            }}
+            aria-label="Pan & Zoom"
+          >
+            ⛶
+          </button>
         </div>
 
         {/* Word cloud */}
@@ -126,6 +182,7 @@ export function SpotlightBoard({ total, recipients }: SpotlightBoardProps) {
             minHeight: 320,
             padding: 24,
             overflow: "hidden",
+            zIndex: 2,
           }}
         >
           <SpotlightWordCloud recipients={filtered} maxCount={maxCount} />

@@ -66,29 +66,29 @@ export function KudosHighlightSection({ hashtag, hashtags, onHashtagChange, curr
           gap: 16,
         }}
       >
-        <div>
+        <div style={{ flex: 1 }}>
           <p
             style={{
               fontFamily: FONT,
-              fontSize: 13,
-              fontWeight: 600,
-              color: "rgba(255,255,255,0.5)",
-              letterSpacing: "0.15em",
-              textTransform: "uppercase",
+              fontSize: 24,
+              fontWeight: 700,
+              color: "#fff",
               margin: "0 0 4px 0",
             }}
           >
             Sun* Annual Awards 2025
           </p>
+          <div style={{ height: 1, background: "rgba(46,57,64,1)", margin: "4px 0 8px" }} />
           <h2
             style={{
               fontFamily: FONT,
-              fontSize: 28,
-              fontWeight: 900,
-              color: "#fff",
-              letterSpacing: "0.08em",
+              fontSize: 57,
+              fontWeight: 700,
+              color: "#FFEA9E",
+              letterSpacing: "-0.25px",
               textTransform: "uppercase",
               margin: 0,
+              lineHeight: "64px",
             }}
           >
             HIGHLIGHT KUDOS
