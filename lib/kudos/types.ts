@@ -2,6 +2,7 @@ export interface UserInfo {
   id: string;
   name: string;
   avatar: string | null;
+  department?: string | null;
 }
 
 export interface KudosPost {

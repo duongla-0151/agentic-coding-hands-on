@@ -44,15 +44,35 @@ export function KudosSidebar({ userId: _userId }: KudosSidebarProps) {
     <aside style={{ display: "flex", flexDirection: "column", gap: 24 }}>
       <KudosStatsCard stats={stats} />
 
-      {/* Leaderboard */}
+      {/* Leaderboard — D.3 */}
       <div
         style={{
           background: CARD_BG,
           border: CARD_BORDER,
           borderRadius: 17,
-          padding: "24px 16px 24px 24px",
+          padding: "20px 16px 24px 24px",
         }}
       >
+        {/* D.4: hashtag "IDOL GIỚI TRẺ" */}
+        <div style={{ display: "flex", justifyContent: "center", marginBottom: 12 }}>
+          <span
+            style={{
+              fontFamily: FONT,
+              fontSize: 11,
+              fontWeight: 700,
+              color: YELLOW,
+              background: "rgba(255,234,158,0.08)",
+              border: "1px solid rgba(255,234,158,0.35)",
+              borderRadius: 999,
+              padding: "3px 12px",
+              letterSpacing: "0.5px",
+              textTransform: "uppercase",
+            }}
+          >
+            #IDOL GIỚI TRẺ
+          </span>
+        </div>
+
         <h3
           style={{
             fontFamily: FONT,

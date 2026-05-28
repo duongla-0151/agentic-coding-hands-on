@@ -20,6 +20,7 @@ export async function fetchUserMap(): Promise<Map<string, UserInfo>> {
       id: u.id,
       name: u.user_metadata?.full_name ?? u.email ?? u.id,
       avatar: u.user_metadata?.avatar_url ?? null,
+      department: u.user_metadata?.phong_ban ?? null,
     });
   }
   cache = map;

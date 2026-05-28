@@ -70,6 +70,7 @@ export function KudosCard({ post, variant, currentUserId, onLike, onCopyLink }: 
           badge={post.badge}
           size="md"
           light={!isHighlight}
+          showHoverCard
         />
       </div>
 
@@ -156,16 +157,23 @@ export function KudosCard({ post, variant, currentUserId, onLike, onCopyLink }: 
             gap: 5,
             fontFamily: FONT,
             fontSize: 13,
-            color: post.liked_by_me ? "#FF6B6B" : (isHighlight ? "rgba(255,255,255,0.5)" : "rgba(0,16,26,0.5)"),
-            background: "none",
-            border: "none",
+            color: isHighlight
+              ? (post.liked_by_me ? "#fff" : "rgba(255,255,255,0.5)")
+              : (post.liked_by_me ? "#fff" : "#7C52D9"),
+            background: isHighlight
+              ? (post.liked_by_me ? "rgba(124,82,217,0.6)" : "rgba(255,255,255,0.05)")
+              : (post.liked_by_me ? "#7C52D9" : "rgba(124,82,217,0.08)"),
+            border: isHighlight
+              ? "1px solid rgba(255,255,255,0.15)"
+              : (post.liked_by_me ? "none" : "1px solid rgba(124,82,217,0.3)"),
+            borderRadius: 999,
+            padding: "4px 12px",
             cursor: isSender ? "not-allowed" : "pointer",
             opacity: isSender ? 0.35 : 1,
-            padding: 0,
           }}
           aria-label={post.liked_by_me ? "Bỏ thích" : "Thích"}
         >
-          <span style={{ fontSize: 16 }}>{post.liked_by_me ? "❤️" : "🤍"}</span>
+          <span style={{ fontSize: 14 }}>♥</span>
           <span>{post.like_count}</span>
         </button>
 
