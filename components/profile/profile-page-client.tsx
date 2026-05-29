@@ -2,17 +2,14 @@
 
 import { useState, useEffect } from "react";
 import { ProfileHero } from "./profile-hero";
-import { ProfileStats } from "./profile-stats";
 import { ProfileKudosFeed } from "./profile-kudos-feed";
+import { KudosSidebar } from "@/components/kudos/kudos-sidebar";
 
 const FONT = "var(--font-montserrat), Montserrat, sans-serif";
 
 interface Stats {
   received: number;
   sent: number;
-  hearts: number;
-  secret_boxes_opened: number;
-  secret_boxes_available: number;
 }
 
 interface ProfilePageClientProps {
@@ -25,17 +22,15 @@ interface ProfilePageClientProps {
 
 export function ProfilePageClient({ userId, userName, userAvatar, userDepartment, locale }: ProfilePageClientProps) {
   const [stats, setStats] = useState<Stats | null>(null);
-  const [statsError, setStatsError] = useState(false);
 
   useEffect(() => {
     fetch("/api/kudos/stats")
-      .then((r) => { if (!r.ok) throw new Error(); return r.json(); })
-      .then((d: Stats) => setStats(d))
-      .catch(() => setStatsError(true));
+      .then((r) => r.ok ? r.json() : null)
+      .then((d: Stats | null) => { if (d) setStats(d); })
+      .catch(() => {/* silent */});
   }, []);
 
   const kudosCount = stats?.received ?? 0;
-  const emptyStats = { received: 0, sent: 0, hearts: 0, secret_boxes_opened: 0, secret_boxes_available: 0 };
 
   return (
     <div style={{ background: "#00101A", minHeight: "100vh", fontFamily: FONT }}>
@@ -43,23 +38,36 @@ export function ProfilePageClient({ userId, userName, userAvatar, userDepartment
         user={{ name: userName, avatar: userAvatar, department: userDepartment, kudos_count: kudosCount }}
       />
 
-      {statsError ? (
-        <p style={{ fontFamily: FONT, fontSize: 13, color: "rgba(255,255,255,0.4)", textAlign: "center", padding: "24px 0" }}>
-          Không thể tải dữ liệu thống kê.
-        </p>
-      ) : (
-        <ProfileStats
-          stats={stats ?? emptyStats}
-          onOpenSecretBox={() => alert("Secret Box — coming soon!")}
-        />
-      )}
+      {/* Two-column layout: Feed (67%) | Sidebar (33%) */}
+      <div
+        style={{
+          display: "flex",
+          gap: 32,
+          padding: "48px 144px 80px",
+          alignItems: "flex-start",
+        }}
+      >
+        <div style={{ flex: "0 0 67%", minWidth: 0 }}>
+          <ProfileKudosFeed
+            currentUserId={userId}
+            locale={locale}
+            sentCount={stats?.sent ?? 0}
+            receivedCount={stats?.received ?? 0}
+          />
+        </div>
 
-      <ProfileKudosFeed
-        currentUserId={userId}
-        locale={locale}
-        sentCount={stats?.sent ?? 0}
-        receivedCount={stats?.received ?? 0}
-      />
+        <div
+          style={{
+            flex: "0 0 calc(33% - 32px)",
+            minWidth: 0,
+            position: "sticky",
+            top: 96,
+            alignSelf: "flex-start",
+          }}
+        >
+          <KudosSidebar userId={userId} />
+        </div>
+      </div>
     </div>
   );
 }

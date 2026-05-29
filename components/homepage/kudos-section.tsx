@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { getTranslations } from "next-intl/server";
 
 interface KudosSectionProps {
   locale: string;
@@ -6,7 +7,9 @@ interface KudosSectionProps {
 
 const MONTSERRAT = "var(--font-montserrat), Montserrat, sans-serif";
 
-export function KudosSection({ locale }: KudosSectionProps) {
+export async function KudosSection({ locale }: KudosSectionProps) {
+  const t = await getTranslations("KudosSection");
+
   return (
     <section
       id="kudos"
@@ -32,12 +35,12 @@ export function KudosSection({ locale }: KudosSectionProps) {
           style={{ objectFit: "cover", objectPosition: "center" }}
         />
 
-        {/* Card inner content — padding 46px 64px */}
+        {/* Card inner content */}
         <div
           className="relative z-10 flex items-center justify-between"
           style={{ padding: "46px 64px", height: "100%" }}
         >
-          {/* Left: text + button — flex-col gap 32px (between text block and button) */}
+          {/* Left: text + button */}
           <div
             style={{
               display: "flex",
@@ -46,7 +49,6 @@ export function KudosSection({ locale }: KudosSectionProps) {
               width: 457,
             }}
           >
-            {/* Frame 494: label + title + description — gap 16px */}
             <div
               style={{
                 display: "flex",
@@ -64,7 +66,7 @@ export function KudosSection({ locale }: KudosSectionProps) {
                   margin: 0,
                 }}
               >
-                Phong trào ghi nhận
+                {t("movement")}
               </p>
               <h2
                 style={{
@@ -79,7 +81,6 @@ export function KudosSection({ locale }: KudosSectionProps) {
               >
                 Sun* Kudos
               </h2>
-              {/* Single merged description block — ĐIỂM MỚI header + body */}
               <p
                 style={{
                   fontFamily: MONTSERRAT,
@@ -93,11 +94,10 @@ export function KudosSection({ locale }: KudosSectionProps) {
                   whiteSpace: "pre-line",
                 }}
               >
-                {`ĐIỂM MỚI CỦA SAA 2025\nHoạt động ghi nhận và cảm ơn đồng nghiệp — lần đầu tiên được diễn ra dành cho tất cả Sunner. Hoạt động sẽ được triển khai vào tháng 11/2025, khuyến khích người Sun* chia sẻ những lời ghi nhận, cảm ơn đồng nghiệp trên hệ thống do BTC công bố. Đây sẽ là chất liệu để Hội đồng Heads tham khảo trong quá trình lựa chọn người đạt giải.`}
+                {t("description")}
               </p>
             </div>
 
-            {/* Frame 495: Chi tiết button — borderRadius 4px, yellow bg */}
             <div>
               <a
                 href={`/${locale}/kudos`}
@@ -115,7 +115,7 @@ export function KudosSection({ locale }: KudosSectionProps) {
                   lineHeight: "24px",
                 }}
               >
-                Chi tiết <span aria-hidden="true">↗</span>
+                {t("details")} <span aria-hidden="true">↗</span>
               </a>
             </div>
           </div>

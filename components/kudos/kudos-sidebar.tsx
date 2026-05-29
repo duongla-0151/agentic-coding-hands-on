@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
+import { useTranslations } from "next-intl";
 import { KudosStatsCard, type KudosStats } from "./kudos-stats-card";
 import { HeroBadgeChip } from "./hero-badge-chip";
 
@@ -24,6 +25,7 @@ interface KudosSidebarProps {
 export function KudosSidebar({ userId: _userId }: KudosSidebarProps) {
   const pathname = usePathname();
   const locale = pathname.split("/")[1] ?? "vi";
+  const t = useTranslations("KudosSidebar");
   const [stats, setStats] = useState<KudosStats | null>(null);
   const [leaderboard, setLeaderboard] = useState<SpotlightRecipient[]>([]);
 
@@ -86,9 +88,10 @@ export function KudosSidebar({ userId: _userId }: KudosSidebarProps) {
             textAlign: "center",
             margin: "0 0 16px 0",
             lineHeight: "28px",
+            whiteSpace: "pre-line",
           }}
         >
-          10 SUNNER NHẬN QUÀ<br />MỚI NHẤT
+          {t("leaderboardTitle")}
         </h3>
 
         {leaderboard.length === 0 ? (
@@ -101,7 +104,7 @@ export function KudosSidebar({ userId: _userId }: KudosSidebarProps) {
               padding: "16px 0",
             }}
           >
-            Chưa có dữ liệu
+            {t("noData")}
           </p>
         ) : (
           <ol
@@ -172,7 +175,7 @@ export function KudosSidebar({ userId: _userId }: KudosSidebarProps) {
                       margin: 0,
                     }}
                   >
-                    Nhận được {r.kudos_count} kudos
+                    {t("receivedKudos", { count: r.kudos_count })}
                   </p>
                 </div>
               </a>

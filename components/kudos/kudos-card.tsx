@@ -1,6 +1,7 @@
 "use client";
 
 import { usePathname } from "next/navigation";
+import { useTranslations } from "next-intl";
 import type { KudosPost } from "@/lib/kudos/types";
 import { KudosCardUser } from "./kudos-card-user";
 import { CampaignBadge } from "./campaign-badge";
@@ -35,6 +36,7 @@ function formatDate(iso: string): string {
 export function KudosCard({ post, variant, currentUserId, onLike, onCopyLink }: KudosCardProps) {
   const pathname = usePathname();
   const locale = pathname.split("/")[1] ?? "vi";
+  const t = useTranslations("KudosCard");
   const isHighlight = variant === "highlight";
   const maxLines = isHighlight ? 3 : 5;
   const isSender = post.sender?.id === currentUserId;
@@ -195,7 +197,7 @@ export function KudosCard({ post, variant, currentUserId, onLike, onCopyLink }: 
             opacity: isParticipant ? 0.35 : 1,
             flexShrink: 0,
           }}
-          aria-label={post.liked_by_me ? "Bỏ thích" : "Thích"}
+          aria-label={post.liked_by_me ? t("unlike") : t("like")}
         >
           <span style={{ fontSize: 14 }}>♥</span>
           <span>{post.like_count}</span>
@@ -238,7 +240,7 @@ export function KudosCard({ post, variant, currentUserId, onLike, onCopyLink }: 
                 whiteSpace: "nowrap",
               }}
             >
-              Xem chi tiết →
+              {t("viewDetail")}
             </a>
           )}
         </div>

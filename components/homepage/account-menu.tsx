@@ -2,6 +2,7 @@
 
 import { useState, useRef, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import { useTranslations } from "next-intl";
 
 interface AccountMenuProps {
   locale: string;
@@ -12,6 +13,7 @@ export function AccountMenu({ locale, isAdmin }: AccountMenuProps) {
   const [open, setOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
+  const t = useTranslations("AccountMenu");
 
   useEffect(() => {
     function handleOutsideClick(e: MouseEvent) {
@@ -76,13 +78,13 @@ export function AccountMenu({ locale, isAdmin }: AccountMenuProps) {
         >
           <li role="none">
             <a
-              href={`/${locale}`}
+              href={`/${locale}/profile`}
               onClick={() => setOpen(false)}
               className="flex items-center justify-between px-5 py-4 text-white hover:bg-white/10 transition-colors"
               style={{ fontSize: 15, fontWeight: 600, textDecoration: "none" }}
               role="menuitem"
             >
-              <span>Profile</span>
+              <span>{t("profile")}</span>
               <svg width="18" height="18" viewBox="0 0 22 22" fill="none" aria-hidden="true">
                 <circle cx="11" cy="7" r="4" stroke="white" strokeWidth="1.5" />
                 <path d="M3 19c0-4 3.6-7 8-7s8 3 8 7" stroke="white" strokeWidth="1.5" strokeLinecap="round" />
@@ -98,7 +100,7 @@ export function AccountMenu({ locale, isAdmin }: AccountMenuProps) {
                 style={{ fontSize: 15, fontWeight: 600, textDecoration: "none" }}
                 role="menuitem"
               >
-                <span>Dashboard</span>
+                <span>{t("dashboard")}</span>
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
                   <rect x="3" y="3" width="7" height="7" rx="1" stroke="white" strokeWidth="1.5" />
                   <rect x="14" y="3" width="7" height="7" rx="1" stroke="white" strokeWidth="1.5" />
@@ -115,7 +117,7 @@ export function AccountMenu({ locale, isAdmin }: AccountMenuProps) {
               style={{ fontSize: 15, fontWeight: 600 }}
               role="menuitem"
             >
-              <span>Logout</span>
+              <span>{t("logout")}</span>
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
                 <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
                 <polyline points="16,17 21,12 16,7" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />

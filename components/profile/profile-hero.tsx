@@ -1,5 +1,6 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import { HeroBadgeChip } from "@/components/kudos/hero-badge-chip";
 import type { HeroBadgeTier } from "@/lib/kudos/hero-badge";
 
@@ -72,6 +73,7 @@ function IconSlot({ tier, label }: { tier?: HeroBadgeTier; label?: string }) {
 
 export function ProfileHero({ user, onSendKudos }: ProfileHeroProps) {
   const initial = user.name.charAt(0).toUpperCase();
+  const t = useTranslations("ProfileHero");
 
   return (
     <section style={{ position: "relative", overflow: "hidden" }}>
@@ -181,7 +183,7 @@ export function ProfileHero({ user, onSendKudos }: ProfileHeroProps) {
               textTransform: "uppercase",
             }}
           >
-            Bộ sưu tập icon của tôi
+            {t("iconCollection")}
           </span>
           <div style={{ display: "flex", gap: 10 }}>
             {BADGE_SLOTS.map(({ tier, threshold, label }) =>
@@ -221,7 +223,7 @@ export function ProfileHero({ user, onSendKudos }: ProfileHeroProps) {
               <path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z" stroke={YELLOW} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
             </svg>
             <span style={{ overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
-              Gửi lời cảm ơn và ghi nhận tới {user.name}...
+              {t("sendKudosTo", { name: user.name })}
             </span>
           </button>
         )}

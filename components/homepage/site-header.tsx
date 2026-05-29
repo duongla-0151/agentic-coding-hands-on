@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { usePathname } from "next/navigation";
+import { useTranslations } from "next-intl";
 import { LanguageSwitcher } from "./language-switcher";
 import { AccountMenu } from "./account-menu";
 
@@ -12,12 +13,13 @@ interface SiteHeaderProps {
 
 export function SiteHeader({ locale, isAdmin }: SiteHeaderProps) {
   const pathname = usePathname();
+  const t = useTranslations("Nav");
   const isHome = pathname === `/${locale}` || pathname === `/${locale}/`;
 
   const NAV_LINKS = [
-    { label: "About SAA 2025", href: "#about", active: isHome },
-    { label: "Awards Information", href: `/${locale}/awards`, active: pathname.startsWith(`/${locale}/awards`) },
-    { label: "Sun* Kudos", href: "#kudos", active: false },
+    { label: t("aboutSaa"), href: "#about", active: isHome },
+    { label: t("awardsInfo"), href: `/${locale}/awards`, active: pathname.startsWith(`/${locale}/awards`) },
+    { label: t("sunKudos"), href: "#kudos", active: false },
   ];
 
   return (

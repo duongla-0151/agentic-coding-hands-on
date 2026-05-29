@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
+import { useTranslations } from "next-intl";
 import { createClient } from "@/lib/supabase/client";
 import { KudoRichEditor } from "./kudo-rich-editor";
 import { KUDOS_HASHTAGS } from "@/lib/kudos/constants";
@@ -21,6 +22,7 @@ interface UserResult { id: string; name: string; email: string; }
 type TouchedFields = { recipient: boolean; badge: boolean; content: boolean; hashtag: boolean };
 
 export function WriteKudoModal({ onClose }: { onClose: (submitted?: boolean) => void }) {
+  const t = useTranslations("WriteKudo");
   const [recipientId, setRecipientId] = useState("");
   const [recipientName, setRecipientName] = useState("");
   const [badge, setBadge] = useState("");
@@ -114,7 +116,7 @@ export function WriteKudoModal({ onClose }: { onClose: (submitted?: boolean) => 
     const uploadedPaths: string[] = [];
     try {
       const { data: { user } } = await supabase.auth.getUser();
-      if (!user) throw new Error("Bạn cần đăng nhập để gửi Kudos");
+      if (!user) throw new Error(t("notLoggedIn"));
       const imageUrls: string[] = [];
       for (const file of images) {
         const ext = file.name.split(".").pop() ?? "jpg";
@@ -137,7 +139,7 @@ export function WriteKudoModal({ onClose }: { onClose: (submitted?: boolean) => 
       if (uploadedPaths.length > 0) {
         await supabase.storage.from("kudo-images").remove(uploadedPaths);
       }
-      setError(e instanceof Error ? e.message : "Đã có lỗi xảy ra");
+      setError(e instanceof Error ? e.message : t("genericError"));
     } finally {
       setSubmitting(false);
     }
@@ -152,7 +154,7 @@ export function WriteKudoModal({ onClose }: { onClose: (submitted?: boolean) => 
       onClick={(e) => { if (e.target === e.currentTarget) onClose(); }}
     >
       <div
-        role="dialog" aria-modal="true" aria-label="Viết Kudos"
+        role="dialog" aria-modal="true" aria-label={t("ariaLabel")}
         style={{
           width: "min(752px, 95vw)", maxHeight: "90vh", overflowY: "auto",
           background: "rgba(255,248,225,1)", borderRadius: 24, padding: 40,
@@ -161,14 +163,14 @@ export function WriteKudoModal({ onClose }: { onClose: (submitted?: boolean) => 
       >
         {/* Title */}
         <h2 style={{ fontFamily: FONT, fontSize: 32, fontWeight: 700, color: "#00101A", textAlign: "center", margin: 0 }}>
-          Gửi lời cám ơn và ghi nhận đến đồng đội
+          {t("heading")}
         </h2>
 
         {/* Recipient */}
         <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
           <div style={{ display: "flex", alignItems: "center", gap: 16, position: "relative" }}>
             <span style={LABEL_STYLE}>
-              Người nhận<span style={{ color: "#D32F2F" }}>*</span>
+              {t("recipient")}<span style={{ color: "#D32F2F" }}>*</span>
             </span>
             <div style={{ flex: 1, position: "relative" }}>
               {/* Composite search input with chevron */}
@@ -182,7 +184,7 @@ export function WriteKudoModal({ onClose }: { onClose: (submitted?: boolean) => 
               >
                 <input
                   type="text"
-                  placeholder="Tìm kiếm"
+                  placeholder={t("searchPlaceholder")}
                   value={recipientName}
                   onChange={(e) => { setRecipientName(e.target.value); setRecipientId(""); }}
                   onFocus={() => users.length > 0 && setShowDrop(true)}
@@ -217,7 +219,7 @@ export function WriteKudoModal({ onClose }: { onClose: (submitted?: boolean) => 
           </div>
           {showErr("recipient") && (
             <p style={{ fontFamily: FONT, fontSize: 12, color: "#D32F2F", margin: 0, paddingLeft: 4 }}>
-              Vui lòng chọn người nhận
+              {t("recipientError")}
             </p>
           )}
         </div>
@@ -226,11 +228,11 @@ export function WriteKudoModal({ onClose }: { onClose: (submitted?: boolean) => 
         <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
           <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
             <span style={LABEL_STYLE}>
-              Danh hiệu<span style={{ color: "#D32F2F" }}>*</span>
+              {t("badge")}<span style={{ color: "#D32F2F" }}>*</span>
             </span>
             <input
               type="text"
-              placeholder="Dành tặng một danh hiệu cho đồng đội"
+              placeholder={t("badgePlaceholder")}
               value={badge}
               onChange={(e) => setBadge(e.target.value)}
               onBlur={() => touch("badge")}
@@ -242,15 +244,15 @@ export function WriteKudoModal({ onClose }: { onClose: (submitted?: boolean) => 
           </div>
           <div style={{ display: "flex", flexDirection: "column", gap: 2, paddingLeft: 4 }}>
             <p style={{ fontFamily: FONT, fontSize: 12, color: "rgba(0,16,26,0.5)", margin: 0 }}>
-              Ví dụ: Người truyền động lực cho tôi.
+              {t("badgeHint1")}
             </p>
             <p style={{ fontFamily: FONT, fontSize: 12, color: "rgba(0,16,26,0.5)", margin: 0 }}>
-              Danh hiệu sẽ hiển thị làm tiêu đề Kudos của bạn.
+              {t("badgeHint2")}
             </p>
           </div>
           {showErr("badge") && (
             <p style={{ fontFamily: FONT, fontSize: 12, color: "#D32F2F", margin: 0, paddingLeft: 4 }}>
-              Vui lòng nhập danh hiệu
+              {t("badgeError")}
             </p>
           )}
         </div>
@@ -263,11 +265,11 @@ export function WriteKudoModal({ onClose }: { onClose: (submitted?: boolean) => 
               <KudoRichEditor onChange={setContent} onBlur={() => touch("content")} />
             </div>
             <p style={{ fontFamily: FONT, fontSize: 12, color: "rgba(0,16,26,0.5)", margin: 0 }}>
-              Bạn có thể &ldquo;@ + tên&rdquo; để nhắc tới đồng nghiệp khác
+              {t("contentHint")}
             </p>
             {showErr("content") && (
               <p style={{ fontFamily: FONT, fontSize: 12, color: "#D32F2F", margin: 0 }}>
-                Vui lòng nhập nội dung
+                {t("contentError")}
               </p>
             )}
           </div>
@@ -304,7 +306,7 @@ export function WriteKudoModal({ onClose }: { onClose: (submitted?: boolean) => 
             </div>
             {showErr("hashtag") && (
               <p style={{ fontFamily: FONT, fontSize: 12, color: "#D32F2F", margin: 0 }}>
-                Vui lòng chọn ít nhất 1 hashtag
+                {t("hashtagError")}
               </p>
             )}
           </div>
@@ -342,8 +344,8 @@ export function WriteKudoModal({ onClose }: { onClose: (submitted?: boolean) => 
                       display: "flex", flexDirection: "column", alignItems: "center", gap: 2,
                     }}
                   >
-                    + Image
-                    <span style={{ fontSize: 10, color: "#998C5F" }}>Tối đa 5</span>
+                    {t("addImage")}
+                    <span style={{ fontSize: 10, color: "#998C5F" }}>{t("maxImages")}</span>
                   </button>
                   <input ref={fileRef} type="file" accept="image/jpeg,image/png" multiple hidden onChange={handleImages} />
                 </>
@@ -361,12 +363,12 @@ export function WriteKudoModal({ onClose }: { onClose: (submitted?: boolean) => 
               onChange={(e) => setIsAnonymous(e.target.checked)}
               style={{ width: 18, height: 18, accentColor: "#FFEA9E", cursor: "pointer" }}
             />
-            <span style={{ fontFamily: FONT, fontSize: 14, color: "#00101A" }}>Gửi lời cám ơn và ghi nhận ẩn danh</span>
+            <span style={{ fontFamily: FONT, fontSize: 14, color: "#00101A" }}>{t("anonymousLabel")}</span>
           </label>
           {isAnonymous && (
             <input
               type="text"
-              placeholder="Tên hiển thị (tùy chọn)"
+              placeholder={t("anonNamePlaceholder")}
               value={anonName}
               onChange={(e) => setAnonName(e.target.value)}
               style={INPUT}
@@ -387,7 +389,7 @@ export function WriteKudoModal({ onClose }: { onClose: (submitted?: boolean) => 
               borderRadius: 4, padding: "16px 40px", cursor: "pointer",
             }}
           >
-            Hủy ✕
+            {t("cancel")}
           </button>
           <button
             type="button"
@@ -401,7 +403,7 @@ export function WriteKudoModal({ onClose }: { onClose: (submitted?: boolean) => 
               display: "flex", alignItems: "center", justifyContent: "center", gap: 8,
             }}
           >
-            {submitting ? "Đang gửi..." : "Gửi ▷"}
+            {submitting ? t("submitting") : t("submit")}
           </button>
         </div>
       </div>

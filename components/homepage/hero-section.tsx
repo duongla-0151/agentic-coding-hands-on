@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { getTranslations } from "next-intl/server";
 import { CountdownTimer } from "./countdown-timer";
 
 const COVER_OVERLAY =
@@ -9,7 +10,9 @@ interface HeroSectionProps {
   eventDatetime: string;
 }
 
-export function HeroSection({ locale, eventDatetime }: HeroSectionProps) {
+export async function HeroSection({ locale, eventDatetime }: HeroSectionProps) {
+  const t = await getTranslations("Hero");
+
   return (
     <section
       id="about"
@@ -71,11 +74,11 @@ export function HeroSection({ locale, eventDatetime }: HeroSectionProps) {
                 margin: 0,
               }}
             >
-              {"Thời gian: "}
+              {t("eventTimeLabel")}{" "}
               <span style={{ fontSize: 24, fontWeight: 700, color: "#FFEA9E" }}>
                 26/12/2025
               </span>
-              {"  |  Địa điểm: "}
+              {"  |  "}{t("venueLabel")}{" "}
               <span style={{ fontSize: 24, fontWeight: 700, color: "#FFEA9E" }}>
                 Âu Cơ Art Center
               </span>
@@ -90,7 +93,7 @@ export function HeroSection({ locale, eventDatetime }: HeroSectionProps) {
                 margin: 0,
               }}
             >
-              Tường thuật trực tiếp qua sóng Livestream
+              {t("livestream")}
             </p>
           </div>
         </div>
@@ -110,7 +113,7 @@ export function HeroSection({ locale, eventDatetime }: HeroSectionProps) {
               padding: "16px 24px",
             }}
           >
-            ABOUT AWARDS
+            {t("aboutAwards")}
           </a>
           <a
             href={`/${locale}/kudos`}
@@ -126,7 +129,7 @@ export function HeroSection({ locale, eventDatetime }: HeroSectionProps) {
               padding: "16px 24px",
             }}
           >
-            ABOUT KUDOS
+            {t("aboutKudos")}
           </a>
         </div>
       </div>

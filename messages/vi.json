@@ -5,5 +5,145 @@
     "cta": "Đăng nhập để khám phá!",
     "loginButton": "LOGIN With Google",
     "footer": "Bản quyền thuộc về Sun* © 2025"
+  },
+  "Nav": {
+    "aboutSaa": "About SAA 2025",
+    "awardsInfo": "Awards Information",
+    "sunKudos": "Sun* Kudos",
+    "generalStandard": "Tiêu chuẩn chung"
+  },
+  "Hero": {
+    "eventTimeLabel": "Thời gian:",
+    "venueLabel": "Địa điểm:",
+    "livestream": "Tường thuật trực tiếp qua sóng Livestream",
+    "aboutAwards": "ABOUT AWARDS",
+    "aboutKudos": "ABOUT KUDOS"
+  },
+  "About": {
+    "para1": "Đứng trước bối cảnh thay đổi như vũ bão của thời đại AI và yêu cầu ngày càng cao từ khách hàng, Sun* lựa chọn chiến lược đa dạng hóa năng lực để không chỉ nỗ lực trở thành tinh anh trong lĩnh vực của mình, mà còn hướng đến một cái đích cao hơn, nơi mọi Sunner đều là \"problem-solver\" — chuyên gia trong việc giải quyết mọi vấn đề, tìm lời giải cho mọi bài toán của dự án, khách hàng và xã hội.",
+    "para2": "Lấy cảm hứng từ sự đa dạng năng lực, khả năng phát triển linh hoạt cùng tinh thần dào sức đề bút từ trong kỷ nguyên AI, \"Root Further\" đã được chọn để trở thành chủ đề chính thức của Lễ trao giải Sun* Annual Awards 2025.",
+    "para3": "Vượt ra khỏi nét giống bề mặt, \"Root Further\" chính là hành trình chúng ta không ngừng vươn xa hơn, cắm rễ mạnh hơn, chạm đến những tầng \"địa chất\" sâu để tiếp tục tồn tại, vươn lên và nuôi dưỡng đam mê kiến tạo giá trị luôn chảy bóng của người Sun*. Muốn hình ảnh bộ rễ hiểu đặm sâu vào lòng đất, mỗi lần qua từng lớp \"trầm tích\" để thấm thấu những gì tinh tuý nhất, người Sun* cũng đang \"hấp thụ\" dưỡng chất từ thời đại và những thử thách của thị trường để làm mới mỗi ngày, mở rộng năng lực và mạnh mẽ \"bén rễ\" vào kỷ nguyên AI — một tầng \"địa chất\" hoàn toàn mới, phức tạp và khó đoán, nhưng cũng hội tụ vô vàn tiềm năng cùng cơ hội.",
+    "quote": "Cây sâu bén rễ, bão giông chẳng nề — Ngạn ngữ Anh",
+    "para4": "Trước giông bão, chỉ những tàn cây có bộ rễ đủ mạnh mới có thể trụ vững. Một tổ chức với những cá nhân tự tin vào năng lực đa dạng, sẵn sàng kiến tạo và đón nhận thử thách, làm chủ sự thay đổi là tổ chức không chỉ vững vàng trước biến động, mà còn khai thác được mọi lợi thế, chinh phục các thước của thời cuộc. Không đơn thuần là tên gọi của chương trình trao giải, \"Root Further\" còn như một lời cổ vũ, động viên mỗi chúng ta hãy dám tin tưởng vào bản thân, đào sâu, khai mở mọi tiềm năng, dám phá bỏ giới hạn, dám trở thành phiên bản đa năng và xuất sắc nhất của mình. Bởi trong thời đại AI, đa dạng năng lực và tận dụng sức mạnh thời cuộc chính là điều kiện tiên quyết để trường tồn.",
+    "para5": "Không thể biết trước ai sẽ dẫn đầu trong ngành công nghệ và thị trường hiện đại còn biết bao tầng \"địa chất\" bí ẩn. Chỉ biết rằng khi \"Root Further\" đã trở thành tinh thần cốt rễ, chúng ta sẽ không sợ hãi, mà không ngừng hướng về phía trước bất cứ vững nào trên hành trình tiến về phía trước. Vì ta luôn tin rằng, trong chính những miền vô tận đó, là bao điều kỳ diệu và cơ hội vươn mình đang chờ ta."
+  },
+  "Awards": {
+    "sectionTitle": "Hệ thống giải thưởng",
+    "topTalentDesc": "Vinh danh những cá nhân xuất sắc với năng lực vượt trội và đóng góp nổi bật cho tổ chức.",
+    "topProjectDesc": "Ghi nhận những dự án tiêu biểu mang lại giá trị cao và được thực thi xuất sắc.",
+    "topProjectLeaderDesc": "Tôn vinh những Project Leader dẫn dắt đội nhóm đạt được kết quả vượt trội.",
+    "bestManagerDesc": "Vinh danh những nhà quản lý truyền cảm hứng, phát triển con người và tạo môi trường làm việc tốt nhất.",
+    "signature2025Desc": "Dành cho những cá nhân sáng tạo, tạo ra dấu ấn đặc biệt và mang lại làn gió mới cho Sun*.",
+    "mvpDesc": "Phần thưởng cao quý nhất dành cho cá nhân có đóng góp toàn diện và tác động lớn nhất trong năm."
+  },
+  "KudosSection": {
+    "movement": "Phong trào ghi nhận",
+    "description": "ĐIỂM MỚI CỦA SAA 2025\nHoạt động ghi nhận và cảm ơn đồng nghiệp — lần đầu tiên được diễn ra dành cho tất cả Sunner. Hoạt động sẽ được triển khai vào tháng 11/2025, khuyến khích người Sun* chia sẻ những lời ghi nhận, cảm ơn đồng nghiệp trên hệ thống do BTC công bố. Đây sẽ là chất liệu để Hội đồng Heads tham khảo trong quá trình lựa chọn người đạt giải.",
+    "details": "Chi tiết"
+  },
+  "Footer": {
+    "copyright": "Bản quyền thuộc về Sun* © 2025"
+  },
+  "AccountMenu": {
+    "profile": "Hồ sơ",
+    "dashboard": "Quản trị",
+    "logout": "Đăng xuất"
+  },
+  "WriteKudo": {
+    "ariaLabel": "Viết Kudos",
+    "heading": "Gửi lời cám ơn và ghi nhận đến đồng đội",
+    "recipient": "Người nhận",
+    "searchPlaceholder": "Tìm kiếm",
+    "recipientError": "Vui lòng chọn người nhận",
+    "badge": "Danh hiệu",
+    "badgePlaceholder": "Dành tặng một danh hiệu cho đồng đội",
+    "badgeHint1": "Ví dụ: Người truyền động lực cho tôi.",
+    "badgeHint2": "Danh hiệu sẽ hiển thị làm tiêu đề Kudos của bạn.",
+    "badgeError": "Vui lòng nhập danh hiệu",
+    "contentHint": "Bạn có thể \"@ + tên\" để nhắc tới đồng nghiệp khác",
+    "contentError": "Vui lòng nhập nội dung",
+    "hashtagError": "Vui lòng chọn ít nhất 1 hashtag",
+    "addImage": "+ Hình ảnh",
+    "maxImages": "Tối đa 5",
+    "anonymousLabel": "Gửi lời cám ơn và ghi nhận ẩn danh",
+    "anonNamePlaceholder": "Tên hiển thị (tùy chọn)",
+    "notLoggedIn": "Bạn cần đăng nhập để gửi Kudos",
+    "genericError": "Đã có lỗi xảy ra",
+    "cancel": "Hủy ✕",
+    "submitting": "Đang gửi...",
+    "submit": "Gửi ▷"
+  },
+  "FilterBar": {
+    "clearFilter": "Xóa bộ lọc",
+    "noHashtag": "Chưa có hashtag",
+    "noData": "Chưa có dữ liệu",
+    "department": "Phòng ban"
+  },
+  "KudosSidebar": {
+    "leaderboardTitle": "10 SUNNER NHẬN QUÀ\nMỚI NHẤT",
+    "noData": "Chưa có dữ liệu",
+    "receivedKudos": "Nhận được {count} kudos"
+  },
+  "StatsCard": {
+    "received": "Số Kudos bạn nhận được:",
+    "sent": "Số Kudos bạn đã gửi:",
+    "hearts": "Số tim bạn nhận được:",
+    "secretBoxOpened": "Số Secret Box bạn đã mở:",
+    "secretBoxAvailable": "Số Secret Box chưa mở:",
+    "openSecretBox": "Mở Secret Box 🎁",
+    "secretBoxTitle": "Secret Box",
+    "secretBoxComingSoon": "Tính năng Secret Box đang được phát triển. Hãy quay lại sau để nhận những phần quà bí ẩn!",
+    "close": "Đóng"
+  },
+  "KudosCard": {
+    "unlike": "Bỏ thích",
+    "like": "Thích",
+    "viewDetail": "Xem chi tiết →"
+  },
+  "AllKudos": {
+    "empty": "Hiện tại chưa có Kudos nào.",
+    "loading": "Đang tải...",
+    "linkCopied": "Đã copy link!"
+  },
+  "ProfileFeed": {
+    "sent": "Đã gửi ({count})",
+    "received": "Nhận được ({count})",
+    "empty": "Chưa có Kudos nào.",
+    "toggleView": "Chuyển đổi view",
+    "linkCopied": "Đã copy link!"
+  },
+  "OtherProfileFeed": {
+    "receivedCount": "Đã nhận {count} kudos",
+    "empty": "Chưa có Kudos nào.",
+    "linkCopied": "Đã copy link!"
+  },
+  "ProfileHero": {
+    "iconCollection": "Bộ sưu tập icon của tôi",
+    "sendKudosTo": "Gửi lời cảm ơn và ghi nhận tới {name}..."
+  },
+  "WidgetButton": {
+    "writeKudos": "Viết Kudos",
+    "saaRules": "Thể lệ SAA"
+  },
+  "TheLeModal": {
+    "title": "Thể lệ",
+    "ariaLabel": "Thể lệ",
+    "recipientSection": "Người nhận Kudos: Huy hiệu Hero cho những ảnh hưởng tích cực",
+    "recipientDesc": "Dựa trên số lượng đồng đội gửi trao Kudos, bạn sẽ sở hữu Huy hiệu Hero tương ứng, được hiển thị trực tiếp cạnh tên profile.",
+    "senderSection": "Người gửi Kudos: Sưu tập trọn bộ 6 icon, nhận ngay phần quà bí ẩn",
+    "senderDesc": "Mỗi lời Kudos bạn gửi sẽ được đăng tải trên hệ thống và nhận về những lượt ❤️ từ cộng đồng Sunner. Cứ mỗi 5 lượt ❤️, bạn sẽ được mở 1 Secret Box, với cơ hội nhận về một trong 6 icon độc quyền của SAA.",
+    "senderFooter": "Những Sunner thu thập trọn bộ 6 icon sẽ nhận về một phần quà bí ẩn từ SAA 2025.",
+    "nationalKudos": "Kudos Quốc Dân",
+    "nationalKudosDesc": "5 Kudos nhận về nhiều ❤️ nhất toàn Sun* sẽ chính thức trở thành Kudos Quốc Dân và được trao phần quà đặc biệt từ SAA 2025: Root Further.",
+    "close": "Đóng",
+    "writeKudos": "Viết KUDOS",
+    "newHeroCondition": "Có 1-4 người gửi Kudos cho bạn",
+    "newHeroDesc": "Hành trình lan tỏa điều tốt đẹp bắt đầu – những lời cảm ơn và ghi nhận đầu tiên đã tìm đến bạn.",
+    "risingHeroCondition": "Có 5-9 người gửi Kudos cho bạn",
+    "risingHeroDesc": "Hình ảnh bạn đang lớn dần trong trái tim đồng đội bằng sự tử tế và cống hiến của mình.",
+    "superHeroCondition": "Có 10–20 người gửi Kudos cho bạn",
+    "superHeroDesc": "Bạn đã trở thành biểu tượng được tin tưởng và yêu quý, người luôn sẵn sàng hỗ trợ và được nhiều đồng đội nhớ đến.",
+    "legendHeroCondition": "Có hơn 20 người gửi Kudos cho bạn",
+    "legendHeroDesc": "Bạn đã trở thành huyền thoại – người để lại dấu ấn khó quên trong tập thể bằng trái tim và hành động của mình."
   }
 }

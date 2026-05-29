@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
+import { useTranslations } from "next-intl";
 import type { KudosPost } from "@/lib/kudos/types";
 import { KudosCard } from "@/components/kudos/kudos-card";
 import { KudosToast } from "@/components/kudos/kudos-toast";
@@ -25,6 +26,7 @@ export function OtherProfileKudosFeed({
   const [posts, setPosts] = useState<KudosPost[]>([]);
   const [loading, setLoading] = useState(true);
   const [toast, setToast] = useState({ message: "", visible: false });
+  const t = useTranslations("OtherProfileFeed");
 
   const showToast = useCallback((message: string) => {
     setToast({ message, visible: true });
@@ -55,7 +57,7 @@ export function OtherProfileKudosFeed({
 
   function handleCopyLink(id: string) {
     const url = `${window.location.origin}/${locale}/kudos/${id}`;
-    navigator.clipboard.writeText(url).then(() => showToast("Đã copy link!"));
+    navigator.clipboard.writeText(url).then(() => showToast(t("linkCopied")));
   }
 
   return (
@@ -86,7 +88,7 @@ export function OtherProfileKudosFeed({
               whiteSpace: "nowrap",
             }}
           >
-            Đã nhận {receivedCount} kudos
+            {t("receivedCount", { count: receivedCount })}
           </span>
         </div>
       </div>
@@ -110,7 +112,7 @@ export function OtherProfileKudosFeed({
         </div>
       ) : posts.length === 0 ? (
         <p style={{ fontFamily: FONT, fontSize: 14, color: "rgba(255,255,255,0.4)", textAlign: "center", padding: "48px 0" }}>
-          Chưa có Kudos nào.
+          {t("empty")}
         </p>
       ) : (
         <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>

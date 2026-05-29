@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { getTranslations } from "next-intl/server";
 
 const MONTSERRAT = "var(--font-montserrat), Montserrat, sans-serif";
 
@@ -6,12 +7,15 @@ interface SiteFooterProps {
   locale: string;
 }
 
-export function SiteFooter({ locale }: SiteFooterProps) {
+export async function SiteFooter({ locale }: SiteFooterProps) {
+  const tNav = await getTranslations("Nav");
+  const tFooter = await getTranslations("Footer");
+
   const FOOTER_LINKS = [
-    { label: "About SAA 2025", href: "#about" },
-    { label: "Awards Information", href: `/${locale}/awards` },
-    { label: "Sun* Kudos", href: "#kudos" },
-    { label: "Tiêu chuẩn chung", href: "#" },
+    { label: tNav("aboutSaa"), href: "#about" },
+    { label: tNav("awardsInfo"), href: `/${locale}/awards` },
+    { label: tNav("sunKudos"), href: "#kudos" },
+    { label: tNav("generalStandard"), href: "#" },
   ];
 
   return (
@@ -23,9 +27,8 @@ export function SiteFooter({ locale }: SiteFooterProps) {
         borderTop: "1px solid #2E3940",
       }}
     >
-      {/* Logo + Nav — gap 80px */}
+      {/* Logo + Nav */}
       <div className="flex items-center" style={{ gap: 80 }}>
-        {/* Logo */}
         <div className="shrink-0">
           <Image
             src="/images/keyvisual/saa-logo.png"
@@ -36,7 +39,6 @@ export function SiteFooter({ locale }: SiteFooterProps) {
           />
         </div>
 
-        {/* Nav links — gap 48px, fontWeight 700, white, 16px */}
         <nav
           className="flex items-center"
           style={{ gap: 48 }}
@@ -63,7 +65,6 @@ export function SiteFooter({ locale }: SiteFooterProps) {
         </nav>
       </div>
 
-      {/* Copyright — 16px, fontWeight 700, white */}
       <p
         style={{
           fontFamily: MONTSERRAT,
@@ -74,7 +75,7 @@ export function SiteFooter({ locale }: SiteFooterProps) {
           whiteSpace: "nowrap",
         }}
       >
-        Bản quyền thuộc về Sun* © 2025
+        {tFooter("copyright")}
       </p>
     </footer>
   );

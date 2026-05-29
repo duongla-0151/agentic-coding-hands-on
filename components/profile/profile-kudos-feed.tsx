@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
+import { useTranslations } from "next-intl";
 import type { KudosPost } from "@/lib/kudos/types";
 import { KudosCard } from "@/components/kudos/kudos-card";
 import { KudosToast } from "@/components/kudos/kudos-toast";
@@ -21,6 +22,7 @@ interface ProfileKudosFeedProps {
 
 export function ProfileKudosFeed({ currentUserId, locale, sentCount, receivedCount }: ProfileKudosFeedProps) {
   const [view, setView] = useState<FeedView>("sent");
+  const t = useTranslations("ProfileFeed");
   const [sentPosts, setSentPosts] = useState<KudosPost[]>([]);
   const [receivedPosts, setReceivedPosts] = useState<KudosPost[]>([]);
   const [loadedSent, setLoadedSent] = useState(false);
@@ -73,14 +75,14 @@ export function ProfileKudosFeed({ currentUserId, locale, sentCount, receivedCou
 
   function handleCopyLink(id: string) {
     const url = `${window.location.origin}/${locale}/kudos/${id}`;
-    navigator.clipboard.writeText(url).then(() => showToast("Đã copy link!"));
+    navigator.clipboard.writeText(url).then(() => showToast(t("linkCopied")));
   }
 
   const posts = view === "sent" ? sentPosts : receivedPosts;
-  const toggleLabel = view === "sent" ? `Đã gửi (${sentCount})` : `Nhận được (${receivedCount})`;
+  const toggleLabel = view === "sent" ? t("sent", { count: sentCount }) : t("received", { count: receivedCount });
 
   return (
-    <section style={{ padding: "0 144px 80px" }}>
+    <section>
       {/* Section C: Awards header */}
       <div style={{ marginBottom: 24 }}>
         <p style={{ fontFamily: FONT, fontSize: 12, fontWeight: 700, color: "rgba(255,255,255,0.55)", margin: "0 0 10px", letterSpacing: "1px", textTransform: "uppercase" }}>
@@ -95,7 +97,7 @@ export function ProfileKudosFeed({ currentUserId, locale, sentCount, receivedCou
             type="button"
             onClick={handleToggle}
             style={{ display: "flex", alignItems: "center", gap: 8, background: "rgba(255,234,158,0.08)", border: "1px solid #998C5F", borderRadius: 999, padding: "8px 18px", fontFamily: FONT, fontSize: 14, fontWeight: 700, color: YELLOW, cursor: "pointer", whiteSpace: "nowrap" }}
-            aria-label="Chuyển đổi view"
+            aria-label={t("toggleView")}
           >
             {toggleLabel}
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true">
@@ -114,7 +116,7 @@ export function ProfileKudosFeed({ currentUserId, locale, sentCount, receivedCou
         </div>
       ) : posts.length === 0 ? (
         <p style={{ fontFamily: FONT, fontSize: 14, color: "rgba(255,255,255,0.4)", textAlign: "center", padding: "48px 0" }}>
-          Chưa có Kudos nào.
+          {t("empty")}
         </p>
       ) : (
         <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>

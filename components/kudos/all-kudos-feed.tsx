@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef, useCallback } from "react";
+import { useTranslations } from "next-intl";
 import type { KudosPost } from "@/lib/kudos/types";
 import { KudosCard } from "./kudos-card";
 import { KudosToast } from "./kudos-toast";
@@ -16,6 +17,7 @@ interface AllKudosFeedProps {
 export function AllKudosFeed({ hashtag, department = null, currentUserId }: AllKudosFeedProps) {
   const [posts, setPosts] = useState<KudosPost[]>([]);
   const [loading, setLoading] = useState(false);
+  const t = useTranslations("AllKudos");
   const [hasMore, setHasMore] = useState(true);
   const [toast, setToast] = useState({ message: "", visible: false });
   const sentinelRef = useRef<HTMLDivElement>(null);
@@ -85,7 +87,7 @@ export function AllKudosFeed({ hashtag, department = null, currentUserId }: AllK
 
   function handleCopyLink(id: string) {
     const url = `${window.location.origin}${window.location.pathname.split("/kudos")[0]}/kudos/${id}`;
-    navigator.clipboard.writeText(url).then(() => showToast("Đã copy link!"));
+    navigator.clipboard.writeText(url).then(() => showToast(t("linkCopied")));
   }
 
   return (
@@ -145,7 +147,7 @@ export function AllKudosFeed({ hashtag, department = null, currentUserId }: AllK
             padding: "48px 0",
           }}
         >
-          Hiện tại chưa có Kudos nào.
+          {t("empty")}
         </p>
       )}
 
@@ -158,7 +160,7 @@ export function AllKudosFeed({ hashtag, department = null, currentUserId }: AllK
             gap: 6,
             padding: "32px 0",
           }}
-          aria-label="Đang tải..."
+          aria-label={t("loading")}
         >
           {[0, 1, 2].map((i) => (
             <span

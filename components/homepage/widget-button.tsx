@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useTranslations } from "next-intl";
 import { TheLeModal } from "./the-le-modal";
 import { WriteKudoModal } from "./write-kudo-modal";
 
@@ -25,6 +26,7 @@ function SaaMarkIcon() {
 export function WidgetButton() {
   const [theLeOpen, setTheLeOpen] = useState(false);
   const [kudosOpen, setKudosOpen] = useState(false);
+  const t = useTranslations("WidgetButton");
 
   return (
     <>
@@ -46,8 +48,8 @@ export function WidgetButton() {
             onClick={() => setKudosOpen(true)}
             className="flex-1 h-full flex items-center justify-center hover:bg-black/[0.07] transition-colors cursor-pointer"
             style={{ background: "transparent", border: "none" }}
-            aria-label="Viết Kudos"
-            title="Viết Kudos"
+            aria-label={t("writeKudos")}
+            title={t("writeKudos")}
           >
             <PencilIcon />
           </button>
@@ -61,8 +63,8 @@ export function WidgetButton() {
             onClick={() => setTheLeOpen(true)}
             className="flex-1 h-full flex items-center justify-center hover:bg-black/[0.07] transition-colors cursor-pointer"
             style={{ background: "transparent", border: "none" }}
-            aria-label="Thể lệ SAA"
-            title="Thể lệ SAA"
+            aria-label={t("saaRules")}
+            title={t("saaRules")}
           >
             <SaaMarkIcon />
           </button>

@@ -5,5 +5,145 @@
     "cta": "Login to explore!",
     "loginButton": "LOGIN With Google",
     "footer": "Copyright belongs to Sun* © 2025"
+  },
+  "Nav": {
+    "aboutSaa": "About SAA 2025",
+    "awardsInfo": "Awards Information",
+    "sunKudos": "Sun* Kudos",
+    "generalStandard": "General Standards"
+  },
+  "Hero": {
+    "eventTimeLabel": "Time:",
+    "venueLabel": "Venue:",
+    "livestream": "Live coverage via Livestream",
+    "aboutAwards": "ABOUT AWARDS",
+    "aboutKudos": "ABOUT KUDOS"
+  },
+  "About": {
+    "para1": "Faced with the rapidly changing landscape of the AI era and ever-increasing demands from clients, Sun* chooses a strategy of diversifying capabilities — not only striving to excel in their field, but aiming for a higher destination where every Sunner becomes a 'problem-solver': an expert at resolving any issue, finding answers to every challenge of projects, clients, and society.",
+    "para2": "Drawing inspiration from diverse capabilities, flexible growth, and the tireless creative spirit of the AI era, 'Root Further' was chosen as the official theme of the Sun* Annual Awards 2025 ceremony.",
+    "para3": "Going beyond the surface, 'Root Further' is the journey of continuously reaching further, rooting more deeply, touching deeper 'geological layers' to keep existing, rising, and nurturing the ever-flowing passion for creating value that defines every Sunner. As a root system pushes deep into the earth — passing through each 'sediment layer' to absorb what is most essential — Sunners are also 'absorbing' nutrients from the era and market challenges to renew themselves daily, expand their capabilities, and firmly 'root' into the AI era: an entirely new, complex, and unpredictable 'geological layer', yet filled with boundless potential and opportunity.",
+    "quote": "A tree with deep roots fears no storm — English Proverb",
+    "para4": "Before the storm, only trees with strong enough roots can stand firm. An organization with confident individuals possessing diverse capabilities, ready to create and embrace challenges, and in control of change — such an organization not only stands resilient against turbulence but also exploits every advantage. More than just a name for an awards program, 'Root Further' is an encouragement for each of us to dare to believe in ourselves, dig deep, unlock all potential, dare to break limits, and become the most versatile and outstanding version of ourselves. Because in the AI era, diverse capabilities and leveraging the power of the times are the prerequisite for longevity.",
+    "para5": "No one can predict who will lead in technology and the modern market with all its mysterious 'layers'. What we know is that when 'Root Further' has become the core spirit, we will not be fearful, but will keep moving forward on the journey ahead. For we always believe that in those boundless realms, countless wonders and opportunities are waiting for us."
+  },
+  "Awards": {
+    "sectionTitle": "Awards System",
+    "topTalentDesc": "Honoring outstanding individuals with exceptional capabilities and remarkable contributions to the organization.",
+    "topProjectDesc": "Recognizing exemplary projects that deliver high value and are executed with excellence.",
+    "topProjectLeaderDesc": "Celebrating Project Leaders who guide their teams to achieve outstanding results.",
+    "bestManagerDesc": "Honoring inspiring managers who develop people and create the best work environment.",
+    "signature2025Desc": "For creative individuals who make a special mark and bring a breath of fresh air to Sun*.",
+    "mvpDesc": "The most prestigious award for the individual with the most comprehensive contribution and greatest impact of the year."
+  },
+  "KudosSection": {
+    "movement": "Recognition Movement",
+    "description": "SAA 2025 HIGHLIGHTS\nA recognition and appreciation activity — happening for the first time for all Sunners. The activity will launch in November 2025, encouraging Sunners to share recognition and thanks to colleagues on the official system. These will serve as reference material for the Heads Council in the selection process.",
+    "details": "Details"
+  },
+  "Footer": {
+    "copyright": "Copyright belongs to Sun* © 2025"
+  },
+  "AccountMenu": {
+    "profile": "Profile",
+    "dashboard": "Dashboard",
+    "logout": "Logout"
+  },
+  "WriteKudo": {
+    "ariaLabel": "Write Kudos",
+    "heading": "Send thanks and recognition to your teammate",
+    "recipient": "Recipient",
+    "searchPlaceholder": "Search",
+    "recipientError": "Please select a recipient",
+    "badge": "Badge",
+    "badgePlaceholder": "Give your teammate a title",
+    "badgeHint1": "Example: The one who motivates me.",
+    "badgeHint2": "The badge will appear as your Kudos title.",
+    "badgeError": "Please enter a badge",
+    "contentHint": "You can \"@ + name\" to mention other colleagues",
+    "contentError": "Please enter a message",
+    "hashtagError": "Please select at least 1 hashtag",
+    "addImage": "+ Image",
+    "maxImages": "Max 5",
+    "anonymousLabel": "Send anonymously",
+    "anonNamePlaceholder": "Display name (optional)",
+    "notLoggedIn": "You need to log in to send Kudos",
+    "genericError": "An error occurred",
+    "cancel": "Cancel ✕",
+    "submitting": "Sending...",
+    "submit": "Send ▷"
+  },
+  "FilterBar": {
+    "clearFilter": "Clear filter",
+    "noHashtag": "No hashtags",
+    "noData": "No data",
+    "department": "Department"
+  },
+  "KudosSidebar": {
+    "leaderboardTitle": "10 LATEST KUDOS\nRECIPIENTS",
+    "noData": "No data yet",
+    "receivedKudos": "Received {count} kudos"
+  },
+  "StatsCard": {
+    "received": "Kudos received:",
+    "sent": "Kudos sent:",
+    "hearts": "Hearts received:",
+    "secretBoxOpened": "Secret Boxes opened:",
+    "secretBoxAvailable": "Secret Boxes remaining:",
+    "openSecretBox": "Open Secret Box 🎁",
+    "secretBoxTitle": "Secret Box",
+    "secretBoxComingSoon": "The Secret Box feature is under development. Check back later to receive mysterious gifts!",
+    "close": "Close"
+  },
+  "KudosCard": {
+    "unlike": "Unlike",
+    "like": "Like",
+    "viewDetail": "View detail →"
+  },
+  "AllKudos": {
+    "empty": "No Kudos yet.",
+    "loading": "Loading...",
+    "linkCopied": "Link copied!"
+  },
+  "ProfileFeed": {
+    "sent": "Sent ({count})",
+    "received": "Received ({count})",
+    "empty": "No Kudos yet.",
+    "toggleView": "Toggle view",
+    "linkCopied": "Link copied!"
+  },
+  "OtherProfileFeed": {
+    "receivedCount": "Received {count} kudos",
+    "empty": "No Kudos yet.",
+    "linkCopied": "Link copied!"
+  },
+  "ProfileHero": {
+    "iconCollection": "My icon collection",
+    "sendKudosTo": "Send thanks and recognition to {name}..."
+  },
+  "WidgetButton": {
+    "writeKudos": "Write Kudos",
+    "saaRules": "SAA Rules"
+  },
+  "TheLeModal": {
+    "title": "Rules",
+    "ariaLabel": "Rules",
+    "recipientSection": "Kudos Recipient: Hero Badge for Positive Impact",
+    "recipientDesc": "Based on the number of teammates who send you Kudos, you will earn the corresponding Hero Badge, displayed directly next to your profile name.",
+    "senderSection": "Kudos Sender: Collect all 6 icons, receive a mystery gift",
+    "senderDesc": "Each Kudos you send will be posted on the system and receive ❤️ from the Sunner community. Every 5 ❤️, you'll unlock 1 Secret Box, with a chance to receive one of 6 exclusive SAA icons.",
+    "senderFooter": "Sunners who collect all 6 icons will receive a mystery gift from SAA 2025.",
+    "nationalKudos": "National Kudos",
+    "nationalKudosDesc": "The 5 Kudos with the most ❤️ across Sun* will officially become National Kudos and receive a special gift from SAA 2025: Root Further.",
+    "close": "Close",
+    "writeKudos": "Write KUDOS",
+    "newHeroCondition": "1–4 teammates send you Kudos",
+    "newHeroDesc": "The journey of spreading goodness begins — your first thanks and recognition have found you.",
+    "risingHeroCondition": "5–9 teammates send you Kudos",
+    "risingHeroDesc": "Your image is growing in your teammates' hearts through your kindness and dedication.",
+    "superHeroCondition": "10–20 teammates send you Kudos",
+    "superHeroDesc": "You've become a trusted and beloved icon, always ready to help and remembered by many teammates.",
+    "legendHeroCondition": "More than 20 teammates send you Kudos",
+    "legendHeroDesc": "You've become a legend — leaving an unforgettable mark on the collective through your heart and actions."
   }
 }

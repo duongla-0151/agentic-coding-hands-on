@@ -1,33 +1,7 @@
 "use client";
 
 import Image from "next/image";
-
-const HERO_TIERS = [
-  {
-    label: "New Hero",
-    img: "/images/hero-badges/new-hero.png",
-    condition: "Có 1-4 người gửi Kudos cho bạn",
-    desc: "Hành trình lan tỏa điều tốt đẹp bắt đầu – những lời cảm ơn và ghi nhận đầu tiên đã tìm đến bạn.",
-  },
-  {
-    label: "Rising Hero",
-    img: "/images/hero-badges/rising-hero.png",
-    condition: "Có 5-9 người gửi Kudos cho bạn",
-    desc: "Hình ảnh bạn đang lớn dần trong trái tim đồng đội bằng sự tử tế và cống hiến của mình.",
-  },
-  {
-    label: "Super Hero",
-    img: "/images/hero-badges/super-hero.png",
-    condition: "Có 10–20 người gửi Kudos cho bạn",
-    desc: "Bạn đã trở thành biểu tượng được tin tưởng và yêu quý, người luôn sẵn sàng hỗ trợ và được nhiều đồng đội nhớ đến.",
-  },
-  {
-    label: "Legend Hero",
-    img: "/images/hero-badges/legend-hero.png",
-    condition: "Có hơn 20 người gửi Kudos cho bạn",
-    desc: "Bạn đã trở thành huyền thoại – người để lại dấu ấn khó quên trong tập thể bằng trái tim và hành động của mình.",
-  },
-];
+import { useTranslations } from "next-intl";
 
 const SAA_ICONS = [
   { label: "REVIVAL",             img: "/images/badges/revival.png" },
@@ -46,6 +20,35 @@ interface TheLeModalProps {
 }
 
 export function TheLeModal({ onClose, onWriteKudos }: TheLeModalProps) {
+  const t = useTranslations("TheLeModal");
+
+  const HERO_TIERS = [
+    {
+      label: "New Hero",
+      img: "/images/hero-badges/new-hero.png",
+      condition: t("newHeroCondition"),
+      desc: t("newHeroDesc"),
+    },
+    {
+      label: "Rising Hero",
+      img: "/images/hero-badges/rising-hero.png",
+      condition: t("risingHeroCondition"),
+      desc: t("risingHeroDesc"),
+    },
+    {
+      label: "Super Hero",
+      img: "/images/hero-badges/super-hero.png",
+      condition: t("superHeroCondition"),
+      desc: t("superHeroDesc"),
+    },
+    {
+      label: "Legend Hero",
+      img: "/images/hero-badges/legend-hero.png",
+      condition: t("legendHeroCondition"),
+      desc: t("legendHeroDesc"),
+    },
+  ];
+
   return (
     <div
       className="fixed inset-0 z-50 flex justify-end"
@@ -57,25 +60,25 @@ export function TheLeModal({ onClose, onWriteKudos }: TheLeModalProps) {
         style={{ width: "min(520px, 100vw)", background: "#061520", borderLeft: "1px solid rgba(255,234,158,0.15)" }}
         role="dialog"
         aria-modal="true"
-        aria-label="Thể lệ"
+        aria-label={t("ariaLabel")}
       >
         {/* Header */}
         <div className="shrink-0 px-8 pt-8 pb-4">
           <h2 className="font-black" style={{ fontFamily: FONT, fontSize: "32px", fontWeight: 900, color: "#FFEA9E" }}>
-            Thể lệ
+            {t("title")}
           </h2>
         </div>
 
         {/* Scrollable body */}
         <div className="flex-1 overflow-y-auto px-8 pb-4 flex flex-col gap-8">
 
-          {/* Section 1: Người nhận Kudos */}
+          {/* Section 1: Recipient */}
           <section>
             <h3 className="font-black uppercase mb-3" style={{ fontFamily: FONT, fontSize: "13px", fontWeight: 900, color: "#FFEA9E", lineHeight: 1.4 }}>
-              Người nhận Kudos: Huy hiệu Hero cho những ảnh hưởng tích cực
+              {t("recipientSection")}
             </h3>
             <p className="text-white/60 mb-4" style={{ fontFamily: FONT, fontSize: "13px", lineHeight: 1.7 }}>
-              Dựa trên số lượng đồng đội gửi trao Kudos, bạn sẽ sở hữu Huy hiệu Hero tương ứng, được hiển thị trực tiếp cạnh tên profile.
+              {t("recipientDesc")}
             </p>
             <div className="flex flex-col gap-4">
               {HERO_TIERS.map((tier) => (
@@ -101,14 +104,13 @@ export function TheLeModal({ onClose, onWriteKudos }: TheLeModalProps) {
             </div>
           </section>
 
-          {/* Section 2: Người gửi Kudos */}
+          {/* Section 2: Sender */}
           <section>
             <h3 className="font-black uppercase mb-3" style={{ fontFamily: FONT, fontSize: "13px", fontWeight: 900, color: "#FFEA9E", lineHeight: 1.4 }}>
-              Người gửi Kudos: Sưu tập trọn bộ 6 icon, nhận ngay phần quà bí ẩn
+              {t("senderSection")}
             </h3>
             <p className="text-white/60 mb-5" style={{ fontFamily: FONT, fontSize: "13px", lineHeight: 1.7 }}>
-              Mỗi lời Kudos bạn gửi sẽ được đăng tải trên hệ thống và nhận về những lượt ❤️ từ cộng đồng Sunner.
-              Cứ mỗi 5 lượt ❤️, bạn sẽ được mở 1 Secret Box, với cơ hội nhận về một trong 6 icon độc quyền của SAA.
+              {t("senderDesc")}
             </p>
             <div className="grid gap-6" style={{ gridTemplateColumns: "repeat(3, 1fr)" }}>
               {SAA_ICONS.map((icon) => (
@@ -127,17 +129,17 @@ export function TheLeModal({ onClose, onWriteKudos }: TheLeModalProps) {
               ))}
             </div>
             <p className="text-white/50 mt-4 text-xs" style={{ fontFamily: FONT, lineHeight: 1.7 }}>
-              Những Sunner thu thập trọn bộ 6 icon sẽ nhận về một phần quà bí ẩn từ SAA 2025.
+              {t("senderFooter")}
             </p>
           </section>
 
-          {/* Section 3: Kudos Quốc Dân */}
+          {/* Section 3: National Kudos */}
           <section>
             <h3 className="font-black uppercase mb-3" style={{ fontFamily: FONT, fontSize: "13px", fontWeight: 900, color: "#FFEA9E" }}>
-              Kudos Quốc Dân
+              {t("nationalKudos")}
             </h3>
             <p className="text-white/60 text-xs" style={{ fontFamily: FONT, lineHeight: 1.7 }}>
-              5 Kudos nhận về nhiều ❤️ nhất toàn Sun* sẽ chính thức trở thành Kudos Quốc Dân và được trao phần quà đặc biệt từ SAA 2025: Root Further.
+              {t("nationalKudosDesc")}
             </p>
           </section>
         </div>
@@ -152,14 +154,14 @@ export function TheLeModal({ onClose, onWriteKudos }: TheLeModalProps) {
             className="flex items-center gap-2 font-bold transition-colors hover:bg-white/10 rounded-full"
             style={{ fontFamily: FONT, fontSize: "13px", fontWeight: 700, color: "rgba(255,255,255,0.7)", border: "1.5px solid rgba(255,255,255,0.2)", padding: "10px 20px" }}
           >
-            <span aria-hidden="true">✕</span> Đóng
+            <span aria-hidden="true">✕</span> {t("close")}
           </button>
           <button
             onClick={onWriteKudos}
             className="flex-1 flex items-center justify-center gap-2 font-bold rounded-full transition-opacity hover:opacity-85"
             style={{ fontFamily: FONT, fontSize: "13px", fontWeight: 700, background: "#FFEA9E", color: "#00101A", padding: "10px 20px" }}
           >
-            <span aria-hidden="true">✏</span> Viết KUDOS
+            <span aria-hidden="true">✏</span> {t("writeKudos")}
           </button>
         </div>
       </div>

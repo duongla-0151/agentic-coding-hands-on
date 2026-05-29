@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useTranslations } from "next-intl";
 
 const FONT = "var(--font-montserrat), Montserrat, sans-serif";
 
@@ -45,6 +46,7 @@ export function FilterBar({
 }: FilterBarProps) {
   const [hashOpen, setHashOpen] = useState(false);
   const [deptOpen, setDeptOpen] = useState(false);
+  const t = useTranslations("FilterBar");
 
   function toggleHashtag(tag: string) {
     onSelect(selected === tag ? null : tag);
@@ -101,11 +103,11 @@ export function FilterBar({
                 onMouseEnter={(e) => { (e.currentTarget as HTMLDivElement).style.background = "rgba(255,255,255,0.06)"; }}
                 onMouseLeave={(e) => { (e.currentTarget as HTMLDivElement).style.background = ""; }}
               >
-                Xóa bộ lọc
+                {t("clearFilter")}
               </div>
             )}
             {hashtags.length === 0 ? (
-              <div style={{ ...ITEM_BASE, color: "rgba(255,255,255,0.4)" }}>Chưa có hashtag</div>
+              <div style={{ ...ITEM_BASE, color: "rgba(255,255,255,0.4)" }}>{t("noHashtag")}</div>
             ) : (
               hashtags.map((tag) => (
                 <div
@@ -134,7 +136,7 @@ export function FilterBar({
           aria-haspopup="listbox"
           aria-expanded={deptOpen}
         >
-          <span>{selectedDepartment || "Phòng ban"}</span>
+          <span>{selectedDepartment || t("department")}</span>
           <span style={{ fontSize: 11, opacity: 0.7 }}>▾</span>
         </button>
 
@@ -149,11 +151,11 @@ export function FilterBar({
                 onMouseEnter={(e) => { (e.currentTarget as HTMLDivElement).style.background = "rgba(255,255,255,0.06)"; }}
                 onMouseLeave={(e) => { (e.currentTarget as HTMLDivElement).style.background = ""; }}
               >
-                Xóa bộ lọc
+                {t("clearFilter")}
               </div>
             )}
             {departments.length === 0 ? (
-              <div style={{ ...ITEM_BASE, color: "rgba(255,255,255,0.4)" }}>Chưa có dữ liệu</div>
+              <div style={{ ...ITEM_BASE, color: "rgba(255,255,255,0.4)" }}>{t("noData")}</div>
             ) : (
               departments.map((dept) => (
                 <div
