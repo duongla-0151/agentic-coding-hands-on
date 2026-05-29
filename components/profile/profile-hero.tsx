@@ -19,6 +19,8 @@ interface ProfileUser {
 
 interface ProfileHeroProps {
   user: ProfileUser;
+  /** When provided, renders "Send kudos to [name]" CTA button */
+  onSendKudos?: () => void;
 }
 
 /** Ordered badge tiers — each slot unlocked when kudos_count >= threshold */
@@ -68,7 +70,7 @@ function IconSlot({ tier, label }: { tier?: HeroBadgeTier; label?: string }) {
   );
 }
 
-export function ProfileHero({ user }: ProfileHeroProps) {
+export function ProfileHero({ user, onSendKudos }: ProfileHeroProps) {
   const initial = user.name.charAt(0).toUpperCase();
 
   return (
@@ -192,6 +194,37 @@ export function ProfileHero({ user }: ProfileHeroProps) {
             <IconSlot />
           </div>
         </div>
+
+        {onSendKudos && (
+          <button
+            type="button"
+            onClick={onSendKudos}
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: 10,
+              background: "rgba(255,234,158,0.08)",
+              border: "1px solid #998C5F",
+              borderRadius: 999,
+              padding: "12px 24px",
+              fontFamily: FONT,
+              fontSize: 14,
+              fontWeight: 600,
+              color: YELLOW,
+              cursor: "pointer",
+              maxWidth: 420,
+              width: "100%",
+            }}
+          >
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true" style={{ flexShrink: 0 }}>
+              <path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7" stroke={YELLOW} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+              <path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z" stroke={YELLOW} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+            <span style={{ overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+              Gửi lời cảm ơn và ghi nhận tới {user.name}...
+            </span>
+          </button>
+        )}
       </div>
     </section>
   );
