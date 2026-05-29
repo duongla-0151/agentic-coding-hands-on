@@ -12,6 +12,7 @@ export async function GET(req: NextRequest) {
 
   const params = req.nextUrl.searchParams;
   const hashtag = params.get("hashtag") ?? null;
+  const department = params.get("department") ?? null;
   const cursor = params.get("cursor") ?? null; // ISO timestamp of last item
 
   let query = supabase
@@ -22,6 +23,16 @@ export async function GET(req: NextRequest) {
 
   if (hashtag) query = query.contains("hashtags", [hashtag]);
   if (cursor) query = query.lt("created_at", cursor);
+
+  if (department) {
+    const { fetchUserMap } = await import("@/lib/kudos/fetch-users");
+    const userMap = await fetchUserMap();
+    const recipientIds = Array.from(userMap.values())
+      .filter((u) => u.department === department)
+      .map((u) => u.id);
+    if (recipientIds.length === 0) return NextResponse.json([]);
+    query = query.in("recipient_id", recipientIds);
+  }
 
   const { data: rows, error } = await query;
   if (error) return NextResponse.json({ error: error.message }, { status: 500 });

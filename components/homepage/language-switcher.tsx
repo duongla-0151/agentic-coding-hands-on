@@ -3,9 +3,30 @@
 import { useState, useRef, useEffect } from "react";
 import { useRouter, usePathname } from "next/navigation";
 
+function FlagVN() {
+  return (
+    <svg width="24" height="16" viewBox="0 0 24 16" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ borderRadius: 2, flexShrink: 0 }}>
+      <rect width="24" height="16" fill="#DA251D"/>
+      <polygon points="12,2.4 13.4,6.8 18,6.8 14.3,9.4 15.7,13.8 12,11.2 8.3,13.8 9.7,9.4 6,6.8 10.6,6.8" fill="#FFFF00"/>
+    </svg>
+  );
+}
+
+function FlagEN() {
+  return (
+    <svg width="24" height="16" viewBox="0 0 60 40" xmlns="http://www.w3.org/2000/svg" style={{ borderRadius: 2, flexShrink: 0 }}>
+      <rect width="60" height="40" fill="#012169"/>
+      <path d="M0,0 L60,40 M60,0 L0,40" stroke="#fff" strokeWidth="8"/>
+      <path d="M0,0 L60,40 M60,0 L0,40" stroke="#C8102E" strokeWidth="5" clipPath="url(#center)"/>
+      <path d="M30,0 V40 M0,20 H60" stroke="#fff" strokeWidth="13"/>
+      <path d="M30,0 V40 M0,20 H60" stroke="#C8102E" strokeWidth="8"/>
+    </svg>
+  );
+}
+
 const LANGUAGES = [
-  { code: "vi", label: "VN", flag: "🇻🇳" },
-  { code: "en", label: "EN", flag: "🇬🇧" },
+  { code: "vi", label: "VN", Flag: FlagVN },
+  { code: "en", label: "EN", Flag: FlagEN },
 ];
 
 interface LanguageSwitcherProps {
@@ -19,6 +40,7 @@ export function LanguageSwitcher({ currentLocale }: LanguageSwitcherProps) {
   const pathname = usePathname();
 
   const current = LANGUAGES.find((l) => l.code === currentLocale) ?? LANGUAGES[0];
+  const CurrentFlag = current.Flag;
 
   useEffect(() => {
     function handleOutsideClick(e: MouseEvent) {
@@ -46,7 +68,7 @@ export function LanguageSwitcher({ currentLocale }: LanguageSwitcherProps) {
         aria-expanded={open}
         aria-label="Switch language"
       >
-        <span>{current.flag}</span>
+        <CurrentFlag />
         <span className="text-sm font-medium">{current.label}</span>
         <svg
           width="12"
@@ -69,19 +91,29 @@ export function LanguageSwitcher({ currentLocale }: LanguageSwitcherProps) {
       {open && (
         <ul
           role="listbox"
-          className="absolute right-0 mt-1 w-28 rounded-md overflow-hidden shadow-lg z-50"
-          style={{ background: "rgba(11, 15, 18, 0.95)", border: "1px solid #2E3940" }}
+          className="absolute right-0 mt-2 overflow-hidden shadow-xl z-50"
+          style={{
+            background: "#0D0D0D",
+            border: "1px solid rgba(255,255,255,0.12)",
+            borderRadius: 16,
+            minWidth: 140,
+          }}
         >
-          {LANGUAGES.map((lang) => (
+          {LANGUAGES.map(({ code, label, Flag }) => (
             <li
-              key={lang.code}
+              key={code}
               role="option"
-              aria-selected={lang.code === currentLocale}
-              onClick={() => handleLocaleChange(lang.code)}
-              className="flex items-center gap-2 px-3 py-2 text-sm text-white cursor-pointer hover:bg-white/10 transition-colors"
+              aria-selected={code === currentLocale}
+              onClick={() => handleLocaleChange(code)}
+              className="flex items-center gap-3 px-5 py-4 text-white cursor-pointer hover:bg-white/10 transition-colors"
+              style={{
+                fontSize: 16,
+                fontWeight: code === currentLocale ? 700 : 500,
+                background: code === currentLocale ? "rgba(255,255,255,0.08)" : undefined,
+              }}
             >
-              <span>{lang.flag}</span>
-              <span>{lang.label}</span>
+              <Flag />
+              <span>{label}</span>
             </li>
           ))}
         </ul>

@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef } from "react";
 import { createClient } from "@/lib/supabase/client";
 import { KudoRichEditor } from "./kudo-rich-editor";
+import { KUDOS_HASHTAGS } from "@/lib/kudos/constants";
 
 const FONT = "var(--font-montserrat), Montserrat, sans-serif";
 const INPUT: React.CSSProperties = {
@@ -25,7 +26,6 @@ export function WriteKudoModal({ onClose }: { onClose: (submitted?: boolean) => 
   const [badge, setBadge] = useState("");
   const [content, setContent] = useState("");
   const [hashtags, setHashtags] = useState<string[]>([]);
-  const [tagInput, setTagInput] = useState("");
   const [images, setImages] = useState<File[]>([]);
   const [previews, setPreviews] = useState<string[]>([]);
   const [isAnonymous, setIsAnonymous] = useState(false);
@@ -59,11 +59,8 @@ export function WriteKudoModal({ onClose }: { onClose: (submitted?: boolean) => 
     setTouched((p) => ({ ...p, [field]: true }));
   }
 
-  function addTag() {
-    const tag = tagInput.trim().replace(/^#/, "").toLowerCase();
-    if (!tag || hashtags.includes(tag) || hashtags.length >= 5) return;
-    setHashtags((p) => [...p, tag]);
-    setTagInput("");
+  function toggleTag(tag: string) {
+    setHashtags((p) => p.includes(tag) ? p.filter((t) => t !== tag) : [...p, tag]);
   }
 
   function handleImages(e: React.ChangeEvent<HTMLInputElement>) {
@@ -275,55 +272,39 @@ export function WriteKudoModal({ onClose }: { onClose: (submitted?: boolean) => 
             )}
           </div>
 
-          {/* Hashtags — row layout: label left, chips right */}
+          {/* Hashtags — predefined chip toggles */}
           <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
             <div style={{ display: "flex", alignItems: "flex-start", gap: 16 }}>
               <div style={{ minWidth: 108 }}>
                 <span style={{ fontFamily: FONT, fontSize: 14, fontWeight: 700, color: "#00101A" }}>
                   Hashtag<span style={{ color: "#D32F2F" }}>*</span>
                 </span>
-                <span style={{ fontFamily: FONT, fontSize: 11, color: "#998C5F", display: "block" }}>Tối đa 5</span>
               </div>
               <div style={{ flex: 1, display: "flex", flexWrap: "wrap", gap: 8, alignItems: "center" }}>
-                {hashtags.map((tag) => (
-                  <span
-                    key={tag}
-                    style={{
-                      fontFamily: FONT, fontSize: 13, color: "#00101A",
-                      background: "rgba(255,234,158,0.4)", border: "1px solid #998C5F",
-                      borderRadius: 999, padding: "4px 12px",
-                      display: "flex", alignItems: "center", gap: 6,
-                    }}
-                  >
-                    #{tag}
+                {KUDOS_HASHTAGS.map((tag) => {
+                  const selected = hashtags.includes(tag);
+                  return (
                     <button
+                      key={tag}
                       type="button"
-                      onClick={() => setHashtags((p) => p.filter((t) => t !== tag))}
-                      style={{ background: "none", border: "none", cursor: "pointer", color: "#998C5F", padding: 0, lineHeight: 1, fontSize: 16 }}
-                    >×</button>
-                  </span>
-                ))}
-                {hashtags.length < 5 && (
-                  <input
-                    type="text"
-                    placeholder="+ Hashtag"
-                    value={tagInput}
-                    onChange={(e) => setTagInput(e.target.value)}
-                    onKeyDown={(e) => { if (e.key === "Enter" || e.key === ",") { e.preventDefault(); addTag(); } }}
-                    onBlur={() => { addTag(); touch("hashtag"); }}
-                    style={{
-                      fontFamily: FONT, fontSize: 13, color: "#00101A",
-                      border: showErr("hashtag") ? ERR_BORDER : "1px solid #998C5F",
-                      borderRadius: 999, padding: "4px 12px",
-                      outline: "none", background: "transparent", width: 120,
-                    }}
-                  />
-                )}
+                      onClick={() => { toggleTag(tag); touch("hashtag"); }}
+                      style={{
+                        fontFamily: FONT, fontSize: 13, cursor: "pointer",
+                        color: selected ? "#fff" : "#00101A",
+                        background: selected ? "#00101A" : "rgba(255,234,158,0.4)",
+                        border: showErr("hashtag") && !selected ? ERR_BORDER : "1px solid #998C5F",
+                        borderRadius: 999, padding: "4px 14px",
+                      }}
+                    >
+                      #{tag}
+                    </button>
+                  );
+                })}
               </div>
             </div>
             {showErr("hashtag") && (
               <p style={{ fontFamily: FONT, fontSize: 12, color: "#D32F2F", margin: 0 }}>
-                Vui lòng thêm ít nhất 1 hashtag
+                Vui lòng chọn ít nhất 1 hashtag
               </p>
             )}
           </div>

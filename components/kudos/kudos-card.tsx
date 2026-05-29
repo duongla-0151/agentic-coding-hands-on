@@ -3,13 +3,16 @@
 import { usePathname } from "next/navigation";
 import type { KudosPost } from "@/lib/kudos/types";
 import { KudosCardUser } from "./kudos-card-user";
+import { CampaignBadge } from "./campaign-badge";
 
 const FONT = "var(--font-montserrat), Montserrat, sans-serif";
-const HIGHLIGHT_BG = "rgba(255,255,255,0.04)";
-const HIGHLIGHT_BORDER = "1px solid rgba(255,255,255,0.1)";
+const HIGHLIGHT_BG = "#FFF8E1";
+const HIGHLIGHT_BORDER = "4px solid #FFEA9E";
 const FEED_BG = "rgba(255,248,225,1)";
-const FEED_BORDER = "1px solid rgba(153,140,95,0.3)";
-const YELLOW = "#FFEA9E";
+const FEED_BORDER = "1px solid rgba(153,140,95,0.2)";
+const SEPARATOR = "1px solid #FFEA9E";
+const CONTENT_BOX_BG = "rgba(255,234,158,0.4)";
+const CONTENT_BOX_BORDER = "1px solid #FFEA9E";
 
 interface KudosCardProps {
   post: KudosPost;
@@ -36,69 +39,118 @@ export function KudosCard({ post, variant, currentUserId, onLike, onCopyLink }: 
   const maxLines = isHighlight ? 3 : 5;
   const isSender = post.sender?.id === currentUserId;
 
-  const cardBg = isHighlight ? HIGHLIGHT_BG : FEED_BG;
-  const cardBorder = isHighlight ? HIGHLIGHT_BORDER : FEED_BORDER;
-  const textColor = isHighlight ? "rgba(255,255,255,0.85)" : "rgba(0,16,26,0.85)";
-  const textSecondary = isHighlight ? "rgba(255,255,255,0.35)" : "rgba(0,16,26,0.45)";
-
   return (
     <div
       style={{
-        background: cardBg,
-        border: cardBorder,
-        borderRadius: 24,
-        padding: isHighlight ? "20px 24px" : "40px 40px 16px 40px",
+        background: isHighlight ? HIGHLIGHT_BG : FEED_BG,
+        border: isHighlight ? HIGHLIGHT_BORDER : FEED_BORDER,
+        borderRadius: isHighlight ? 16 : 24,
+        padding: isHighlight ? "24px 24px 16px 24px" : "40px 40px 16px 40px",
         display: "flex",
         flexDirection: "column",
-        gap: 14,
+        gap: 16,
         height: isHighlight ? "100%" : undefined,
+        boxSizing: "border-box",
       }}
     >
       {/* Sender → Recipient row */}
-      <div style={{ display: "flex", alignItems: "center", gap: 10, flexWrap: "wrap" }}>
+      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 24 }}>
         <KudosCardUser
           user={post.sender}
           anonymousName={post.anonymous_name}
           size="md"
-          light={!isHighlight}
+          light
         />
-        <span style={{ color: isHighlight ? "rgba(255,255,255,0.4)" : "rgba(0,16,26,0.4)", fontSize: 18, flexShrink: 0 }}>→</span>
+        <span style={{ color: "rgba(0,16,26,0.35)", fontSize: 18, flexShrink: 0 }}>→</span>
         <KudosCardUser
           user={post.recipient}
           anonymousName={null}
           kudosCount={post.recipient_kudos_count}
-          badge={post.badge}
           size="md"
-          light={!isHighlight}
+          light
           showHoverCard
         />
       </div>
+
+      {/* Yellow separator after user row */}
+      <div style={{ height: 1, background: SEPARATOR }} />
 
       {/* Timestamp */}
       <span
         style={{
           fontFamily: FONT,
-          fontSize: 11,
-          color: textSecondary,
+          fontSize: 16,
+          fontWeight: 700,
+          letterSpacing: "0.5px",
+          color: "rgba(153,153,153,1)",
         }}
       >
         {formatDate(post.created_at)}
       </span>
 
-      {/* Content */}
+      {/* Badge label — shown centered if present */}
+      {post.badge && (
+        <p
+          style={{
+            fontFamily: FONT,
+            fontSize: 16,
+            fontWeight: 700,
+            letterSpacing: "0.5px",
+            color: "rgba(0,16,26,1)",
+            textAlign: "center",
+            margin: 0,
+          }}
+        >
+          {post.badge}
+        </p>
+      )}
+
+      {/* Content — inside yellow-tinted box */}
       <div
         style={{
-          fontFamily: FONT,
-          fontSize: 14,
-          color: textColor,
-          lineHeight: 1.6,
-          overflow: "hidden",
-          display: "-webkit-box",
-          WebkitLineClamp: maxLines,
-          WebkitBoxOrient: "vertical",
+          background: CONTENT_BOX_BG,
+          border: CONTENT_BOX_BORDER,
+          borderRadius: 12,
+          padding: "16px 24px",
         }}
-        dangerouslySetInnerHTML={{ __html: post.content }}
-      />
+      >
+        <div
+          style={{
+            fontFamily: FONT,
+            fontSize: 20,
+            fontWeight: 700,
+            lineHeight: "32px",
+            color: "rgba(0,16,26,1)",
+            overflow: "hidden",
+            display: "-webkit-box",
+            WebkitLineClamp: maxLines,
+            WebkitBoxOrient: "vertical",
+          }}
+          dangerouslySetInnerHTML={{ __html: post.content }}
+        />
+      </div>
+
+      {/* Images */}
+      {post.images.length > 0 && (
+        <div style={{ display: "flex", gap: 16, flexWrap: "wrap" }}>
+          {post.images.slice(0, 5).filter((s) => /^https?:\/\//i.test(s)).map((src) => (
+            <a key={src} href={src} target="_blank" rel="noopener noreferrer">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={src}
+                alt=""
+                style={{
+                  width: 80,
+                  height: 80,
+                  objectFit: "cover",
+                  borderRadius: 8,
+                  border: "1px solid rgba(139,105,20,0.15)",
+                }}
+              />
+            </a>
+          ))}
+        </div>
+      )}
 
       {/* Hashtags */}
       {post.hashtags.length > 0 && (
@@ -109,9 +161,9 @@ export function KudosCard({ post, variant, currentUserId, onLike, onCopyLink }: 
               style={{
                 fontFamily: FONT,
                 fontSize: 12,
-                color: isHighlight ? YELLOW : "#8B6914",
-                background: isHighlight ? "rgba(255,234,158,0.1)" : "rgba(139,105,20,0.12)",
-                border: isHighlight ? "1px solid rgba(255,234,158,0.25)" : "1px solid rgba(139,105,20,0.3)",
+                color: "#8B6914",
+                background: "rgba(139,105,20,0.12)",
+                border: "1px solid rgba(139,105,20,0.25)",
                 borderRadius: 999,
                 padding: "3px 10px",
               }}
@@ -122,30 +174,11 @@ export function KudosCard({ post, variant, currentUserId, onLike, onCopyLink }: 
         </div>
       )}
 
-      {/* Images */}
-      {post.images.length > 0 && (
-        <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
-          {post.images.slice(0, 5).filter((s) => /^https?:\/\//i.test(s)).map((src) => (
-            <a key={src} href={src} target="_blank" rel="noopener noreferrer">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src={src}
-                alt=""
-                style={{
-                  width: 64,
-                  height: 64,
-                  objectFit: "cover",
-                  borderRadius: 8,
-                  border: "1px solid rgba(255,255,255,0.1)",
-                }}
-              />
-            </a>
-          ))}
-        </div>
-      )}
+      {/* Yellow separator before action row */}
+      <div style={{ height: 1, background: SEPARATOR }} />
 
       {/* Actions row */}
-      <div style={{ display: "flex", alignItems: "center", gap: 16, marginTop: 4 }}>
+      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 24 }}>
         {/* Like */}
         <button
           type="button"
@@ -157,19 +190,14 @@ export function KudosCard({ post, variant, currentUserId, onLike, onCopyLink }: 
             gap: 5,
             fontFamily: FONT,
             fontSize: 13,
-            color: isHighlight
-              ? (post.liked_by_me ? "#fff" : "rgba(255,255,255,0.5)")
-              : (post.liked_by_me ? "#fff" : "#7C52D9"),
-            background: isHighlight
-              ? (post.liked_by_me ? "rgba(124,82,217,0.6)" : "rgba(255,255,255,0.05)")
-              : (post.liked_by_me ? "#7C52D9" : "rgba(124,82,217,0.08)"),
-            border: isHighlight
-              ? "1px solid rgba(255,255,255,0.15)"
-              : (post.liked_by_me ? "none" : "1px solid rgba(124,82,217,0.3)"),
+            color: post.liked_by_me ? "#fff" : "#7C52D9",
+            background: post.liked_by_me ? "#7C52D9" : "rgba(124,82,217,0.08)",
+            border: post.liked_by_me ? "none" : "1px solid rgba(124,82,217,0.3)",
             borderRadius: 999,
             padding: "4px 12px",
             cursor: isSender ? "not-allowed" : "pointer",
             opacity: isSender ? 0.35 : 1,
+            flexShrink: 0,
           }}
           aria-label={post.liked_by_me ? "Bỏ thích" : "Thích"}
         >
@@ -177,39 +205,47 @@ export function KudosCard({ post, variant, currentUserId, onLike, onCopyLink }: 
           <span>{post.like_count}</span>
         </button>
 
-        {/* Copy link */}
-        <button
-          type="button"
-          onClick={onCopyLink}
-          style={{
-            fontFamily: FONT,
-            fontSize: 12,
-            color: isHighlight ? "rgba(255,255,255,0.45)" : "rgba(0,16,26,0.45)",
-            background: "none",
-            border: isHighlight ? "1px solid rgba(255,255,255,0.15)" : "1px solid rgba(0,16,26,0.2)",
-            borderRadius: 999,
-            padding: "3px 12px",
-            cursor: "pointer",
-          }}
-        >
-          Copy Link
-        </button>
+        {/* Right side buttons */}
+        <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+          {/* Campaign x2 badge — shown only during active campaign period */}
+          <CampaignBadge tooltipPosition="top" />
 
-        {/* Highlight only: Xem chi tiết */}
-        {isHighlight && (
-          <a
-            href={`/${locale}/kudos/${post.id}`}
+          {/* Copy link */}
+          <button
+            type="button"
+            onClick={onCopyLink}
             style={{
               fontFamily: FONT,
               fontSize: 12,
-              color: YELLOW,
-              textDecoration: "none",
-              marginLeft: "auto",
+              color: "rgba(0,16,26,0.5)",
+              background: "none",
+              border: "1px solid rgba(0,16,26,0.2)",
+              borderRadius: 999,
+              padding: "4px 14px",
+              cursor: "pointer",
+              whiteSpace: "nowrap",
             }}
           >
-            Xem chi tiết →
-          </a>
-        )}
+            Copy Link
+          </button>
+
+          {/* Highlight only: Xem chi tiết */}
+          {isHighlight && (
+            <a
+              href={`/${locale}/kudos/${post.id}`}
+              style={{
+                fontFamily: FONT,
+                fontSize: 12,
+                color: "#7C52D9",
+                fontWeight: 600,
+                textDecoration: "none",
+                whiteSpace: "nowrap",
+              }}
+            >
+              Xem chi tiết →
+            </a>
+          )}
+        </div>
       </div>
     </div>
   );

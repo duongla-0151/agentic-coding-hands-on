@@ -1,8 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { starCount } from "@/lib/kudos/fetch-users";
 import type { UserInfo } from "@/lib/kudos/types";
+import { HeroBadgeChip } from "./hero-badge-chip";
 
 const FONT = "var(--font-montserrat), Montserrat, sans-serif";
 const YELLOW = "#FFEA9E";
@@ -31,7 +31,6 @@ export function KudosCardUser({
   const avatarSize = size === "sm" ? 32 : 40;
   const name = user?.name ?? anonymousName ?? "Ẩn danh";
   const initial = name.charAt(0).toUpperCase();
-  const stars = kudosCount !== undefined ? starCount(kudosCount) : 0;
   const nameColor = light ? "rgba(0,16,26,0.9)" : "#fff";
   const deptColor = light ? "rgba(0,16,26,0.5)" : "rgba(255,255,255,0.5)";
 
@@ -88,10 +87,8 @@ export function KudosCardUser({
           >
             {name}
           </span>
-          {stars > 0 && (
-            <span style={{ color: YELLOW, fontSize: size === "sm" ? 10 : 12, lineHeight: 1, flexShrink: 0 }}>
-              {"★".repeat(stars)}
-            </span>
+          {kudosCount !== undefined && kudosCount > 0 && (
+            <HeroBadgeChip kudosCount={kudosCount} tooltipPosition="top" />
           )}
         </div>
 

@@ -5,8 +5,8 @@ import type { KudosPost } from "@/lib/kudos/types";
 import { KudosCard } from "./kudos-card";
 
 const FONT = "var(--font-montserrat), Montserrat, sans-serif";
-const GAP = 16; // px between cards
-const VISIBLE = 3; // cards visible at once (center + 1 each side)
+const CARD_WIDTH = 528; // fixed card width per design
+const GAP = 24; // gap between cards per design
 
 interface HighlightCarouselProps {
   posts: KudosPost[];
@@ -23,15 +23,11 @@ export function HighlightCarousel({
 }: HighlightCarouselProps) {
   const [activeIndex, setActiveIndex] = useState(0);
   const containerRef = useRef<HTMLDivElement>(null);
-  const [cardWidth, setCardWidth] = useState(0);
+  const [containerWidth, setContainerWidth] = useState(0);
 
-  // Measure container width to compute equal card widths
   useLayoutEffect(() => {
     function measure() {
-      if (containerRef.current) {
-        const w = containerRef.current.offsetWidth;
-        setCardWidth(Math.floor((w - GAP * (VISIBLE - 1)) / VISIBLE));
-      }
+      if (containerRef.current) setContainerWidth(containerRef.current.offsetWidth);
     }
     measure();
     window.addEventListener("resize", measure);
@@ -55,17 +51,15 @@ export function HighlightCarousel({
   }
 
   const total = posts.length;
-
   const prev = () => setActiveIndex((i) => Math.max(0, i - 1));
   const next = () => setActiveIndex((i) => Math.min(total - 1, i + 1));
 
-  // Offset so activeIndex card is always centered in the 3-card window
-  // Center slot index = 1 (0-based), so translate = -(activeIndex - 1) * (cardWidth + GAP)
-  const centerSlot = Math.floor(VISIBLE / 2); // = 1
-  const translateX = cardWidth > 0 ? -(activeIndex - centerSlot) * (cardWidth + GAP) : 0;
+  // Center the active card within the viewport
+  const offset = containerWidth > 0 ? (containerWidth - CARD_WIDTH) / 2 : 0;
+  const translateX = offset - activeIndex * (CARD_WIDTH + GAP);
 
   return (
-    <div style={{ position: "relative", padding: "0 64px" }}>
+    <div style={{ position: "relative" }}>
       {/* Prev arrow */}
       <button
         type="button"
@@ -73,21 +67,21 @@ export function HighlightCarousel({
         disabled={activeIndex === 0}
         style={{
           position: "absolute",
-          left: 0,
+          left: 8,
           top: "50%",
-          transform: "translateY(-50%)",
+          transform: "translateY(-60%)",
           width: 48,
           height: 48,
           borderRadius: "50%",
-          background: activeIndex === 0 ? "rgba(255,255,255,0.04)" : "rgba(255,255,255,0.1)",
-          border: "1px solid rgba(255,255,255,0.15)",
+          background: activeIndex === 0 ? "rgba(255,255,255,0.04)" : "rgba(255,255,255,0.12)",
+          border: "1px solid rgba(255,255,255,0.2)",
           color: activeIndex === 0 ? "rgba(255,255,255,0.2)" : "#fff",
-          fontSize: 20,
+          fontSize: 22,
           cursor: activeIndex === 0 ? "not-allowed" : "pointer",
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          zIndex: 2,
+          zIndex: 3,
         }}
         aria-label="Trước"
       >
@@ -96,7 +90,7 @@ export function HighlightCarousel({
 
       {/* Viewport — clips the track */}
       <div ref={containerRef} style={{ overflow: "hidden" }}>
-        {/* Track — slides left/right via translateX */}
+        {/* Track — slides left/right */}
         <div
           style={{
             display: "flex",
@@ -114,10 +108,11 @@ export function HighlightCarousel({
                 key={post.id}
                 onClick={() => setActiveIndex(i)}
                 style={{
-                  flex: `0 0 ${cardWidth}px`,
-                  width: cardWidth,
-                  opacity: isActive ? 1 : 0.5,
-                  transition: "opacity 0.35s ease",
+                  flex: `0 0 ${CARD_WIDTH}px`,
+                  width: CARD_WIDTH,
+                  opacity: isActive ? 1 : 0.45,
+                  transform: isActive ? "scale(1)" : "scale(0.97)",
+                  transition: "opacity 0.35s ease, transform 0.35s ease",
                   cursor: isActive ? "default" : "pointer",
                 }}
               >
@@ -141,32 +136,32 @@ export function HighlightCarousel({
         disabled={activeIndex === total - 1}
         style={{
           position: "absolute",
-          right: 0,
+          right: 8,
           top: "50%",
-          transform: "translateY(-50%)",
+          transform: "translateY(-60%)",
           width: 48,
           height: 48,
           borderRadius: "50%",
-          background: activeIndex === total - 1 ? "rgba(255,255,255,0.04)" : "rgba(255,255,255,0.1)",
-          border: "1px solid rgba(255,255,255,0.15)",
+          background: activeIndex === total - 1 ? "rgba(255,255,255,0.04)" : "rgba(255,255,255,0.12)",
+          border: "1px solid rgba(255,255,255,0.2)",
           color: activeIndex === total - 1 ? "rgba(255,255,255,0.2)" : "#fff",
-          fontSize: 20,
+          fontSize: 22,
           cursor: activeIndex === total - 1 ? "not-allowed" : "pointer",
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          zIndex: 2,
+          zIndex: 3,
         }}
         aria-label="Tiếp"
       >
         ›
       </button>
 
-      {/* Pagination */}
+      {/* Pagination indicator */}
       <div
         style={{
           textAlign: "center",
-          marginTop: 16,
+          marginTop: 20,
           fontFamily: FONT,
           fontSize: 13,
           color: "rgba(255,255,255,0.5)",

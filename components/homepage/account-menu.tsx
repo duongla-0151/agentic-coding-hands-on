@@ -65,18 +65,28 @@ export function AccountMenu({ locale, isAdmin }: AccountMenuProps) {
 
       {open && (
         <ul
-          className="absolute right-0 mt-2 w-48 rounded-md overflow-hidden shadow-xl z-50"
-          style={{ background: "rgba(11, 15, 18, 0.97)", border: "1px solid #2E3940" }}
+          className="absolute right-0 mt-2 overflow-hidden shadow-xl z-50"
+          style={{
+            background: "#0D0D0D",
+            border: "1px solid rgba(255,255,255,0.12)",
+            borderRadius: 16,
+            minWidth: 180,
+          }}
           role="menu"
         >
           <li role="none">
             <a
-              href="#"
+              href={`/${locale}`}
               onClick={() => setOpen(false)}
-              className="block px-4 py-3 text-sm text-white hover:bg-white/10 transition-colors"
+              className="flex items-center justify-between px-5 py-4 text-white hover:bg-white/10 transition-colors"
+              style={{ fontSize: 15, fontWeight: 600, textDecoration: "none" }}
               role="menuitem"
             >
-              Profile
+              <span>Profile</span>
+              <svg width="18" height="18" viewBox="0 0 22 22" fill="none" aria-hidden="true">
+                <circle cx="11" cy="7" r="4" stroke="white" strokeWidth="1.5" />
+                <path d="M3 19c0-4 3.6-7 8-7s8 3 8 7" stroke="white" strokeWidth="1.5" strokeLinecap="round" />
+              </svg>
             </a>
           </li>
           {isAdmin && (
@@ -84,21 +94,33 @@ export function AccountMenu({ locale, isAdmin }: AccountMenuProps) {
               <a
                 href={`/${locale}/admin`}
                 onClick={() => setOpen(false)}
-                className="block px-4 py-3 text-sm text-white hover:bg-white/10 transition-colors"
+                className="flex items-center justify-between px-5 py-4 text-white hover:bg-white/10 transition-colors"
+                style={{ fontSize: 15, fontWeight: 600, textDecoration: "none" }}
                 role="menuitem"
               >
-                Admin Dashboard
+                <span>Dashboard</span>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                  <rect x="3" y="3" width="7" height="7" rx="1" stroke="white" strokeWidth="1.5" />
+                  <rect x="14" y="3" width="7" height="7" rx="1" stroke="white" strokeWidth="1.5" />
+                  <rect x="3" y="14" width="7" height="7" rx="1" stroke="white" strokeWidth="1.5" />
+                  <rect x="14" y="14" width="7" height="7" rx="1" stroke="white" strokeWidth="1.5" />
+                </svg>
               </a>
             </li>
           )}
           <li role="none">
             <button
               onClick={handleSignOut}
-              className="w-full text-left px-4 py-3 text-sm hover:bg-white/10 transition-colors cursor-pointer"
-              style={{ color: "#FFEA9E" }}
+              className="w-full flex items-center justify-between px-5 py-4 text-white hover:bg-white/10 transition-colors cursor-pointer"
+              style={{ fontSize: 15, fontWeight: 600 }}
               role="menuitem"
             >
-              Sign out
+              <span>Logout</span>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                <polyline points="16,17 21,12 16,7" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                <line x1="21" y1="12" x2="9" y2="12" stroke="white" strokeWidth="1.5" strokeLinecap="round" />
+              </svg>
             </button>
           </li>
         </ul>

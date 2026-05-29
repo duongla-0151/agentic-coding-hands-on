@@ -9,10 +9,11 @@ const FONT = "var(--font-montserrat), Montserrat, sans-serif";
 
 interface AllKudosFeedProps {
   hashtag: string | null;
+  department?: string | null;
   currentUserId: string;
 }
 
-export function AllKudosFeed({ hashtag, currentUserId }: AllKudosFeedProps) {
+export function AllKudosFeed({ hashtag, department = null, currentUserId }: AllKudosFeedProps) {
   const [posts, setPosts] = useState<KudosPost[]>([]);
   const [loading, setLoading] = useState(false);
   const [hasMore, setHasMore] = useState(true);
@@ -26,11 +27,12 @@ export function AllKudosFeed({ hashtag, currentUserId }: AllKudosFeedProps) {
     setTimeout(() => setToast((t) => ({ ...t, visible: false })), 3000);
   }, []);
 
-  const fetchPage = useCallback(async (cursor: string | null, tag: string | null) => {
+  const fetchPage = useCallback(async (cursor: string | null, tag: string | null, dept: string | null) => {
     setLoading(true);
     try {
       const params = new URLSearchParams();
       if (tag) params.set("hashtag", tag);
+      if (dept) params.set("department", dept);
       if (cursor) params.set("cursor", cursor);
       const res = await fetch(`/api/kudos?${params.toString()}`);
       if (!res.ok) throw new Error("fetch failed");
@@ -45,13 +47,13 @@ export function AllKudosFeed({ hashtag, currentUserId }: AllKudosFeedProps) {
     }
   }, []);
 
-  // Reset + fetch on hashtag change
+  // Reset + fetch on filter change
   useEffect(() => {
     cursorRef.current = null;
     setPosts([]);
     setHasMore(true);
-    fetchPage(null, hashtag);
-  }, [hashtag, fetchPage]);
+    fetchPage(null, hashtag, department);
+  }, [hashtag, department, fetchPage]);
 
   // Infinite scroll observer
   useEffect(() => {
@@ -59,14 +61,14 @@ export function AllKudosFeed({ hashtag, currentUserId }: AllKudosFeedProps) {
     observerRef.current = new IntersectionObserver(
       (entries) => {
         if (entries[0]?.isIntersecting && hasMore && !loading) {
-          fetchPage(cursorRef.current, hashtag);
+          fetchPage(cursorRef.current, hashtag, department);
         }
       },
       { rootMargin: "200px" }
     );
     if (sentinelRef.current) observerRef.current.observe(sentinelRef.current);
     return () => observerRef.current?.disconnect();
-  }, [hasMore, loading, hashtag, fetchPage]);
+  }, [hasMore, loading, hashtag, department, fetchPage]);
 
   async function handleLike(id: string) {
     const res = await fetch(`/api/kudos/${id}/like`, { method: "POST" });

@@ -12,10 +12,13 @@ interface KudosHighlightSectionProps {
   hashtag: string | null;
   hashtags: string[];
   onHashtagChange: (tag: string | null) => void;
+  department?: string | null;
+  departments?: string[];
+  onDepartmentChange?: (d: string | null) => void;
   currentUserId: string;
 }
 
-export function KudosHighlightSection({ hashtag, hashtags, onHashtagChange, currentUserId }: KudosHighlightSectionProps) {
+export function KudosHighlightSection({ hashtag, hashtags, onHashtagChange, department = null, departments = [], onDepartmentChange, currentUserId }: KudosHighlightSectionProps) {
   const [posts, setPosts] = useState<KudosPost[]>([]);
   const [loading, setLoading] = useState(false);
   const [toast, setToast] = useState({ message: "", visible: false });
@@ -29,12 +32,13 @@ export function KudosHighlightSection({ hashtag, hashtags, onHashtagChange, curr
     setLoading(true);
     const params = new URLSearchParams();
     if (hashtag) params.set("hashtag", hashtag);
+    if (department) params.set("department", department);
     fetch(`/api/kudos/highlights?${params.toString()}`)
       .then((r) => r.json())
       .then((data: KudosPost[]) => setPosts(Array.isArray(data) ? data : []))
       .catch(() => setPosts([]))
       .finally(() => setLoading(false));
-  }, [hashtag]);
+  }, [hashtag, department]);
 
   async function handleLike(id: string) {
     const res = await fetch(`/api/kudos/${id}/like`, { method: "POST" });
@@ -94,7 +98,14 @@ export function KudosHighlightSection({ hashtag, hashtags, onHashtagChange, curr
             HIGHLIGHT KUDOS
           </h2>
         </div>
-        <FilterBar hashtags={hashtags} selected={hashtag} onSelect={onHashtagChange} />
+        <FilterBar
+          hashtags={hashtags}
+          selected={hashtag}
+          onSelect={onHashtagChange}
+          departments={departments}
+          selectedDepartment={department}
+          onDepartmentSelect={onDepartmentChange}
+        />
       </div>
 
       {loading ? (

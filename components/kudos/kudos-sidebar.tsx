@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { KudosStatsCard, type KudosStats } from "./kudos-stats-card";
+import { HeroBadgeChip } from "./hero-badge-chip";
 
 const FONT = "var(--font-montserrat), Montserrat, sans-serif";
 const CARD_BG = "#00070C";
@@ -142,20 +143,23 @@ export function KudosSidebar({ userId: _userId }: KudosSidebarProps) {
                   )}
                 </div>
                 <div style={{ flex: 1, minWidth: 0 }}>
-                  <p
-                    style={{
-                      fontFamily: FONT,
-                      fontSize: 13,
-                      fontWeight: 600,
-                      color: "#fff",
-                      margin: 0,
-                      overflow: "hidden",
-                      textOverflow: "ellipsis",
-                      whiteSpace: "nowrap",
-                    }}
-                  >
-                    {r.name}
-                  </p>
+                  <div style={{ display: "flex", alignItems: "center", gap: 6, flexWrap: "wrap" }}>
+                    <p
+                      style={{
+                        fontFamily: FONT,
+                        fontSize: 13,
+                        fontWeight: 600,
+                        color: "#fff",
+                        margin: 0,
+                        overflow: "hidden",
+                        textOverflow: "ellipsis",
+                        whiteSpace: "nowrap",
+                      }}
+                    >
+                      {r.name}
+                    </p>
+                    <HeroBadgeChip kudosCount={r.kudos_count} tooltipPosition="top" />
+                  </div>
                   <p
                     style={{
                       fontFamily: FONT,

@@ -9,6 +9,17 @@ export async function GET(req: NextRequest) {
   if (!user) return NextResponse.json([], { status: 401 });
 
   const hashtag = req.nextUrl.searchParams.get("hashtag") ?? null;
+  const department = req.nextUrl.searchParams.get("department") ?? null;
+
+  // Resolve department → recipient IDs
+  let departmentRecipientIds: string[] | null = null;
+  if (department) {
+    const userMap = await fetchUserMap();
+    departmentRecipientIds = Array.from(userMap.values())
+      .filter((u) => u.department === department)
+      .map((u) => u.id);
+    if (departmentRecipientIds.length === 0) return NextResponse.json([]);
+  }
 
   // Fetch top-5 kudos by like count using subquery via RPC isn't available,
   // so we fetch like counts first then sort.
@@ -31,6 +42,7 @@ export async function GET(req: NextRequest) {
   // If fewer than 5 liked kudos, pad with recent kudos
   let query = supabase.from("kudos").select("*").order("created_at", { ascending: false });
   if (hashtag) query = query.contains("hashtags", [hashtag]);
+  if (departmentRecipientIds) query = query.in("recipient_id", departmentRecipientIds);
 
   const { data: rows, error } = topIds.length >= 5
     ? await supabase.from("kudos").select("*").in("id", topIds)
@@ -39,8 +51,11 @@ export async function GET(req: NextRequest) {
   if (error) return NextResponse.json({ error: error.message }, { status: 500 });
   if (!rows?.length) return NextResponse.json([]);
 
-  // Apply hashtag filter after fetching (for topIds path)
-  const filtered = hashtag ? rows.filter((r) => r.hashtags?.includes(hashtag)) : rows;
+  // Apply filters after fetching (for topIds path)
+  let filtered = hashtag ? rows.filter((r) => r.hashtags?.includes(hashtag)) : rows;
+  if (departmentRecipientIds) {
+    filtered = filtered.filter((r) => departmentRecipientIds!.includes(r.recipient_id));
+  }
   const ids = filtered.map((r) => r.id);
   const recipientIds = [...new Set(filtered.map((r) => r.recipient_id))];
 

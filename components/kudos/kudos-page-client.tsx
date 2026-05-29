@@ -21,6 +21,8 @@ export function KudosPageClient({ locale: _locale, userId }: KudosPageClientProp
   const router = useRouter();
   const [hashtag, setHashtag] = useState<string | null>(null);
   const [hashtags, setHashtags] = useState<string[]>([]);
+  const [department, setDepartment] = useState<string | null>(null);
+  const [departments, setDepartments] = useState<string[]>([]);
   const [kudosModalOpen, setKudosModalOpen] = useState(false);
   const [feedKey, setFeedKey] = useState(0);
 
@@ -28,6 +30,10 @@ export function KudosPageClient({ locale: _locale, userId }: KudosPageClientProp
     fetch("/api/kudos/hashtags")
       .then((r) => r.json())
       .then((data: string[]) => setHashtags(Array.isArray(data) ? data : []))
+      .catch(() => {/* silent */});
+    fetch("/api/kudos/departments")
+      .then((r) => r.json())
+      .then((data: string[]) => setDepartments(Array.isArray(data) ? data : []))
       .catch(() => {/* silent */});
   }, []);
 
@@ -41,6 +47,9 @@ export function KudosPageClient({ locale: _locale, userId }: KudosPageClientProp
         hashtag={hashtag}
         hashtags={hashtags}
         onHashtagChange={setHashtag}
+        department={department}
+        departments={departments}
+        onDepartmentChange={setDepartment}
         currentUserId={userId}
       />
 
@@ -58,7 +67,7 @@ export function KudosPageClient({ locale: _locale, userId }: KudosPageClientProp
       >
         {/* All Kudos Feed — ~70% */}
         <div style={{ flex: "0 0 67%", minWidth: 0 }}>
-          <AllKudosFeed key={feedKey} hashtag={hashtag} currentUserId={userId} />
+          <AllKudosFeed key={feedKey} hashtag={hashtag} department={department} currentUserId={userId} />
         </div>
 
         {/* Sidebar — ~30%, sticky */}
