@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { usePathname } from "next/navigation";
 import { KudosStatsCard, type KudosStats } from "./kudos-stats-card";
 import { HeroBadgeChip } from "./hero-badge-chip";
 
@@ -21,6 +22,8 @@ interface KudosSidebarProps {
 }
 
 export function KudosSidebar({ userId: _userId }: KudosSidebarProps) {
+  const pathname = usePathname();
+  const locale = pathname.split("/")[1] ?? "vi";
   const [stats, setStats] = useState<KudosStats | null>(null);
   const [leaderboard, setLeaderboard] = useState<SpotlightRecipient[]>([]);
 
@@ -112,9 +115,10 @@ export function KudosSidebar({ userId: _userId }: KudosSidebarProps) {
             }}
           >
             {leaderboard.map((r, i) => (
-              <li
-                key={r.id}
-                style={{ display: "flex", alignItems: "center", gap: 10 }}
+              <li key={r.id}>
+              <a
+                href={`/${locale}/profile/${r.id}`}
+                style={{ display: "flex", alignItems: "center", gap: 10, textDecoration: "none" }}
               >
                 {/* Avatar */}
                 <div
@@ -171,6 +175,7 @@ export function KudosSidebar({ userId: _userId }: KudosSidebarProps) {
                     Nhận được {r.kudos_count} kudos
                   </p>
                 </div>
+              </a>
               </li>
             ))}
           </ol>

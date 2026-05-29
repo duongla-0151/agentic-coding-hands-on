@@ -64,6 +64,7 @@ export function KudosCard({ post, variant, currentUserId, onLike, onCopyLink }: 
           badgeLabel={post.badge}
           size="md"
           light
+          profileHref={post.sender && !post.anonymous_name ? `/${locale}/profile/${post.sender.id}` : undefined}
         />
         {/* Paper airplane / send icon — rotated 45° to point horizontally right */}
         <svg
@@ -83,6 +84,7 @@ export function KudosCard({ post, variant, currentUserId, onLike, onCopyLink }: 
           size="md"
           light
           showHoverCard
+          profileHref={`/${locale}/profile/${post.recipient.id}`}
         />
       </div>
 

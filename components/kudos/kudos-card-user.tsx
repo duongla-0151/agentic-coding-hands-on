@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import type { UserInfo } from "@/lib/kudos/types";
-import { HeroBadgeChip } from "./hero-badge-chip";
 import { getHeroBadge } from "@/lib/kudos/hero-badge";
 
 const FONT = "var(--font-montserrat), Montserrat, sans-serif";
@@ -18,16 +17,19 @@ interface KudosCardUserProps {
   light?: boolean;
   /** show hover tooltip with user info — applies to recipient (C.3.3) */
   showHoverCard?: boolean;
+  /** When provided, avatar + name become a clickable link to this URL */
+  profileHref?: string;
 }
 
 export function KudosCardUser({
   user,
   anonymousName,
   kudosCount,
-  badgeLabel,
+  badgeLabel: _badgeLabel,
   size = "md",
   light = false,
   showHoverCard = false,
+  profileHref,
 }: KudosCardUserProps) {
   const [hovered, setHovered] = useState(false);
   const avatarSize = size === "sm" ? 32 : 40;
@@ -36,12 +38,21 @@ export function KudosCardUser({
   const nameColor = light ? "rgba(0,16,26,0.9)" : "#fff";
   const deptColor = light ? "rgba(0,16,26,0.5)" : "rgba(255,255,255,0.5)";
 
-  return (
-    <div
-      style={{ display: "flex", alignItems: "center", gap: 10, minWidth: 0, position: "relative" }}
-      onMouseEnter={() => showHoverCard && setHovered(true)}
-      onMouseLeave={() => showHoverCard && setHovered(false)}
-    >
+  const sharedProps = {
+    onMouseEnter: () => showHoverCard && setHovered(true),
+    onMouseLeave: () => showHoverCard && setHovered(false),
+  };
+
+  const baseStyle = {
+    display: "flex" as const,
+    alignItems: "center" as const,
+    gap: 10,
+    minWidth: 0,
+    position: "relative" as const,
+  };
+
+  const inner = (
+    <>
       {/* Avatar */}
       <div
         style={{
@@ -62,19 +73,14 @@ export function KudosCardUser({
       >
         {user?.avatar ? (
           // eslint-disable-next-line @next/next/no-img-element
-          <img
-            src={user.avatar}
-            alt={name}
-            style={{ width: "100%", height: "100%", objectFit: "cover" }}
-          />
+          <img src={user.avatar} alt={name} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
         ) : (
           initial
         )}
       </div>
 
-      {/* Name + department - badge second line */}
+      {/* Name + department + badge */}
       <div style={{ minWidth: 0 }}>
-        {/* Line 1: name */}
         <span
           style={{
             display: "block",
@@ -91,17 +97,8 @@ export function KudosCardUser({
           {name}
         </span>
 
-        {/* Line 2: Department text + hero-badge PNG chip */}
         {(user?.department || (kudosCount !== undefined && kudosCount > 0)) && (
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: 5,
-              marginTop: 2,
-              minWidth: 0,
-            }}
-          >
+          <div style={{ display: "flex", alignItems: "center", gap: 5, marginTop: 2, minWidth: 0 }}>
             {user?.department && (
               <span
                 style={{
@@ -117,8 +114,6 @@ export function KudosCardUser({
                 {user.department}
               </span>
             )}
-
-            {/* Hero badge PNG chip at readable size */}
             {kudosCount !== undefined && kudosCount > 0 && (() => {
               const heroBadge = getHeroBadge(kudosCount);
               return heroBadge ? (
@@ -134,7 +129,7 @@ export function KudosCardUser({
         )}
       </div>
 
-      {/* Hover card tooltip — "Hover Avatar info user" (C.3.3 transition) */}
+      {/* Hover card tooltip (C.3.3) */}
       {showHoverCard && hovered && user && (
         <div
           style={{
@@ -155,7 +150,6 @@ export function KudosCardUser({
             pointerEvents: "none",
           }}
         >
-          {/* Large avatar */}
           <div
             style={{
               width: 64,
@@ -181,46 +175,35 @@ export function KudosCardUser({
               initial
             )}
           </div>
-
           <div style={{ textAlign: "center" }}>
-            <p
-              style={{
-                fontFamily: FONT,
-                fontSize: 14,
-                fontWeight: 700,
-                color: "#fff",
-                margin: 0,
-              }}
-            >
-              {name}
-            </p>
+            <p style={{ fontFamily: FONT, fontSize: 14, fontWeight: 700, color: "#fff", margin: 0 }}>{name}</p>
             {user.department && (
-              <p
-                style={{
-                  fontFamily: FONT,
-                  fontSize: 12,
-                  color: "rgba(255,255,255,0.55)",
-                  margin: "3px 0 0",
-                }}
-              >
+              <p style={{ fontFamily: FONT, fontSize: 12, color: "rgba(255,255,255,0.55)", margin: "3px 0 0" }}>
                 {user.department}
               </p>
             )}
             {kudosCount !== undefined && kudosCount > 0 && (
-              <p
-                style={{
-                  fontFamily: FONT,
-                  fontSize: 11,
-                  color: YELLOW,
-                  margin: "4px 0 0",
-                }}
-              >
+              <p style={{ fontFamily: FONT, fontSize: 11, color: YELLOW, margin: "4px 0 0" }}>
                 ★ {kudosCount} kudos nhận được
               </p>
             )}
           </div>
         </div>
       )}
+    </>
+  );
+
+  if (profileHref) {
+    return (
+      <a href={profileHref} style={{ ...baseStyle, textDecoration: "none" }} {...sharedProps}>
+        {inner}
+      </a>
+    );
+  }
+
+  return (
+    <div style={baseStyle} {...sharedProps}>
+      {inner}
     </div>
   );
 }
