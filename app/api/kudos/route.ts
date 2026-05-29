@@ -40,18 +40,23 @@ export async function GET(req: NextRequest) {
 
   const ids = rows.map((r) => r.id);
   const recipientIds = [...new Set(rows.map((r) => r.recipient_id))];
+  const senderIds = [...new Set(rows.filter((r) => r.sender_id).map((r) => r.sender_id as string))];
 
-  const [{ data: likes }, { data: recipRows }, userMap] = await Promise.all([
+  const [{ data: likes }, { data: recipRows }, { data: senderRows }, userMap] = await Promise.all([
     supabase.from("kudos_likes").select("kudos_id, user_id").in("kudos_id", ids),
     supabase.from("kudos").select("recipient_id").in("recipient_id", recipientIds),
+    senderIds.length > 0
+      ? supabase.from("kudos").select("recipient_id").in("recipient_id", senderIds)
+      : Promise.resolve({ data: [] }),
     fetchUserMap(),
   ]);
 
   const { likeCountMap, likedByMe } = buildLikeMaps(likes ?? [], user.id);
   const recipientCountMap = buildRecipientCountMap(recipRows ?? []);
+  const senderCountMap = buildRecipientCountMap(senderRows ?? []);
 
   const posts = rows.map((r) =>
-    enrichKudos(r, { userMap, likeCountMap, likedByMe, recipientCountMap })
+    enrichKudos(r, { userMap, likeCountMap, likedByMe, recipientCountMap, senderCountMap })
   );
 
   return NextResponse.json(posts);

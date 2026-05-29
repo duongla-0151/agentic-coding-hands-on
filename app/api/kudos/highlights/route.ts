@@ -21,11 +21,16 @@ export async function GET(req: NextRequest) {
     if (departmentRecipientIds.length === 0) return NextResponse.json([]);
   }
 
-  // Fetch top-5 kudos by like count using subquery via RPC isn't available,
-  // so we fetch like counts first then sort.
-  const { data: allLikes } = await supabase
-    .from("kudos_likes")
-    .select("kudos_id, user_id");
+  // Scope to recent 200 kudos before counting likes — avoids a full-table scan.
+  let candidateQuery = supabase.from("kudos").select("id").order("created_at", { ascending: false }).limit(200);
+  if (hashtag) candidateQuery = candidateQuery.contains("hashtags", [hashtag]);
+  if (departmentRecipientIds) candidateQuery = candidateQuery.in("recipient_id", departmentRecipientIds);
+  const { data: candidateRows } = await candidateQuery;
+  const candidateIds = (candidateRows ?? []).map((r) => r.id);
+
+  const { data: allLikes } = candidateIds.length
+    ? await supabase.from("kudos_likes").select("kudos_id, user_id").in("kudos_id", candidateIds)
+    : { data: [] };
 
   const likes = allLikes ?? [];
 
@@ -58,18 +63,23 @@ export async function GET(req: NextRequest) {
   }
   const ids = filtered.map((r) => r.id);
   const recipientIds = [...new Set(filtered.map((r) => r.recipient_id))];
+  const senderIds = [...new Set(filtered.filter((r) => r.sender_id).map((r) => r.sender_id as string))];
 
-  const [{ data: pageLikes }, { data: recipRows }, userMap] = await Promise.all([
+  const [{ data: pageLikes }, { data: recipRows }, { data: senderRows }, userMap] = await Promise.all([
     supabase.from("kudos_likes").select("kudos_id, user_id").in("kudos_id", ids),
     supabase.from("kudos").select("recipient_id").in("recipient_id", recipientIds),
+    senderIds.length > 0
+      ? supabase.from("kudos").select("recipient_id").in("recipient_id", senderIds)
+      : Promise.resolve({ data: [] }),
     fetchUserMap(),
   ]);
 
   const { likeCountMap, likedByMe } = buildLikeMaps(pageLikes ?? [], user.id);
   const recipientCountMap = buildRecipientCountMap(recipRows ?? []);
+  const senderCountMap = buildRecipientCountMap(senderRows ?? []);
 
   const posts = filtered
-    .map((r) => enrichKudos(r, { userMap, likeCountMap, likedByMe, recipientCountMap }))
+    .map((r) => enrichKudos(r, { userMap, likeCountMap, likedByMe, recipientCountMap, senderCountMap }))
     .sort((a, b) => b.like_count - a.like_count);
 
   return NextResponse.json(posts.slice(0, 5));

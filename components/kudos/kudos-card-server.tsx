@@ -31,7 +31,7 @@ export function KudosCardServer({ post: initialPost, currentUserId, locale: _loc
     setPost((p) => ({
       ...p,
       liked_by_me: liked,
-      like_count: p.like_count + (liked ? 1 : -1),
+      like_count: Math.max(0, p.like_count + (liked ? 1 : -1)),
     }));
   }
 

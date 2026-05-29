@@ -77,7 +77,7 @@ export function AllKudosFeed({ hashtag, department = null, currentUserId }: AllK
     setPosts((prev) =>
       prev.map((p) =>
         p.id === id
-          ? { ...p, liked_by_me: liked, like_count: p.like_count + (liked ? 1 : -1) }
+          ? { ...p, liked_by_me: liked, like_count: Math.max(0, p.like_count + (liked ? 1 : -1)) }
           : p
       )
     );

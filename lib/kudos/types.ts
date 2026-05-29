@@ -18,4 +18,5 @@ export interface KudosPost {
   like_count: number;
   liked_by_me: boolean;
   recipient_kudos_count: number;
+  sender_kudos_count: number;
 }

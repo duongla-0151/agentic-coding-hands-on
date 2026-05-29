@@ -33,15 +33,21 @@ export default async function KudosDetailPage({
     notFound();
   }
 
-  const [{ data: likes }, { data: recipRows }, userMap] = await Promise.all([
+  const senderId = row.sender_id ?? null;
+
+  const [{ data: likes }, { data: recipRows }, { data: senderRows }, userMap] = await Promise.all([
     supabase.from("kudos_likes").select("kudos_id, user_id").eq("kudos_id", id),
     supabase.from("kudos").select("recipient_id").eq("recipient_id", row.recipient_id),
+    senderId
+      ? supabase.from("kudos").select("recipient_id").eq("recipient_id", senderId)
+      : Promise.resolve({ data: [] }),
     fetchUserMap(),
   ]);
 
   const { likeCountMap, likedByMe } = buildLikeMaps(likes ?? [], user.id);
   const recipientCountMap = buildRecipientCountMap(recipRows ?? []);
-  const post = enrichKudos(row, { userMap, likeCountMap, likedByMe, recipientCountMap });
+  const senderCountMap = buildRecipientCountMap(senderRows ?? []);
+  const post = enrichKudos(row, { userMap, likeCountMap, likedByMe, recipientCountMap, senderCountMap });
 
   return (
     <div style={{ background: "#00101A", minHeight: "100vh" }}>

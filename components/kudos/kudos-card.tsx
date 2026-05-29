@@ -38,6 +38,8 @@ export function KudosCard({ post, variant, currentUserId, onLike, onCopyLink }: 
   const isHighlight = variant === "highlight";
   const maxLines = isHighlight ? 3 : 5;
   const isSender = post.sender?.id === currentUserId;
+  const isRecipient = post.recipient.id === currentUserId;
+  const isParticipant = isSender || isRecipient;
 
   return (
     <div
@@ -58,14 +60,26 @@ export function KudosCard({ post, variant, currentUserId, onLike, onCopyLink }: 
         <KudosCardUser
           user={post.sender}
           anonymousName={post.anonymous_name}
+          kudosCount={post.sender_kudos_count}
+          badgeLabel={post.badge}
           size="md"
           light
         />
-        <span style={{ color: "rgba(0,16,26,0.35)", fontSize: 18, flexShrink: 0 }}>→</span>
+        {/* Paper airplane / send icon — rotated 45° to point horizontally right */}
+        <svg
+          width="20" height="20" viewBox="0 0 24 24" fill="none"
+          style={{ flexShrink: 0, color: "rgba(0,16,26,0.35)" }}
+          aria-hidden="true"
+        >
+          <g transform="rotate(45, 12, 12)">
+            <path d="M22 2L11 13M22 2L15 22L11 13M22 2L2 9L11 13" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
+          </g>
+        </svg>
         <KudosCardUser
           user={post.recipient}
           anonymousName={null}
           kudosCount={post.recipient_kudos_count}
+          badgeLabel={post.badge}
           size="md"
           light
           showHoverCard
@@ -87,23 +101,6 @@ export function KudosCard({ post, variant, currentUserId, onLike, onCopyLink }: 
       >
         {formatDate(post.created_at)}
       </span>
-
-      {/* Badge label — shown centered if present */}
-      {post.badge && (
-        <p
-          style={{
-            fontFamily: FONT,
-            fontSize: 16,
-            fontWeight: 700,
-            letterSpacing: "0.5px",
-            color: "rgba(0,16,26,1)",
-            textAlign: "center",
-            margin: 0,
-          }}
-        >
-          {post.badge}
-        </p>
-      )}
 
       {/* Content — inside yellow-tinted box */}
       <div
@@ -152,20 +149,17 @@ export function KudosCard({ post, variant, currentUserId, onLike, onCopyLink }: 
         </div>
       )}
 
-      {/* Hashtags */}
+      {/* Hashtags — plain red text */}
       {post.hashtags.length > 0 && (
-        <div style={{ display: "flex", flexWrap: "wrap", gap: 6 }}>
+        <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
           {post.hashtags.slice(0, 5).map((tag) => (
             <span
               key={tag}
               style={{
                 fontFamily: FONT,
                 fontSize: 12,
-                color: "#8B6914",
-                background: "rgba(139,105,20,0.12)",
-                border: "1px solid rgba(139,105,20,0.25)",
-                borderRadius: 999,
-                padding: "3px 10px",
+                fontWeight: 600,
+                color: "#D32F2F",
               }}
             >
               #{tag}
@@ -183,7 +177,7 @@ export function KudosCard({ post, variant, currentUserId, onLike, onCopyLink }: 
         <button
           type="button"
           onClick={onLike}
-          disabled={isSender}
+          disabled={isParticipant}
           style={{
             display: "flex",
             alignItems: "center",
@@ -195,8 +189,8 @@ export function KudosCard({ post, variant, currentUserId, onLike, onCopyLink }: 
             border: post.liked_by_me ? "none" : "1px solid rgba(124,82,217,0.3)",
             borderRadius: 999,
             padding: "4px 12px",
-            cursor: isSender ? "not-allowed" : "pointer",
-            opacity: isSender ? 0.35 : 1,
+            cursor: isParticipant ? "not-allowed" : "pointer",
+            opacity: isParticipant ? 0.35 : 1,
             flexShrink: 0,
           }}
           aria-label={post.liked_by_me ? "Bỏ thích" : "Thích"}

@@ -30,14 +30,16 @@ interface EnrichOptions {
   likeCountMap: Map<string, number>;
   /** set of kudos_ids liked by the current user */
   likedByMe: Set<string>;
-  /** recipient_id → total kudos received */
+  /** recipient_id → total kudos received by recipient */
   recipientCountMap: Map<string, number>;
+  /** user_id → total kudos received by sender (for sender hero badge) */
+  senderCountMap: Map<string, number>;
 }
 
 const UNKNOWN_USER: UserInfo = { id: "", name: "Ẩn danh", avatar: null };
 
 export function enrichKudos(raw: RawKudos, opts: EnrichOptions): KudosPost {
-  const { userMap, likeCountMap, likedByMe, recipientCountMap } = opts;
+  const { userMap, likeCountMap, likedByMe, recipientCountMap, senderCountMap } = opts;
 
   const recipient = userMap.get(raw.recipient_id) ?? { ...UNKNOWN_USER, id: raw.recipient_id };
   const sender = raw.sender_id ? (userMap.get(raw.sender_id) ?? { ...UNKNOWN_USER, id: raw.sender_id }) : null;
@@ -55,6 +57,7 @@ export function enrichKudos(raw: RawKudos, opts: EnrichOptions): KudosPost {
     like_count: likeCountMap.get(raw.id) ?? 0,
     liked_by_me: likedByMe.has(raw.id),
     recipient_kudos_count: recipientCountMap.get(raw.recipient_id) ?? 0,
+    sender_kudos_count: raw.sender_id ? (senderCountMap.get(raw.sender_id) ?? 0) : 0,
   };
 }
 

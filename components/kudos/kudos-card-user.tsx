@@ -3,6 +3,7 @@
 import { useState } from "react";
 import type { UserInfo } from "@/lib/kudos/types";
 import { HeroBadgeChip } from "./hero-badge-chip";
+import { getHeroBadge } from "@/lib/kudos/hero-badge";
 
 const FONT = "var(--font-montserrat), Montserrat, sans-serif";
 const YELLOW = "#FFEA9E";
@@ -11,7 +12,8 @@ interface KudosCardUserProps {
   user: UserInfo | null;
   anonymousName: string | null;
   kudosCount?: number;
-  badge?: string;
+  /** The kudo award title (danh hiệu) shown on second line */
+  badgeLabel?: string;
   size?: "sm" | "md";
   light?: boolean;
   /** show hover tooltip with user info — applies to recipient (C.3.3) */
@@ -22,7 +24,7 @@ export function KudosCardUser({
   user,
   anonymousName,
   kudosCount,
-  badge,
+  badgeLabel,
   size = "md",
   light = false,
   showHoverCard = false,
@@ -70,67 +72,65 @@ export function KudosCardUser({
         )}
       </div>
 
-      {/* Name + stars + department + badge */}
+      {/* Name + department - badge second line */}
       <div style={{ minWidth: 0 }}>
-        <div style={{ display: "flex", alignItems: "center", gap: 4 }}>
-          <span
-            style={{
-              fontFamily: FONT,
-              fontSize: size === "sm" ? 12 : 14,
-              fontWeight: 700,
-              color: nameColor,
-              overflow: "hidden",
-              textOverflow: "ellipsis",
-              whiteSpace: "nowrap",
-              maxWidth: 140,
-            }}
-          >
-            {name}
-          </span>
-          {kudosCount !== undefined && kudosCount > 0 && (
-            <HeroBadgeChip kudosCount={kudosCount} tooltipPosition="top" />
-          )}
-        </div>
+        {/* Line 1: name */}
+        <span
+          style={{
+            display: "block",
+            fontFamily: FONT,
+            fontSize: size === "sm" ? 12 : 14,
+            fontWeight: 700,
+            color: nameColor,
+            overflow: "hidden",
+            textOverflow: "ellipsis",
+            whiteSpace: "nowrap",
+            maxWidth: 160,
+          }}
+        >
+          {name}
+        </span>
 
-        {/* Department — C.3.3 "tên và đơn vị" */}
-        {user?.department && (
-          <span
+        {/* Line 2: Department text + hero-badge PNG chip */}
+        {(user?.department || (kudosCount !== undefined && kudosCount > 0)) && (
+          <div
             style={{
-              display: "block",
-              fontFamily: FONT,
-              fontSize: 11,
-              color: deptColor,
-              whiteSpace: "nowrap",
-              overflow: "hidden",
-              textOverflow: "ellipsis",
-              maxWidth: 160,
-              marginTop: 1,
+              display: "flex",
+              alignItems: "center",
+              gap: 5,
+              marginTop: 2,
+              minWidth: 0,
             }}
           >
-            {user.department}
-          </span>
-        )}
+            {user?.department && (
+              <span
+                style={{
+                  fontFamily: FONT,
+                  fontSize: 11,
+                  color: deptColor,
+                  whiteSpace: "nowrap",
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                  maxWidth: 100,
+                }}
+              >
+                {user.department}
+              </span>
+            )}
 
-        {badge && (
-          <span
-            style={{
-              display: "inline-block",
-              marginTop: 3,
-              fontFamily: FONT,
-              fontSize: 11,
-              fontWeight: 700,
-              color: "#00101A",
-              background: YELLOW,
-              borderRadius: 999,
-              padding: "2px 10px",
-              whiteSpace: "nowrap",
-              maxWidth: 180,
-              overflow: "hidden",
-              textOverflow: "ellipsis",
-            }}
-          >
-            {badge}
-          </span>
+            {/* Hero badge PNG chip at readable size */}
+            {kudosCount !== undefined && kudosCount > 0 && (() => {
+              const heroBadge = getHeroBadge(kudosCount);
+              return heroBadge ? (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img
+                  src={`/images/hero-badges/${heroBadge.tier}.png`}
+                  alt={heroBadge.label}
+                  style={{ height: 18, width: "auto", objectFit: "contain", flexShrink: 0 }}
+                />
+              ) : null;
+            })()}
+          </div>
         )}
       </div>
 
